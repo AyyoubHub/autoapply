@@ -1,0 +1,13 @@
+# Python virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Real credentials — never commit this file.
+# Copy configs/config.example.json → configs/config.json and fill it in.
+configs/config.json
+
+# Logs
+logs/

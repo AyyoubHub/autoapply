@@ -1,0 +1,4 @@
+selenium>=4.0
+undetected-chromedriver
+questionary
+setuptools  # provides distutils backport — required by undetected-chromedriver on Python 3.12+
