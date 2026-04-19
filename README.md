@@ -1,83 +1,93 @@
-# 🧠 JOBENIUM
+# AutoApply
 
-**JOBENIUM** is an automated job application tool built in Python that interacts with major French job platforms — **APEC**, **HelloWork**, and **JobTeaser**.  
-It automates the login, search, and application process, saving you time when applying to multiple offers.
+**AutoApply** is a Python tool that automates browsing and applying on French job platforms. It drives a real Chrome session with [Selenium](https://www.selenium.dev/) and [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver) to reduce friction when you already have accounts and want to apply to many listings in one session.
 
-## ⚙️ Features
+## What it does
 
-- Automatic login and job application on multiple platforms  
-- Custom email, passwords, and messages stored securely in `config.json`  
-- Logs all actions in `logs/history.log`  
-- CLI interface for choosing which platform to run  
-- Uses `undetected-chromedriver` to avoid bot detection
+- **Main entry point** (`main.py`) — pick a platform and answer prompts for keywords, filters, and session length.
+- **Supported platforms** (see `main.py`): **APEC** and **JobTeaser**. HelloWork is present in the codebase but disabled in the menu until you wire it back in.
+- **JobTeaser** — search behavior is driven by `configs/jobteaser.search.json` (easy apply / “candidature simplifiée” only). See `docs/jobteaser_url_analysis.md` and `docs/jobteaser_filters.md` for URL and filter details.
+- **Logging** — each run writes a timestamped file under `logs/` (for example `logs/run_YYYY-MM-DD_HH-MM-SS.log`). The `logs/` directory is gitignored.
 
-## 🧩 Prerequisites
+## Requirements
 
-Before running JOBENIUM, make sure you have:
+- **Python** 3.9 or newer (3.12+ is fine; `requirements.txt` includes `setuptools` for undetected-chromedriver compatibility).
+- **Google Chrome** installed.
+- **Accounts** on the platforms you use, with **email and password** login. Social logins (Google, LinkedIn, etc.) are not handled by the scripts.
 
-- **Python 3.9+**
-- **Google Chrome** installed  
+On **Windows**, Chrome’s major version is read from the registry so the driver matches your browser. On other systems, undetected-chromedriver can auto-detect; if you see version mismatches, align Chrome and chromedriver or adjust the driver setup in `scripts/utils.py` (`create_driver`).
 
-If the script does not run, **change the Chrome version** in the code:
-```python
-driver = uc.Chrome(version_main=140, options=options)
-```
-→ Replace 140 with your local Chrome’s main version (e.g., 141, 142, etc.).
+## Setup
 
-To find your Chrome version:
+1. **Clone** this repository and open a terminal at the project root.
 
-On Chrome, go to chrome://settings/help
+2. **Create a virtual environment** (recommended):
 
-## 🛠 Installation
+   ```bash
+   python -m venv .venv
+   ```
 
-1. Clone the repository:
+   Activate it — on Windows (PowerShell):
+
+   ```powershell
+   .\.venv\Scripts\Activate.ps1
+   ```
+
+   On macOS/Linux:
+
+   ```bash
+   source .venv/bin/activate
+   ```
+
+3. **Install dependencies**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Credentials** — copy the example config and fill in your details:
+
+   ```bash
+   copy configs\config.example.json configs\config.json
+   ```
+
+   On Linux/macOS use `cp` instead of `copy`. Edit `configs/config.json` with your email and passwords for each platform you use.
+
+5. **JobTeaser search profile** (required for JobTeaser):
+
+   ```bash
+   copy configs\jobteaser.search.example.json configs\jobteaser.search.json
+   ```
+
+   Adjust filters, default keyword, timeout, etc. `configs/jobteaser.search.json` is gitignored so your preferences are not committed.
+
+## Usage
+
+From the **project root**:
+
 ```bash
-git clone https://github.com/hamzaaitbourhim/jobenium.git
-cd jobenium
+python main.py
 ```
 
-2. Install dependencies manually:
-```bash
-pip install selenium
-pip install undetected-chromedriver
-pip install questionary
-```
+Choose **APEC** or **JobTeaser**, then follow the prompts (keyword, contract or other options, max runtime in minutes).
 
-3. Configure credentials:
-- Edit configs/config.json with your email, passwords...
+## Project layout
 
-## 🧾 Account Requirements
+| Path | Purpose |
+|------|---------|
+| `main.py` | Application entry point; platform menu |
+| `scripts/apec.py`, `scripts/jobteaser.py` | Platform-specific automation |
+| `scripts/utils.py` | Config loading, logging, Chrome driver, JobTeaser URL helpers |
+| `configs/config.example.json` | Template for credentials (copy to `config.json`) |
+| `configs/jobteaser.search.example.json` | Template for JobTeaser filters (copy to `jobteaser.search.json`) |
+| `docs/` | Notes on URLs and filters for some platforms |
 
-Before using JOBENIUM, make sure you already have **active accounts** on the platforms you plan to use.
+## Contributing
 
-⚠️ **Important:**  
-Your accounts must be created using a **regular email and password**.  
-Logins via **Google**, **LinkedIn**, or **Facebook** are **not supported**, because the automation scripts require direct access to the login form.
+1. Fork the repository and create a branch for your change.
+2. Keep commits focused and describe what changed.
+3. Open a pull request with a short summary of behavior and any new configuration.
 
-Make sure your profile is well set up and your CV is uploaded on each platform before running the script.
+## Disclaimer
 
-## 🚀 Usage
-To launch the program:
-```python
-python scripts/launcher.py
-```
-
-## 📜 Logs
-All activities (login attempts, applied jobs, errors) are recorded in:
-```bash
-logs/history.log
-```
-You can check this file to monitor sessions or debug issues.
-
-## 🤝 Contributing
-Contributions are welcome! To contribute:
-1. Fork this repository.
-2. Create a branch for your feature (`git checkout -b feature-name`).
-3. Commit your changes (`git commit -m "Add a new feature"`).
-4. Push to your branch (`git push origin feature-name`).
-5. Create a pull request.
-
-## ⚠️ Disclaimer
-
-This project is for educational purposes only.
-Automating applications on job platforms may violate their terms of use — use responsibly.
+This software is provided for **educational and personal use**. Automating actions on third-party websites may violate their terms of service. You are responsible for how you use it; use only on accounts you own and in line with each platform’s rules.

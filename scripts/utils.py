@@ -3,6 +3,7 @@ import json
 import logging
 import questionary
 import undetected_chromedriver as uc
+from urllib.parse import quote_plus, urlencode
 
 
 def setup_logging() -> None:
@@ -39,6 +40,24 @@ def load_config() -> dict:
         os.path.dirname(__file__), "../configs/config.json"
     )
     with open(config_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_jobteaser_search_config() -> dict:
+    """Load JobTeaser search profile from configs/jobteaser.search.json.
+
+    Copy jobteaser.search.example.json to jobteaser.search.json and edit.
+    See docs/jobteaser_search_config.md.
+    """
+    path = os.path.join(
+        os.path.dirname(__file__), "../configs/jobteaser.search.json"
+    )
+    if not os.path.isfile(path):
+        raise FileNotFoundError(
+            f"Missing {path}. Copy configs/jobteaser.search.example.json "
+            "to configs/jobteaser.search.json and adjust filters."
+        )
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -90,9 +109,129 @@ def create_driver() -> uc.Chrome:
 
 
 
-def ask_timeout() -> int:
-    """Prompt the user for a max runtime and return the value in seconds."""
-    raw = questionary.text("Enter max runtime in minutes:").ask()
+def build_jobteaser_search_url_prefix(
+    *,
+    keyword: str,
+    sort: str = "recency",
+    contracts: list[str] | None = None,
+    work_experience_code: str | None = None,
+    languages: list[str] | None = None,
+    study_levels: str | None = None,
+    remote_types: str | None = None,
+    job_category_ids: list[int] | None = None,
+    job_function_ids: list[int] | None = None,
+    domain_ids: list[int] | None = None,
+    duration: str | None = None,
+    company_business_type: str | None = None,
+    start_date: str | None = None,
+) -> str:
+    """Build JobTeaser list URL through page= (1-based page appended by caller).
+
+    Always includes candidacy_type=INTERNAL (easy apply only). See docs/jobteaser_url_analysis.md.
+    """
+    parts: list[tuple[str, str]] = [
+        ("candidacy_type", "INTERNAL"),
+        ("q", keyword),
+        ("sort", sort),
+    ]
+    for c in contracts or []:
+        parts.append(("contract", c))
+    if work_experience_code:
+        parts.append(("work_experience_code", work_experience_code))
+    for lang in languages or []:
+        parts.append(("languages[]", lang))
+    if study_levels:
+        parts.append(("study_levels", study_levels))
+    if remote_types:
+        parts.append(("remote_types", remote_types))
+    for cid in job_category_ids or []:
+        parts.append(("job_category_ids[]", str(cid)))
+    for jid in job_function_ids or []:
+        parts.append(("job_function_ids[]", str(jid)))
+    for did in domain_ids or []:
+        parts.append(("domain_ids[]", str(did)))
+    if duration:
+        parts.append(("duration", duration))
+    if company_business_type:
+        parts.append(("company_business_type", company_business_type))
+    if start_date:
+        parts.append(("start_date", start_date))
+    return (
+        "https://www.jobteaser.com/fr/job-offers?"
+        + urlencode(parts, quote_via=quote_plus)
+        + "&page="
+    )
+
+
+def build_jobteaser_search_url_from_profile(profile: dict, keyword: str) -> str:
+    """Apply a loaded jobteaser.search.json object plus keyword to the URL builder."""
+
+    def _str_or_none(key: str) -> str | None:
+        v = profile.get(key)
+        if v is None or v == "":
+            return None
+        return str(v)
+
+    def _int_list(key: str) -> list[int] | None:
+        raw = profile.get(key)
+        if not raw:
+            return None
+        if isinstance(raw, list):
+            return [int(x) for x in raw]
+        return None
+
+    wc = _str_or_none("work_experience_code")
+    sl = _str_or_none("study_levels")
+    rt = _str_or_none("remote_types")
+    sd = _str_or_none("start_date")
+    dur = _str_or_none("duration")
+    cbt = _str_or_none("company_business_type")
+
+    contracts = profile.get("contracts")
+    if isinstance(contracts, list):
+        clist = [str(c) for c in contracts]
+    else:
+        clist = []
+
+    langs = profile.get("languages")
+    if isinstance(langs, list):
+        lang_list = [str(x) for x in langs]
+    else:
+        lang_list = []
+
+    sort = str(profile.get("sort") or "recency")
+    if sort not in ("recency", "relevance"):
+        sort = "recency"
+
+    return build_jobteaser_search_url_prefix(
+        keyword=keyword,
+        sort=sort,
+        contracts=clist or None,
+        work_experience_code=wc,
+        languages=lang_list or None,
+        study_levels=sl,
+        remote_types=rt,
+        job_category_ids=_int_list("job_category_ids"),
+        job_function_ids=_int_list("job_function_ids"),
+        domain_ids=_int_list("domain_ids"),
+        duration=dur,
+        company_business_type=cbt,
+        start_date=sd,
+    )
+
+
+def ask_timeout(default_minutes: float | None = None) -> int:
+    """Prompt for max runtime; return seconds. Optional default from config."""
+    prompt = "Enter max runtime in minutes:"
+    if default_minutes is not None:
+        def_str = (
+            str(int(default_minutes))
+            if default_minutes == int(default_minutes)
+            else str(default_minutes)
+        )
+        raw = questionary.text(prompt, default=def_str).ask()
+    else:
+        raw = questionary.text(prompt).ask()
     try:
         return int(float(raw) * 60)
     except (ValueError, TypeError):

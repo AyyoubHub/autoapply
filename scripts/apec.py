@@ -1,4 +1,3 @@
-import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -26,9 +25,9 @@ def run() -> None:
 
     contract_choices = {
         "CDI": "101888",
-        "CDD": "101887",
-        "Alternance": "20053",
-        "Intérim": "101930",
+        "CDD": "101889",
+        "Alternance": "101891",
+        "Intérim": "101890",
     }
     CONTRACT_TYPE = questionary.select(
         "Select contract type:",
@@ -55,10 +54,8 @@ def run() -> None:
         "https://www.apec.fr/candidat/recherche-emploi.html/emploi?"
         "typesConvention=143684&typesConvention=143685"
         "&typesConvention=143686&typesConvention=143687"
-        "&typesConvention=143706"
         f"&motsCles={encoded_keyword}"
         f"&typesContrat={CONTRACT_TYPE}"
-        "&niveauxExperience=101881"
         f"&sortsType={SORT_BY}"
         "&page="
     )
@@ -208,16 +205,33 @@ def run() -> None:
                     driver.execute_script("arguments[0].scrollIntoView();", job)
 
                     job_link = job.find_element(
-                        By.XPATH, ".//a[@queryparamshandling='merge']"
+                        By.XPATH, ".//a[contains(@href, '/detail-offre/')]"
                     )
-                    href = job_link.get_attribute("href")
+                    href = job_link.get_attribute("href").split('?')[0]
                     driver.get(href)
 
-                    apply_button = wait.until(
-                        EC.element_to_be_clickable(
-                            (By.XPATH, "//a[@class='btn btn-primary mr-12 mb-20']")
-                        )
+                    time.sleep(1)
+                    # Check if already applied
+                    already_applied = driver.find_elements(
+                        By.XPATH, 
+                        "//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'déjà postulé') or "
+                        "contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'deja postule')]"
                     )
+                    if any(el.is_displayed() for el in already_applied):
+                        logging.info("APEC: Skipped job index %d - Already applied ('Vous avez déjà postulé').", i)
+                        continue  # This safely triggers the finally block to navigate back
+
+                    try:
+                        apply_button = wait.until(
+                            EC.element_to_be_clickable(
+                                (By.XPATH, "//a[@class='btn btn-primary mr-12 mb-20']")
+                            )
+                        )
+                    except TimeoutException:
+                        logging.info(
+                            "APEC: Skipped job index %d - No native apply button found (might be external or closed).", i
+                        )
+                        continue
 
                     if apply_button.text == "Postuler":
                         apply_button.click()

@@ -1,37 +1,55 @@
-import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import InvalidSessionIdException, WebDriverException
+from selenium.common.exceptions import (
+    InvalidSessionIdException,
+    WebDriverException,
+    TimeoutException,
+)
 import time
-import urllib.parse
 import logging
 import questionary
 
-from utils import load_config, create_driver, ask_timeout
+from utils import (
+    load_config,
+    create_driver,
+    ask_timeout,
+    load_jobteaser_search_config,
+    build_jobteaser_search_url_from_profile,
+)
 
 
 def run() -> None:
-    # --- Configuration & user input ---
     config = load_config()
     EMAIL = config["email"]
     PASSWORD = config["jobteaser_password"]
 
-    KEYWORD = questionary.text("Enter the job keyword:").ask()
-    encoded_keyword = urllib.parse.quote_plus(KEYWORD)
+    profile = load_jobteaser_search_config()
+    kw_default = (profile.get("keyword") or "").strip()
+    keyword = (
+        questionary.text("Enter the job keyword:", default=kw_default).ask() or ""
+    ).strip()
+    if not keyword:
+        keyword = (questionary.text("Enter the job keyword (required):").ask() or "").strip()
+    if not keyword:
+        print("No keyword — exiting.")
+        return
 
-    TIME_OUT = ask_timeout()
+    BASE_SEARCH_URL = build_jobteaser_search_url_from_profile(profile, keyword)
 
-    # --- URLs ---
-    # Navigate to the main sign-in page and let the OAuth flow start naturally,
-    # instead of hardcoding a URL with a stale nonce/state token.
-    LOGIN_URL = "https://www.jobteaser.com/fr/sign-in"
-    BASE_SEARCH_URL = (
-        "https://www.jobteaser.com/fr/job-offers?"
-        f"candidacy_type=INTERNAL&q={encoded_keyword}&sort=recency&page="
+    logging.info(
+        "JobTeaser: candidature simplifiée only (candidacy_type=INTERNAL). URL prefix: %s",
+        BASE_SEARCH_URL,
     )
+    print("Search: candidature simplifiée / easy apply only (INTERNAL).")
 
-    # --- Driver ---
+    td = profile.get("timeout_minutes")
+    timeout_default = float(td) if td is not None else None
+    TIME_OUT = ask_timeout(timeout_default)
+
+    LOGIN_URL = "https://www.jobteaser.com/fr/users/sign_in"
+    CONNECT_URL = "https://www.jobteaser.com/users/auth/connect"
+
     driver = create_driver()
     wait = WebDriverWait(driver, 10)
 
@@ -40,14 +58,18 @@ def run() -> None:
     start_time = time.time()
 
     try:
-        # --- Login ---
         try:
             driver.get(LOGIN_URL)
 
-            accept_button = wait.until(
-                EC.element_to_be_clickable((By.ID, "didomi-notice-agree-button"))
-            )
-            accept_button.click()
+            try:
+                accept_button = wait.until(
+                    EC.element_to_be_clickable((By.ID, "didomi-notice-agree-button"))
+                )
+                accept_button.click()
+            except TimeoutException:
+                pass
+
+            driver.get(CONNECT_URL)
 
             email_input = wait.until(
                 EC.presence_of_element_located((By.ID, "email"))
@@ -68,16 +90,6 @@ def run() -> None:
             )
             login_button.click()
 
-            connect_button = wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//a[contains(text(), 'JobTeaser Connect')]")
-                )
-            )
-            connect_button.click()
-
-            # --- Verify login was successful ---
-            # JobTeaser redirects unauthenticated users back to sign-in.
-            # Navigate to the protected dashboard and check the resulting URL.
             time.sleep(3)
             driver.get("https://www.jobteaser.com/fr/dashboard")
             time.sleep(2)
@@ -91,13 +103,11 @@ def run() -> None:
             logging.info("JobTeaser Session started — login verified.")
             print("JobTeaser login successful.")
 
-
         except Exception:
             logging.exception("JobTeaser login failed.")
             print("JobTeaser login failed.")
-            return  # Stop here — do not proceed with a dead browser session
+            return
 
-        # --- Job search loop ---
         session_alive = True
         page = 1
 
@@ -116,17 +126,16 @@ def run() -> None:
                 logging.error("JobTeaser: browser session lost during page navigation.")
                 break
             except Exception:
-                break  # No more pages or page failed to load
+                break
 
             if not job_list:
-                break  # Empty page — end of results
+                break
 
             for i in range(len(job_list)):
                 if time.time() - start_time > TIME_OUT or not session_alive:
                     break
 
                 try:
-                    # Re-fetch list to avoid stale element references
                     job_list = wait.until(
                         EC.presence_of_all_elements_located(
                             (By.XPATH, "//ul[@class='PageContent_results__zSSNO']/li")
@@ -136,16 +145,32 @@ def run() -> None:
                     driver.execute_script("arguments[0].scrollIntoView();", job)
 
                     job_link = job.find_element(
-                        By.XPATH, ".//a[@class='JobAdCard_link__n5lkb']"
+                        By.XPATH, ".//a[contains(@href, '/job-offers/')]"
                     )
-                    href = job_link.get_attribute("href")
+                    href = job_link.get_attribute("href").split("?")[0]
                     driver.get(href)
                     time.sleep(2)
+
+                    time.sleep(1)
+                    already_applied = driver.find_elements(
+                        By.XPATH,
+                        "//*[contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'candidature envoyée') or "
+                        "contains(translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'candidature envoyee')]",
+                    )
+                    if any(el.is_displayed() for el in already_applied):
+                        logging.info(
+                            "JobTeaser: Skipped job index %d - Already applied ('Candidature envoyée').",
+                            i,
+                        )
+                        continue
 
                     try:
                         apply_button = wait.until(
                             EC.element_to_be_clickable(
-                                (By.XPATH, "//button[@data-testid='jobad-DetailView__CandidateActions__Buttons_apply_internal_candidacy']")
+                                (
+                                    By.XPATH,
+                                    "//button[@data-testid='jobad-DetailView__CandidateActions__Buttons_apply_internal_candidacy']",
+                                )
                             )
                         )
                         apply_button.click()
@@ -153,13 +178,15 @@ def run() -> None:
 
                         apply_button2 = wait.until(
                             EC.element_to_be_clickable(
-                                (By.XPATH, "//button[@data-testid='jobad-DetailView__ApplicationFlow__Buttons__apply_button']")
+                                (
+                                    By.XPATH,
+                                    "//button[@data-testid='jobad-DetailView__ApplicationFlow__Buttons__apply_button']",
+                                )
                             )
                         )
                         apply_button2.click()
                         time.sleep(3)
 
-                        # Check for a success confirmation before counting
                         try:
                             driver.find_element(
                                 By.XPATH,
@@ -168,16 +195,20 @@ def run() -> None:
                             applied_count += 1
                         except Exception:
                             logging.info(
-                                "JobTeaser: Skipped job index %d - Application not confirmed (may require extra steps or failed).", i
+                                "JobTeaser: Skipped job index %d - Application not confirmed (may require extra steps or failed).",
+                                i,
                             )
                     except TimeoutException:
                         logging.info(
-                            "JobTeaser: Skipped job index %d - No native apply button found (likely an external site).", i
+                            "JobTeaser: Skipped job index %d - No native apply button found (likely an external site).",
+                            i,
                         )
 
                 except (InvalidSessionIdException, WebDriverException):
                     logging.error(
-                        "JobTeaser: browser session died at job index %d, page %d. Stopping.", i, page
+                        "JobTeaser: browser session died at job index %d, page %d. Stopping.",
+                        i,
+                        page,
                     )
                     session_alive = False
                     break

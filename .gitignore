@@ -8,6 +8,7 @@ __pycache__/
 # Real credentials — never commit this file.
 # Copy configs/config.example.json → configs/config.json and fill it in.
 configs/config.json
+configs/jobteaser.search.json
 
 # Logs
 logs/
