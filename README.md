@@ -61,6 +61,32 @@ On **Windows**, Chrome’s major version is read from the registry so the driver
 
    Adjust filters, default keyword, timeout, etc. `configs/jobteaser.search.json` is gitignored so your preferences are not committed.
 
+### Customizing `jobteaser.search.json`
+
+Use **[`docs/jobteaser_filters.md`](docs/jobteaser_filters.md)** as the reference for allowed values. It describes each JobTeaser filter (contract type, languages, study level, remote work, sectors, job functions, etc.) and the strings or IDs the site expects. Copy those values into your `configs/jobteaser.search.json` so the JSON matches what the URL would use.
+
+| Config key | What to read in `jobteaser_filters.md` |
+|------------|----------------------------------------|
+| `contracts` | **Contract Type** — list of `contract=` values (e.g. `cdi`, `cdd`). |
+| `work_experience_code` | **Experience Level** — one of `young_graduate`, `three_to_five_years`, etc. *(Optional; omit or leave empty to skip.)* |
+| `languages` | **Language** — list of codes (`fr`, `en`, …). |
+| `study_levels` | **Study Levels** — single code as a string (`1`–`6`). |
+| `remote_types` | **Remote Work** — `remote_partial` or `remote_full`, or `null` to omit. |
+| `duration` | **Duration** — `3`, `6`, `9`, … as a string, or `null` to omit. |
+| `company_business_type` | **Company Category** — `large`, `startup`, `sme`, … or `null` to omit. |
+| `start_date` | **Start Date** — `0` or `YYYY_MM` (e.g. `2026_04`). |
+| `job_function_ids` | **Job Function** — list of numeric IDs from the table (e.g. `30` for IT development). |
+| `domain_ids` | **Company Sector** — list of numeric IDs from the table. |
+| `job_category_ids` | Optional list of IDs — not listed in `jobteaser_filters.md`; see **`docs/jobteaser_url_analysis.md`** (job category) and copy IDs from the site when needed. |
+
+Other keys in the example file:
+
+- **`keyword`** — default text for the keyword prompt (you can still type another keyword when you run the app).
+- **`sort`** — `recency` or `relevance` (see URL analysis notes in `docs/` if needed).
+- **`timeout_minutes`** — default for the “max runtime” prompt in minutes.
+
+Easy apply is always enforced in code (`candidacy_type=INTERNAL`); you do not set that in the JSON. After editing, keep the file valid JSON (quotes, commas, `null` vs empty arrays as in the example).
+
 ## Usage
 
 From the **project root**:
