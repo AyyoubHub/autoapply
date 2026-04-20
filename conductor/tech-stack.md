@@ -10,8 +10,8 @@
 
 ## Artificial Intelligence & LLMs
 - **Google Gemini (via `google-genai`):** Used for advanced job description analysis and relevance checking.
-- **Gemini-2.0-flash:** The primary model for fast, low-latency semantic filtering.
-- **Gemini-3-flash-preview:** (Research phase) Used for complex LaTeX CV adaptation tasks.
+- **Gemini-3.1-flash-lite:** The primary model for fast, low-latency semantic filtering.
+- **Gemini-3.1-flash:** (Research phase) Used for complex LaTeX CV adaptation tasks.
 
 ## CLI & User Interface
 - **questionary:** Provides the rich, interactive terminal interface for menus and user input.
