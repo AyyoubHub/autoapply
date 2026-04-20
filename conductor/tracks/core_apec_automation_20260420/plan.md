@@ -9,7 +9,7 @@
     - [x] Ensure the prompt correctly identifies seniority and contract type mismatches.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Research and Design' (Protocol in workflow.md)
 
-## Phase 2: Core Semantic Filtering Implementation
+## Phase 2: Core Semantic Filtering Implementation [checkpoint: cdd0669]
 - [x] Task: Integrate Gemini-2.0-flash into the APEC discovery/application flow. 9d8e41a
     - [x] Implement the `is_high_quality_match` function in `scripts/ai_agent.py`.
     - [x] Call the AI check in `scripts/apec.py` after the initial keyword match.
@@ -17,7 +17,7 @@
 - [x] Task: Implement robust text-based button matching for APEC. 9d8e41a
     - [x] Update XPaths for "Postuler" and "Envoyer ma candidature" to use text normalization.
     - [x] Enhance `_wait_for_application_confirmation` to handle varying confirmation banners.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Semantic Filtering Implementation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Core Semantic Filtering Implementation' (Protocol in workflow.md)
 
 ## Phase 3: Local History and Persistence
 - [ ] Task: Implement local persistence for applied job URLs.
