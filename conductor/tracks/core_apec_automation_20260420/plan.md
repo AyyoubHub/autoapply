@@ -20,10 +20,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Core Semantic Filtering Implementation' (Protocol in workflow.md)
 
 ## Phase 3: Local History and Persistence
-- [ ] Task: Implement local persistence for applied job URLs.
-    - [ ] Add `load_applied_jobs` and `save_applied_job` functions to `scripts/utils.py`.
-    - [ ] Store applied job URLs in `scratch/apec_applied.json`.
-    - [ ] Implement a pre-navigation check in `_process_job` using the local history.
+- [x] Task: Implement local persistence for applied job URLs. 9d8e41a
+    - [x] Add `load_applied_jobs` and `save_applied_job` functions to `scripts/utils.py`.
+    - [x] Store applied job URLs in `scratch/apec_applied.json`.
+    - [x] Implement a pre-navigation check in `_process_job` using the local history.
 - [ ] Task: Implement on-page to local history synchronization.
     - [ ] Update `_is_already_applied` to automatically save detected "Applied" statuses back to `apec_applied.json`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Local History and Persistence' (Protocol in workflow.md)
