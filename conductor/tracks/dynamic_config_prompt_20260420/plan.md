@@ -7,11 +7,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Refactoring Configuration and Settings' (Protocol in workflow.md)
 
 ## Phase 2: Dynamic Prompting Logic
-- [ ] Task: Implement configuration checking utility.
-    - [ ] Write tests for a new function `check_and_prompt_apec_config()` in `scripts/utils.py`.
-    - [ ] Implement the function to check `apec_email` and `apec_password` against missing, empty, or placeholder values.
-    - [ ] Add logic to prompt the user using `input` / `questionary` if values are missing.
-    - [ ] Add logic to save updated values back to `configs/config.json`.
+- [x] Task: Implement configuration checking utility. a46a5fe
+    - [x] Write tests for a new function `check_and_prompt_apec_config()` in `scripts/utils.py`.
+    - [x] Implement the function to check `apec_email` and `apec_password` against missing, empty, or placeholder values.
+    - [x] Add logic to prompt the user using `input` / `questionary` if values are missing.
+    - [x] Add logic to save updated values back to `configs/config.json`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Dynamic Prompting Logic' (Protocol in workflow.md)
 
 ## Phase 3: Integration into APEC Module
