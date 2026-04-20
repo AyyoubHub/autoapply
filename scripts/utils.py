@@ -55,6 +55,51 @@ def load_config() -> dict:
     return config
 
 
+def save_config(config: dict) -> None:
+    """Save the config dictionary back to configs/config.json."""
+    config_path = os.path.join(
+        os.path.dirname(__file__), "../configs/config.json"
+    )
+    with open(config_path, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=2, ensure_ascii=False)
+
+
+def check_and_prompt_apec_config() -> dict:
+    """Check if APEC credentials are valid (not missing/placeholder) and prompt if needed.
+    
+    Returns the updated config dictionary.
+    """
+    config = load_config()
+    placeholders = {
+        "your_apec_email@example.com",
+        "your_apec_password",
+        "your_email@example.com",  # old placeholder
+    }
+    
+    changed = False
+    
+    # Check apec_email
+    val = config.get("apec_email", "").strip()
+    if not val or val in placeholders:
+        print("\n[Config] Missing APEC email.")
+        config["apec_email"] = questionary.text("Enter APEC email:").ask().strip()
+        changed = True
+        
+    # Check apec_password
+    val = config.get("apec_password", "").strip()
+    if not val or val in placeholders:
+        print("\n[Config] Missing APEC password.")
+        # Note: User explicitly asked for password to be echoed locally
+        config["apec_password"] = questionary.text("Enter APEC password:").ask().strip()
+        changed = True
+        
+    if changed:
+        save_config(config)
+        print("[Config] ✓ Credentials saved to configs/config.json\n")
+        
+    return config
+
+
 def load_jobteaser_search_config() -> dict:
     """Load JobTeaser search profile from configs/jobteaser.search.json.
 
