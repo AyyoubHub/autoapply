@@ -29,9 +29,9 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Local History and Persistence' (Protocol in workflow.md)
 
 ## Phase 4: Reliability and Error Recovery
-- [ ] Task: Enhance session crash recovery in APEC's main loop.
-    - [ ] Improve handling of `InvalidSessionIdException` to ensure the driver is restarted if needed.
-    - [ ] Implement a retry mechanism for failed individual job applications.
+- [x] Task: Enhance session crash recovery in APEC's main loop. 89a296a
+    - [x] Improve handling of `InvalidSessionIdException` to ensure the driver is restarted if needed.
+    - [x] Implement a retry mechanism for failed individual job applications.
 - [ ] Task: Refine logging and reporting.
     - [ ] Add clear summary reports at the end of each APEC run (e.g., "Jobs Applied: X, AI Rejected: Y, Already Applied: Z").
     - [ ] Improve timestamped logs with more diagnostic information for application failures.
