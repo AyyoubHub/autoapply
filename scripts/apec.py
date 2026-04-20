@@ -13,7 +13,7 @@ import urllib.parse
 import logging
 import questionary
 
-from utils import load_config, create_driver, load_applied_jobs, save_applied_job
+from utils import load_config, create_driver, load_applied_jobs, save_applied_job, save_config, check_and_prompt_apec_config
 from ai_agent import is_high_quality_match
 
 
@@ -93,7 +93,7 @@ def _login(driver, wait, email, password) -> None:
 
 def run() -> None:
     # --- Configuration & user input ---
-    config = load_config()
+    config = check_and_prompt_apec_config()
     EMAIL = config["apec_email"]
     PASSWORD = config["apec_password"]
 
@@ -132,14 +132,28 @@ def run() -> None:
     date_filter_param = f"&anciennetePublication={DISCOVERY_FILTER}" if DISCOVERY_FILTER else ""
 
     # Page cap strategy:
-    # - Time-bounded modes (24h / 7d / 30d): scan ALL pages to exhaustion — the
-    #   server-side filter guarantees freshness so every result is relevant.
-    # - All time: use a configurable hard cap (default 3) to avoid crawling thousands
-    #   of pages for broad keywords like 'devops'.
-    MAX_PAGES_PER_KW: int = (
-        float("inf") if DISCOVERY_FILTER
-        else config.get("apec_max_pages_per_keyword", 3)
-    )
+    # - Time-bounded modes (24h / 7d / 30d): scan ALL pages to exhaustion.
+    # - All time: use a configurable hard cap (default 3).
+    if DISCOVERY_FILTER:
+        MAX_PAGES_PER_KW = float("inf")
+    else:
+        # 'All time' selected. Check if we have a valid setting.
+        current_val = config.get("apec_max_pages_per_keyword")
+        if current_val is None or str(current_val).strip() == "" or current_val == 0:
+            raw = questionary.text(
+                "Enter max pages to crawl per keyword (All time mode):",
+                default="3"
+            ).ask()
+            try:
+                MAX_PAGES_PER_KW = int(raw)
+            except (ValueError, TypeError):
+                MAX_PAGES_PER_KW = 3
+            
+            # Save to config for next time
+            config["apec_max_pages_per_keyword"] = MAX_PAGES_PER_KW
+            save_config(config)
+        else:
+            MAX_PAGES_PER_KW = int(current_val)
 
     contract_choices = {
         "CDI": "101888",
@@ -176,14 +190,28 @@ def run() -> None:
     failed_count = 0
     try:
         # --- Login ---
-        try:
-            _login(driver, wait, EMAIL, PASSWORD)
-            print("APEC login successful.")
-        except Exception:
-            logging.exception("APEC login failed.")
-            print("APEC login failed.")
-            return  # Stop here — do not proceed with a dead browser session
+        while True:
+            try:
+                _login(driver, wait, EMAIL, PASSWORD)
+                print("APEC login successful.")
+                break
+            except Exception as e:
+                logging.warning("APEC login failed: %s", e)
+                print(f"\n[Login] Error: {e}")
 
+                retry = questionary.confirm("Would you like to try different credentials?").ask()
+                if not retry:
+                    print("Aborting.")
+                    return
+
+                EMAIL = questionary.text("Enter APEC email:", default=EMAIL).ask().strip()
+                PASSWORD = questionary.text("Enter APEC password:").ask().strip()
+
+                # Save new credentials to config
+                config["apec_email"] = EMAIL
+                config["apec_password"] = PASSWORD
+                save_config(config)
+                print("[Config] ✓ New credentials saved.")
         # ================================================================
         # Phase 1 — Discovery: search APEC once per keyword, score by hits
         # ================================================================
