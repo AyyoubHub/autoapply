@@ -98,7 +98,7 @@ def _ensure_config() -> None:
     config = {k: v for k, v in config.items() if not k.startswith("_")}
 
     # Prompt for the only user-specific values
-    config["email"] = input("  APEC email    : ").strip()
+    config["apec_email"] = input("  APEC email    : ").strip()
     config["apec_password"] = getpass.getpass("  APEC password : ").strip()
 
     with open(config_path, "w", encoding="utf-8") as f:

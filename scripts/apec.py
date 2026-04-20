@@ -94,7 +94,7 @@ def _login(driver, wait, email, password) -> None:
 def run() -> None:
     # --- Configuration & user input ---
     config = load_config()
-    EMAIL = config["email"]
+    EMAIL = config["apec_email"]
     PASSWORD = config["apec_password"]
 
     KEYWORD_RAW = questionary.text(

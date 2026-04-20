@@ -35,12 +35,24 @@ def setup_logging() -> None:
 
 
 def load_config() -> dict:
-    """Load and return the contents of configs/config.json."""
+    """Load and return the contents of configs/config.json.
+    
+    Includes backward compatibility for the old 'email' key.
+    """
     config_path = os.path.join(
         os.path.dirname(__file__), "../configs/config.json"
     )
     with open(config_path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        config = json.load(f)
+    
+    # Backward compatibility: migrate 'email' to platform-specific keys if missing
+    if "email" in config:
+        if "apec_email" not in config:
+            config["apec_email"] = config["email"]
+        if "jobteaser_email" not in config:
+            config["jobteaser_email"] = config["email"]
+        
+    return config
 
 
 def load_jobteaser_search_config() -> dict:

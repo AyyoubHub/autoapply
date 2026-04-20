@@ -25,7 +25,7 @@ from ai_agent import process_job_for_apply
 
 def run() -> None:
     config = load_config()
-    EMAIL = config["email"]
+    EMAIL = config["jobteaser_email"]
     PASSWORD = config["jobteaser_password"]
 
     profile = load_jobteaser_search_config()

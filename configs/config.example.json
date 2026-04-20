@@ -1,8 +1,9 @@
 {
   "_comment": "Copy this file to configs/config.json and fill in your real values. config.json is gitignored and will never be committed.",
 
-  "email": "your_email@example.com",
+  "apec_email": "your_apec_email@example.com",
   "apec_password": "your_apec_password",
+  "jobteaser_email": "your_jobteaser_email@example.com",
   "jobteaser_password": "your_jobteaser_password",
 
   "_browser_note": "Path to Ungoogled Chromium (or Chrome). Run `python scripts/install_browser.py` to download an isolated copy and get the exact path to paste here.",
@@ -17,7 +18,7 @@
   "_form_data_note": "Personal details pre-filled in application forms (used by JobTeaser automation).",
   "form_data": {
     "fullname": "Your Full Name",
-    "email": "your_email@example.com",
+    "email": "your_apec_email@example.com",
     "phone": "+33XXXXXXXXX",
     "github": "https://github.com/yourusername",
     "linkedin": "https://linkedin.com/in/yourusername",
