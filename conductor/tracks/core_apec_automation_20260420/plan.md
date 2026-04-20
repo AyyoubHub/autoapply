@@ -4,9 +4,9 @@
 - [x] Task: Research APEC's current application modal and button DOM structure for resilience. 2ac93f0
     - [x] Identify all potential button text variants (e.g., "Postuler", "Envoyer ma candidature").
     - [x] Verify the Didomi consent button's ID stability.
-- [ ] Task: Design the Gemini semantic filtering prompt for APEC.
-    - [ ] Test various prompt versions with representative APEC job descriptions.
-    - [ ] Ensure the prompt correctly identifies seniority and contract type mismatches.
+- [x] Task: Design the Gemini semantic filtering prompt for APEC. e2c9648
+    - [x] Test various prompt versions with representative APEC job descriptions.
+    - [x] Ensure the prompt correctly identifies seniority and contract type mismatches.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Research and Design' (Protocol in workflow.md)
 
 ## Phase 2: Core Semantic Filtering Implementation
