@@ -1,9 +1,9 @@
 # Implementation Plan: Dynamic Configuration Prompting (APEC)
 
 ## Phase 1: Refactoring Configuration and Settings
-- [ ] Task: Update default configurations to separate APEC and JobTeaser credentials.
-    - [ ] Update `configs/config.example.json` to replace `email` with `apec_email`.
-    - [ ] Ensure backward compatibility or clear error messages for users with the old `email` key format.
+- [x] Task: Update default configurations to separate APEC and JobTeaser credentials. e9d4e13
+    - [x] Update `configs/config.example.json` to replace `email` with `apec_email`.
+    - [x] Ensure backward compatibility or clear error messages for users with the old `email` key format.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Refactoring Configuration and Settings' (Protocol in workflow.md)
 
 ## Phase 2: Dynamic Prompting Logic
