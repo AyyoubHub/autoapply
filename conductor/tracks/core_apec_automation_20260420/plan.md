@@ -28,11 +28,11 @@
     - [x] Update `_is_already_applied` to automatically save detected "Applied" statuses back to `apec_applied.json`.
 - [x] Task: Conductor - User Manual Verification 'Phase 3: Local History and Persistence' (Protocol in workflow.md)
 
-## Phase 4: Reliability and Error Recovery
+## Phase 4: Reliability and Error Recovery [checkpoint: 46d043c]
 - [x] Task: Enhance session crash recovery in APEC's main loop. 89a296a
     - [x] Improve handling of `InvalidSessionIdException` to ensure the driver is restarted if needed.
     - [x] Implement a retry mechanism for failed individual job applications.
 - [x] Task: Refine logging and reporting. 51b61c9
     - [x] Add clear summary reports at the end of each APEC run (e.g., "Jobs Applied: X, AI Rejected: Y, Already Applied: Z").
     - [x] Improve timestamped logs with more diagnostic information for application failures.
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Reliability and Error Recovery' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Reliability and Error Recovery' (Protocol in workflow.md)
