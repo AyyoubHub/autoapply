@@ -24,8 +24,8 @@
     - [x] Add `load_applied_jobs` and `save_applied_job` functions to `scripts/utils.py`.
     - [x] Store applied job URLs in `scratch/apec_applied.json`.
     - [x] Implement a pre-navigation check in `_process_job` using the local history.
-- [ ] Task: Implement on-page to local history synchronization.
-    - [ ] Update `_is_already_applied` to automatically save detected "Applied" statuses back to `apec_applied.json`.
+- [x] Task: Implement on-page to local history synchronization. 9d8e41a
+    - [x] Update `_is_already_applied` to automatically save detected "Applied" statuses back to `apec_applied.json`.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: Local History and Persistence' (Protocol in workflow.md)
 
 ## Phase 4: Reliability and Error Recovery
