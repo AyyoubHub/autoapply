@@ -1,6 +1,26 @@
 {
+  "_comment": "Copy this file to configs/config.json and fill in your real values. config.json is gitignored and will never be committed.",
+
+  "email": "your_email@example.com",
+  "apec_password": "your_apec_password",
+  "jobteaser_password": "your_jobteaser_password",
+
+  "_browser_note": "Path to Ungoogled Chromium (or Chrome). Run `python scripts/install_browser.py` to download an isolated copy and get the exact path to paste here.",
+  "browser_executable_path": "/path/to/Chromium-or-Chrome",
+
+  "_apec_max_pages_note": "APEC-only. Max pages to crawl per keyword when 'All time' date filter is selected. Date-filtered modes (24h / 7d / 30d) always crawl all pages regardless of this setting.",
+  "apec_max_pages_per_keyword": 3,
+
+  "_cv_path_note": "Relative path (from project root) to your base LaTeX CV. Used by the AI agent (optional feature).",
+  "cv_path": "tex/default.tex",
+
+  "_form_data_note": "Personal details pre-filled in application forms (used by JobTeaser automation).",
+  "form_data": {
+    "fullname": "Your Full Name",
     "email": "your_email@example.com",
-    "apec_password": "your_apec_password",
-    "hellowork_password": "your_hellowork_password",
-    "jobteaser_password": "your_jobteaser_password"
+    "phone": "+33XXXXXXXXX",
+    "github": "https://github.com/yourusername",
+    "linkedin": "https://linkedin.com/in/yourusername",
+    "gender": "Homme"
+  }
 }

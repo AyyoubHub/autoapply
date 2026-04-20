@@ -1,0 +1,444 @@
+[
+  {
+    "url": "https://www.jobteaser.com/fr/job-offers/4610bd07-b06b-4e53-ae81-92687b19e11c-astek-devops-grenoble-france-h-f",
+    "title": "Devops - Grenoble, France (H/F)",
+    "company": "Astek",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "DevOps confirmé(e)",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Concevoir, déployer et maintenir des infrastructures Cloud Azure",
+          "Mettre en place et administrer des clusters Kubernetes",
+          "Automatiser les déploiements (CI/CD, Infrastructure as Code)",
+          "Garantir la disponibilité, la sécurité et la performance des plateformes",
+          "Collaborer étroitement avec les équipes Dev, Ops et Sécurité",
+          "Participer aux choix d'architecture et aux bonnes pratiques DevOps"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Cloud : Microsoft Azure",
+          "Conteneurisation & orchestration : Docker, Kubernetes",
+          "CI/CD : Azure DevOps, GitHub Actions, GitLab CI",
+          "IaC : Terraform, Bicep, ARM",
+          "Systèmes : Linux",
+          "Monitoring : Prometheus, Grafana, Azure Monitor"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "5 ans d'expérience minimum en DevOps / Cloud",
+          "Très bonne maîtrise d'Azure",
+          "Solide expérience sur Kubernetes",
+          "À l'aise avec l'automatisation et les environnements complexes",
+          "Esprit d'équipe, autonomie et sens des responsabilités"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "40-45K€ brut annuel",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ],
+    "updated_at": "2026-04-19T13:59:44Z"
+  },
+  {
+    "url": "https://www.jobteaser.com/fr/job-offers/d92268de-5482-42b2-84ed-61374240a717-astek-ingenieur-devops-senior-aeronautique-defense-bordeaux-france-h-f",
+    "title": "Ingénieur DevOps Senior- Aéronautique / Défense - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "CI/CD",
+        "type": "paragraph"
+      },
+      {
+        "text": "Conteneurisation",
+        "type": "paragraph"
+      },
+      {
+        "text": "Cloud hybride",
+        "type": "paragraph"
+      },
+      {
+        "text": "Infrastructure as Code",
+        "type": "paragraph"
+      },
+      {
+        "text": "Systèmes",
+        "type": "paragraph"
+      },
+      {
+        "text": "Scripting",
+        "type": "paragraph"
+      },
+      {
+        "text": "Sécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "gestion des secrets",
+        "type": "paragraph"
+      },
+      {
+        "text": "scans de vulnérabilités",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ingénieur DevOps Senior",
+        "type": "paragraph"
+      },
+      {
+        "text": "expertise technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "vision transverse",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Bac+5 en informatique ou équivalent.",
+          "Minimum 7 ans d'expérience en ingénierie systèmes / DevOps / plateforme.",
+          "Solide expérience en environnements critiques ou industriels.",
+          "Expertise en CI/CD, cloud hybride et conteneurisation.",
+          "Forte sensibilité sécurité et conformité.",
+          "Capacité à évoluer dans des contextes complexes et exigeants.",
+          "Aisance relationnelle et goût pour le travail collaboratif.",
+          "Anglais technique requis."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ],
+    "updated_at": "2026-04-19T14:00:16Z"
+  },
+  {
+    "url": "https://www.jobteaser.com/fr/job-offers/3d63d5cd-ccf9-41f9-884b-cc390ccc22de-astek-devops-nantes-france-h-f",
+    "title": "DevOps - Nantes, France (H/F)",
+    "company": "Astek",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Squad Agile",
+        "type": "paragraph"
+      },
+      {
+        "text": "DevOps",
+        "type": "paragraph"
+      },
+      {
+        "text": "Grand-Compte du secteur bancaire.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Gérer un projet de production de la conception à la mise en production ;",
+          "Garantir le respect des bonnes pratiques en termes d'architecture et d'exploitabilité ;",
+          "Assurer le bon fonctionnement des produits et résoudre les incidents ;",
+          "Mettre en place des pipelines CI/CD (Jenkins, GitLab, Digital AI) ;",
+          "Déployer des solutions de monitoring et d'alerting (Dynatrace, ServiceNow) ;",
+          "Mettre en place la solution de Log Monitoring avec ELK ;",
+          "Provisionner l'infrastructure nécessaire avec Terraform (serveurs, flux, VIP, etc.) ;",
+          "Automatiser les tâches avec Ansible (A/R serveurs, reboot, etc.) ;",
+          "Contribuer à des projets transverses (automatisation, migration, développement."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ],
+    "updated_at": "2026-04-19T13:56:05Z"
+  },
+  {
+    "url": "https://www.jobteaser.com/fr/job-offers/882ddfb6-ef13-4451-a361-0841eab139f4-astek-ingenieur-devops-bordeaux-france-h-f",
+    "title": "Ingénieur DevOps - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "CI/CD",
+        "type": "paragraph"
+      },
+      {
+        "text": "Conteneurisation",
+        "type": "paragraph"
+      },
+      {
+        "text": "Cloud hybride",
+        "type": "paragraph"
+      },
+      {
+        "text": "Infrastructure as Code",
+        "type": "paragraph"
+      },
+      {
+        "text": "Systèmes",
+        "type": "paragraph"
+      },
+      {
+        "text": "Scripting",
+        "type": "paragraph"
+      },
+      {
+        "text": "Sécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "gestion des secrets",
+        "type": "paragraph"
+      },
+      {
+        "text": "scans de vulnérabilités",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ingénieur DevOps ,",
+        "type": "paragraph"
+      },
+      {
+        "text": "expertise technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "vision transverse",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Bac+5 en informatique ou équivalent.",
+          "2 à 5 ans d'expérience en ingénierie systèmes / DevOps / plateforme.",
+          "Solide expérience en environnements critiques ou industriels.",
+          "Expertise en CI/CD, cloud hybride et conteneurisation.",
+          "Forte sensibilité sécurité et conformité.",
+          "Capacité à évoluer dans des contextes complexes et exigeants.",
+          "Aisance relationnelle et goût pour le travail collaboratif.",
+          "Anglais technique requis."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ],
+    "updated_at": "2026-04-19T13:56:24Z"
+  }
+]

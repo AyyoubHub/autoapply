@@ -61,7 +61,9 @@ def load_jobteaser_search_config() -> dict:
         return json.load(f)
 
 
-def _get_chrome_major_version() -> int | None:
+from typing import Optional
+
+def _get_chrome_major_version() -> Optional[int]:
     """Read the installed Chrome major version from the Windows registry.
 
     Checks both HKEY_CURRENT_USER and HKEY_LOCAL_MACHINE so it works
@@ -103,7 +105,16 @@ def create_driver() -> uc.Chrome:
     # Enable browser-level log collection (used to surface console errors)
     options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
     version = _get_chrome_major_version()
-    driver = uc.Chrome(version_main=version, options=options)
+    
+    config = load_config()
+    browser_path = config.get("browser_executable_path")
+    
+    kwargs = {"version_main": version, "options": options}
+    if browser_path and os.path.exists(browser_path):
+        kwargs["browser_executable_path"] = browser_path
+        logging.info("Using custom browser executable: %s", browser_path)
+        
+    driver = uc.Chrome(**kwargs)
     driver.maximize_window()
     return driver
 
@@ -113,17 +124,17 @@ def build_jobteaser_search_url_prefix(
     *,
     keyword: str,
     sort: str = "recency",
-    contracts: list[str] | None = None,
-    work_experience_code: str | None = None,
-    languages: list[str] | None = None,
-    study_levels: str | None = None,
-    remote_types: str | None = None,
-    job_category_ids: list[int] | None = None,
-    job_function_ids: list[int] | None = None,
-    domain_ids: list[int] | None = None,
-    duration: str | None = None,
-    company_business_type: str | None = None,
-    start_date: str | None = None,
+    contracts: list[str] = None,
+    work_experience_code: str = None,
+    languages: list[str] = None,
+    study_levels: str = None,
+    remote_types: str = None,
+    job_category_ids: list[int] = None,
+    job_function_ids: list[int] = None,
+    domain_ids: list[int] = None,
+    duration: str = None,
+    company_business_type: str = None,
+    start_date: str = None,
 ) -> str:
     """Build JobTeaser list URL through page= (1-based page appended by caller).
 
@@ -166,13 +177,13 @@ def build_jobteaser_search_url_prefix(
 def build_jobteaser_search_url_from_profile(profile: dict, keyword: str) -> str:
     """Apply a loaded jobteaser.search.json object plus keyword to the URL builder."""
 
-    def _str_or_none(key: str) -> str | None:
+    def _str_or_none(key: str) -> str:
         v = profile.get(key)
         if v is None or v == "":
             return None
         return str(v)
 
-    def _int_list(key: str) -> list[int] | None:
+    def _int_list(key: str) -> list[int]:
         raw = profile.get(key)
         if not raw:
             return None
@@ -220,7 +231,7 @@ def build_jobteaser_search_url_from_profile(profile: dict, keyword: str) -> str:
     )
 
 
-def ask_timeout(default_minutes: float | None = None) -> int:
+def ask_timeout(default_minutes: float = None) -> int:
     """Prompt for max runtime; return seconds. Optional default from config."""
     prompt = "Enter max runtime in minutes:"
     if default_minutes is not None:

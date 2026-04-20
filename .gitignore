@@ -5,10 +5,26 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Real credentials — never commit this file.
-# Copy configs/config.example.json → configs/config.json and fill it in.
+# Real credentials — never commit these.
+# Copy configs/config.example.json → configs/config.json and fill in.
 configs/config.json
 configs/jobteaser.search.json
 
-# Logs
+# API keys (.env.example is committed; .env is not)
+.env
+
+# Personal resume files compiled by the AI agent
+tex/
+
+# Runtime data that accumulates during use (not committed)
+scratch/*.log
+
+# Browser binary — install separately (see README for install_browser.py)
+browser/
+scripts/tectonic
+
+# Logs (generated at runtime)
 logs/
+
+# Dev scratchpad
+test_run.py

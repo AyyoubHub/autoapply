@@ -1,0 +1,2095 @@
+{
+  "https://www.jobteaser.com/fr/job-offers/4610bd07-b06b-4e53-ae81-92687b19e11c-astek-devops-grenoble-france-h-f": {
+    "title": "Devops - Grenoble, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/4610bd07-b06b-4e53-ae81-92687b19e11c-astek-devops-grenoble-france-h-f",
+    "timestamp": "2026-04-19T13:59:44Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "DevOps confirmé(e)",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Concevoir, déployer et maintenir des infrastructures Cloud Azure",
+          "Mettre en place et administrer des clusters Kubernetes",
+          "Automatiser les déploiements (CI/CD, Infrastructure as Code)",
+          "Garantir la disponibilité, la sécurité et la performance des plateformes",
+          "Collaborer étroitement avec les équipes Dev, Ops et Sécurité",
+          "Participer aux choix d'architecture et aux bonnes pratiques DevOps"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Cloud : Microsoft Azure",
+          "Conteneurisation & orchestration : Docker, Kubernetes",
+          "CI/CD : Azure DevOps, GitHub Actions, GitLab CI",
+          "IaC : Terraform, Bicep, ARM",
+          "Systèmes : Linux",
+          "Monitoring : Prometheus, Grafana, Azure Monitor"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "5 ans d'expérience minimum en DevOps / Cloud",
+          "Très bonne maîtrise d'Azure",
+          "Solide expérience sur Kubernetes",
+          "À l'aise avec l'automatisation et les environnements complexes",
+          "Esprit d'équipe, autonomie et sens des responsabilités"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "40-45K€ brut annuel",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/d92268de-5482-42b2-84ed-61374240a717-astek-ingenieur-devops-senior-aeronautique-defense-bordeaux-france-h-f": {
+    "title": "Ingénieur DevOps Senior- Aéronautique / Défense - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/d92268de-5482-42b2-84ed-61374240a717-astek-ingenieur-devops-senior-aeronautique-defense-bordeaux-france-h-f",
+    "timestamp": "2026-04-19T14:00:16Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "CI/CD",
+        "type": "paragraph"
+      },
+      {
+        "text": "Conteneurisation",
+        "type": "paragraph"
+      },
+      {
+        "text": "Cloud hybride",
+        "type": "paragraph"
+      },
+      {
+        "text": "Infrastructure as Code",
+        "type": "paragraph"
+      },
+      {
+        "text": "Systèmes",
+        "type": "paragraph"
+      },
+      {
+        "text": "Scripting",
+        "type": "paragraph"
+      },
+      {
+        "text": "Sécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "gestion des secrets",
+        "type": "paragraph"
+      },
+      {
+        "text": "scans de vulnérabilités",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ingénieur DevOps Senior",
+        "type": "paragraph"
+      },
+      {
+        "text": "expertise technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "vision transverse",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Bac+5 en informatique ou équivalent.",
+          "Minimum 7 ans d'expérience en ingénierie systèmes / DevOps / plateforme.",
+          "Solide expérience en environnements critiques ou industriels.",
+          "Expertise en CI/CD, cloud hybride et conteneurisation.",
+          "Forte sensibilité sécurité et conformité.",
+          "Capacité à évoluer dans des contextes complexes et exigeants.",
+          "Aisance relationnelle et goût pour le travail collaboratif.",
+          "Anglais technique requis."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/3d63d5cd-ccf9-41f9-884b-cc390ccc22de-astek-devops-nantes-france-h-f": {
+    "title": "DevOps - Nantes, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/3d63d5cd-ccf9-41f9-884b-cc390ccc22de-astek-devops-nantes-france-h-f",
+    "timestamp": "2026-04-19T13:56:05Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Squad Agile",
+        "type": "paragraph"
+      },
+      {
+        "text": "DevOps",
+        "type": "paragraph"
+      },
+      {
+        "text": "Grand-Compte du secteur bancaire.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Gérer un projet de production de la conception à la mise en production ;",
+          "Garantir le respect des bonnes pratiques en termes d'architecture et d'exploitabilité ;",
+          "Assurer le bon fonctionnement des produits et résoudre les incidents ;",
+          "Mettre en place des pipelines CI/CD (Jenkins, GitLab, Digital AI) ;",
+          "Déployer des solutions de monitoring et d'alerting (Dynatrace, ServiceNow) ;",
+          "Mettre en place la solution de Log Monitoring avec ELK ;",
+          "Provisionner l'infrastructure nécessaire avec Terraform (serveurs, flux, VIP, etc.) ;",
+          "Automatiser les tâches avec Ansible (A/R serveurs, reboot, etc.) ;",
+          "Contribuer à des projets transverses (automatisation, migration, développement."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/882ddfb6-ef13-4451-a361-0841eab139f4-astek-ingenieur-devops-bordeaux-france-h-f": {
+    "title": "Ingénieur DevOps - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/882ddfb6-ef13-4451-a361-0841eab139f4-astek-ingenieur-devops-bordeaux-france-h-f",
+    "timestamp": "2026-04-19T13:56:24Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "CI/CD",
+        "type": "paragraph"
+      },
+      {
+        "text": "Conteneurisation",
+        "type": "paragraph"
+      },
+      {
+        "text": "Cloud hybride",
+        "type": "paragraph"
+      },
+      {
+        "text": "Infrastructure as Code",
+        "type": "paragraph"
+      },
+      {
+        "text": "Systèmes",
+        "type": "paragraph"
+      },
+      {
+        "text": "Scripting",
+        "type": "paragraph"
+      },
+      {
+        "text": "Sécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "gestion des secrets",
+        "type": "paragraph"
+      },
+      {
+        "text": "scans de vulnérabilités",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ingénieur DevOps ,",
+        "type": "paragraph"
+      },
+      {
+        "text": "expertise technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "vision transverse",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Bac+5 en informatique ou équivalent.",
+          "2 à 5 ans d'expérience en ingénierie systèmes / DevOps / plateforme.",
+          "Solide expérience en environnements critiques ou industriels.",
+          "Expertise en CI/CD, cloud hybride et conteneurisation.",
+          "Forte sensibilité sécurité et conformité.",
+          "Capacité à évoluer dans des contextes complexes et exigeants.",
+          "Aisance relationnelle et goût pour le travail collaboratif.",
+          "Anglais technique requis."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/379f0fb1-be4a-4382-9a38-70fac966ddd8-astek-ingenieur-devops-clermont-ferrand-france-h-f": {
+    "title": "Ingénieur DevOps - Clermont-Ferrand, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/379f0fb1-be4a-4382-9a38-70fac966ddd8-astek-ingenieur-devops-clermont-ferrand-france-h-f",
+    "timestamp": "2026-04-19T13:31:54Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Assurer le déploiement et la surveillance des composants sous la responsabilité de l'équipe",
+          "Participer activement à l'amélioration/maintien du bon niveau de service en production",
+          "Mise en place les outils de monitoring/alerting nécessaires",
+          "Mise en place les flux de CI / CD conjointement avec le reste de l'équipe",
+          "Suivre et alerter sur l'obsolescence des composants de son domaine d'expertise"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Les petits plus du projet :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/7be8d69e-d71a-4f52-88df-72bd82f30553-astek-developpeur-java-confirme-rennes-france-h-f": {
+    "title": "Développeur Java Confirmé - Rennes, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/7be8d69e-d71a-4f52-88df-72bd82f30553-astek-developpeur-java-confirme-rennes-france-h-f",
+    "timestamp": "2026-04-19T13:32:13Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Vous effectuez majoritairement du développement en Java 21 et springboot 3.0, en respectant les bonnes pratiques de qualité, de performance et de sécurité.",
+          "Vous êtes impliqué à la fois sur le build et sur le run, en participant à toutes les étapes du cycle de vie des applications.",
+          "Vous participez aussi à d'autres activités, telles que la conception et l'utilisation d'API, la réalisation de tests métiers et techniques, le déploiement et le suivi de production.",
+          "Vous travaillez dans un environnement technique innovant, basé sur des technologies telles que Mongo Atlas, MSK, Kubernetes, Datadog et Elasticache."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Vous êtes idéalement diplômé d'une école d'ingénieur ou un équivalent Bac+5.",
+          "Vous avez une expérience significative, au moins 3 ans, en développement Java.",
+          "Vous maîtrisez les frameworks et les outils associés à Java et springboot.",
+          "Vous avez des connaissances en bases de données NoSQL, en messaging et en conteneurisation.",
+          "Vous êtes sensible à l'agilité et vous savez travailler en équipe, en étant à l'écoute, en partageant vos idées et en respectant les feedbacks.",
+          "Vous êtes curieux, autonome, proactif et force de proposition.",
+          "Vous avez un bon niveau de communication, à l'oral comme à l'écrit."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/b402bdcf-7a84-46ca-b57a-c97e71aa234a-astek-developpeur-c-qt-clermont-ferrand-france-h-f": {
+    "title": "Développeur C++/Qt - Clermont-Ferrand, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/b402bdcf-7a84-46ca-b57a-c97e71aa234a-astek-developpeur-c-qt-clermont-ferrand-france-h-f",
+    "timestamp": "2026-04-19T13:32:32Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre quotidien sera rythmé par :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "La surveillance de la stabilité et des performances de l'application",
+          "Le diagnostic et la correction les anomalies",
+          "L'accompagnement des utilisateurs et résolution des incidents en collaboration avec les équipes métiers",
+          "La modernisation des systèmes exitants",
+          "La conception et le développement de l'APIsation du backend (C++/Qt → FastAPI Python)",
+          "La contribution à la clarification fonctionnelle et technique (analyse, rédaction de documents)"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "API Rest (FastAPI)",
+          "Python",
+          "C++, Qt, CMake",
+          "SQL",
+          "CI-CD, Devops, Kubernetes serait un +"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/87de456b-690c-46c4-9849-b742682368aa-veolia-assainissement-maintenance-france-geomaticien-ne-developpeur-se-f-h": {
+    "title": "Géomaticien(ne) -Développeur(se) (F/H)",
+    "company": "Veolia Assainissement & Maintenance France",
+    "url": "https://www.jobteaser.com/fr/job-offers/87de456b-690c-46c4-9849-b742682368aa-veolia-assainissement-maintenance-france-geomaticien-ne-developpeur-se-f-h",
+    "timestamp": "2026-04-19T13:32:51Z",
+    "description_structure": [
+      {
+        "text": "Description de l'entreprise",
+        "type": "paragraph"
+      },
+      {
+        "text": "Description du poste",
+        "type": "paragraph"
+      },
+      {
+        "text": "VOS MISSIONS :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Concevoir, développer et maintenir des scripts et outils d'automatisation (Python/SQL) pour l'intégration, le contrôle qualité et la mise à jour des données géographiques",
+          "Mettre en place des pipelines robustes avec planification, logs, supervision et gestion des erreurs",
+          "Définir et automatiser des contrôles qualité (topologie, cohérence réseau, règles métiers) et produire des rapports d'analyse"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "items": [
+          "Structurer et alimenter les bases de données géographiques (ArcGIS Enterprise, PostGIS)",
+          "Réaliser des migrations et consolidations de données multi-sources et multi-formats",
+          "Optimiser les performances (index, requêtes, volumétries) et contribuer au modèle de données et à la gouvernance"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "items": [
+          "Faire évoluer des applications cartographiques et services (ArcGIS Enterprise, Experience Builder/Web AppBuilder) en lien avec les besoins métiers",
+          "Publier et maintenir des services REST, gérer les environnements (dev/recette/prod)",
+          "Contribuer aux déploiements et à l'amélioration continue des solutions"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "items": [
+          "Assister les utilisateurs dans leur quotidien (diagnostic, correction, amélioration)",
+          "Participer aux ateliers de cadrage et recueillir les besoins métiers",
+          "Produire des livrables cartographiques de qualité : cartes, rapports, diagrammes, tableaux de bord avec KPI",
+          "Créer de la documentation technique et des guides d'usage"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nous proposons un contrat en CDI au sein de notre agence de Gonesse (95).",
+        "type": "paragraph"
+      },
+      {
+        "text": "Qualifications",
+        "type": "paragraph"
+      },
+      {
+        "text": "Compétences techniques indispensables :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Expertise en traitement de données spatiales et bases de données (SQL), idéalement ArcGIS Enterprise et/ou PostGIS",
+          "Développement et automatisation : Python (écosystème géospatial) et scripting",
+          "ETL et intégration de données : FME ou équivalent, gestion de formats variés (SHP, GPKG, GeoJSON, GDB, WFS/WMS)",
+          "Maîtrise de la qualité de données (contrôles, topologie, validation)",
+          "APIs et services : ArcGIS REST API, web services, authentification",
+          "Développement Web : JavaScript (ArcGIS API for JavaScript), création d'applications et widgets",
+          "DevOps : Git, CI/CD, conteneurs (Docker), planification (cron/Task Scheduler), monitoring"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Vos atouts :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Informations supplémentaires",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ce que nous vous offrons :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "13ème mois",
+          "Remboursement des frais de transports",
+          "Epargne salariale",
+          "Ticket Restaurant"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "En tant qu'entreprise inclusive, Veolia s'engage pour la diversité et accorde la même considération à toutes les candidatures, sans discrimination.",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Veolia Assainissement & Maintenance France\n\nServices à l'environnement\n\nVoir la page entreprise\n201 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/76af3f90-438f-49be-af1f-1a76b38e2107-astek-developpeur-back-java-nantes-france-h-f": {
+    "title": "Développeur Back Java - Nantes, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/76af3f90-438f-49be-af1f-1a76b38e2107-astek-developpeur-back-java-nantes-france-h-f",
+    "timestamp": "2026-04-19T13:33:11Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Astek",
+        "type": "paragraph"
+      },
+      {
+        "text": "acteur majeur de la mobilité nationale,",
+        "type": "paragraph"
+      },
+      {
+        "text": "solution middleware dédiée à la mobilité régionale.",
+        "type": "paragraph"
+      },
+      {
+        "text": "centraliser et interroger les différents systèmes locaux",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Développeur Back-End Java Senior",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Concevoir, développer et déployer des services backend robustes et performants dans une architecture moderne.",
+          "Maîtriser et exploiter les services AWS (Lambda, API Gateway, DynamoDB, SQS/SNS, S3...).",
+          "Mettre en œuvre des environnements conteneurisés via Kubernetes et gérer l'infrastructure via Terraform.",
+          "Traduire des besoins métier complexes en solutions techniques pertinentes et évolutives.",
+          "Faire vivre, maintenir et améliorer continuellement les fonctionnalités.",
+          "Intervenir sur tout le cycle backend : conception ; développement ; déploiement ; production.",
+          "Garantir la qualité, la fiabilité et l'observabilité (tests, monitoring, alerting, résolution d'incidents).",
+          "Collaborer avec les équipes transverses (sécurité, architecture, ops).",
+          "Monter en expertise sur un domaine fonctionnel riche, interconnecté et techniquement exigeant lié à la mobilité."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre quotidien sera rythmé par :",
+        "type": "paragraph"
+      },
+      {
+        "text": "naviguez entre conception, code, architecture, AWS, Kubernetes",
+        "type": "paragraph"
+      },
+      {
+        "text": "et optimisation continue",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Java",
+        "type": "paragraph"
+      },
+      {
+        "text": "-",
+        "type": "paragraph"
+      },
+      {
+        "text": "Spring boot",
+        "type": "paragraph"
+      },
+      {
+        "text": "AWS",
+        "type": "paragraph"
+      },
+      {
+        "text": "Architecture hexagonale",
+        "type": "paragraph"
+      },
+      {
+        "text": "Kubernetes",
+        "type": "paragraph"
+      },
+      {
+        "text": "Les petits plus du projet :",
+        "type": "paragraph"
+      },
+      {
+        "text": "acteur majeur de la mobilité",
+        "type": "paragraph"
+      },
+      {
+        "text": "solution clé du paysage de la mobilité régionale.",
+        "type": "paragraph"
+      },
+      {
+        "text": "full-cloud, hexagonale & event-driven.",
+        "type": "paragraph"
+      },
+      {
+        "text": "passionnée où l'expertise est valorisée",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Léna",
+        "type": "paragraph"
+      },
+      {
+        "text": "2 entretiens maximum",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ruben",
+        "type": "paragraph"
+      },
+      {
+        "text": "Damien",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/378f8e79-b460-4193-bf1f-27189e6505d6-astek-architecte-logiciel-aeronautique-bordeaux-france-h-f": {
+    "title": "Architecte logiciel - Aéronautique - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/378f8e79-b460-4193-bf1f-27189e6505d6-astek-architecte-logiciel-aeronautique-bordeaux-france-h-f",
+    "timestamp": "2026-04-19T13:33:30Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "transformation numérique d'un acteur majeur de l'aéronautique",
+        "type": "paragraph"
+      },
+      {
+        "text": "concevoir et faire évoluer des architectures logicielles critiques",
+        "type": "paragraph"
+      },
+      {
+        "text": "sécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "fiabilité",
+        "type": "paragraph"
+      },
+      {
+        "text": "conformité réglementaire",
+        "type": "paragraph"
+      },
+      {
+        "text": "structuration des socles logiciels",
+        "type": "paragraph"
+      },
+      {
+        "text": "Architecte Logiciel",
+        "type": "paragraph"
+      },
+      {
+        "text": "projets stratégiques de modernisation et de conception de systèmes complexes",
+        "type": "paragraph"
+      },
+      {
+        "text": "choix techniques et architecturaux",
+        "type": "paragraph"
+      },
+      {
+        "text": "référent technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "acteur clé",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "La définition,la modélisation et la documentation des architectures logicielles (systèmes embarqués, applications critiques, plateformes au sol, microservices, architectures distribuées).",
+          "L'analyse des besoins fonctionnels et techniques en lien avec les équipes métiers, systèmes et hardware.",
+          "Du choix des technologies, frameworks et patterns architecturaux adaptés aux contraintes aéronautiques.",
+          "L'accompagnement et le support technique des équipes de développement.",
+          "La validation des choix techniques et la participation aux revues d'architecture.",
+          "La prise en compte des enjeux de cybersécurité, de performance et de maintenabilité.",
+          "L'interaction avec les équipes qualité et certification pour garantir la conformité aux normes.",
+          "La veille technologique active pour proposer des solutions innovantes mais maîtrisées."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "logiciel critique, systèmes embarqués et\nplateformes modernes",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Langages : C++, Java, Python",
+          "Architectures : systèmes embarqués, architectures distribuées, microservices",
+          "Systèmes : Linux, environnements temps réel (RTOS appréciés)",
+          "Frameworks & outils : Spring / Spring Boot, outils de modélisation (UML, SysML)",
+          "DevOps / CI-CD : Git, Jenkins, GitLab CI, automatisation des builds et tests",
+          "Cloud & plateformes au sol : conteneurisation (Docker), orchestration (Kubernetes)",
+          "Qualité & sûreté : tests unitaires et d'intégration, traçabilité, gestion de configuration",
+          "Normes : DO-178C, ARP4754, contraintes de certification logicielle"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Les petits plus du projet :",
+        "type": "paragraph"
+      },
+      {
+        "text": "secteur aéronautique",
+        "type": "paragraph"
+      },
+      {
+        "text": "projets critiques et visibles",
+        "type": "paragraph"
+      },
+      {
+        "text": "embarqué, cloud, DevOps et cybersécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "reconnaissance du rôle d'architecte",
+        "type": "paragraph"
+      },
+      {
+        "text": "formation continue",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Vous justifiez au minimum de 5 ans d'expérience en architecture logicielle ou en conception de systèmes complexes.",
+          "Vous avez évolué dans des environnements critiques ou réglementés (aéronautique, défense, ferroviaire, spatial, médical...).",
+          "Vous maîtrisez les fondamentaux de l'architecture logicielle et les problématiques de scalabilité, performance et sécurité.",
+          "Vous êtes à l'aise avec plusieurs langages de programmation (C++, Java, Python).",
+          "Vous connaissez les normes aéronautiques (DO-178C, ARP4754) ou vous avez une forte appétence pour les contextes normés.",
+          "Vous savez communiquer, argumenter et fédérer autour de choix techniques structurants.",
+          "Vous aimez prendre de la hauteur tout en restant connecté(e) aux réalités du terrain."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/2a579170-af35-49af-b187-612f516dd44b-astek-ingenieur-developpement-senior-c-asp-net-angular-toulouse-france-h-f": {
+    "title": "Ingénieur Développement Sénior C#, Asp.NET / Angular - Toulouse, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/2a579170-af35-49af-b187-612f516dd44b-astek-ingenieur-developpement-senior-c-asp-net-angular-toulouse-france-h-f",
+    "timestamp": "2026-04-19T13:33:49Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Intervenir sur le développement de solutions applicatives en lien avec les besoins métier de notre client,",
+          "Être force de proposition sur les choix techniques et les orientations d'architecture, notamment en tant que profil sénior / tech lead,",
+          "Participer activement à l'ensemble du cycle de vie des projets, de la phase de cadrage jusqu'à la mise en production,",
+          "Accompagner les utilisateurs et les équipes fonctionnelles dans la prise en main des outils développés."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "sens du code que vous produisez",
+        "type": "paragraph"
+      },
+      {
+        "text": "qualité",
+        "type": "paragraph"
+      },
+      {
+        "text": "maintenabilité",
+        "type": "paragraph"
+      },
+      {
+        "text": "impact fonctionnel",
+        "type": "paragraph"
+      },
+      {
+        "text": "comprendre le besoin",
+        "type": "paragraph"
+      },
+      {
+        "text": "questionner les choix techniques",
+        "type": "paragraph"
+      },
+      {
+        "text": "force de proposition",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/27a1e354-f172-4ba0-89c3-dd4686607c6e-vega-grieshaber-kg-it-softwareentwickler-m-w-d-fullstack": {
+    "title": "IT-Softwareentwickler (m/w/d) Fullstack",
+    "company": "VEGA Grieshaber KG",
+    "url": "https://www.jobteaser.com/fr/job-offers/27a1e354-f172-4ba0-89c3-dd4686607c6e-vega-grieshaber-kg-it-softwareentwickler-m-w-d-fullstack",
+    "timestamp": "2026-04-19T13:34:08Z",
+    "description_structure": [
+      {
+        "text": "Innovation-Hubs in Karlsruhe",
+        "type": "paragraph"
+      },
+      {
+        "tag": "b",
+        "text": "Deine Aufgaben:",
+        "type": "other"
+      },
+      {
+        "items": [
+          "Konzeption und Entwicklung von Backend-Komponenten auf Basis von .NET und MS SQL",
+          "Umsetzung von REST-APIs und Microservices in einer Domain Driven Architecture",
+          "Integration in bestehende CI/CD-Pipelines",
+          "Enge Zusammenarbeit mit dem Frontend-Team und angrenzenden Fachbereichen",
+          "Mitarbeit in einem agilen Scrum-Team"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "tag": "b",
+        "text": "Unser Angebot:",
+        "type": "other"
+      },
+      {
+        "items": [
+          "Abwechslungsreiche und verantwortungsvolle Tätigkeiten",
+          "Viele Freiräume, kurze Entscheidungswege und eine langfristige Perspektive",
+          "Flexibles Arbeitszeitmodell",
+          "Offene und moderne Arbeitsatmosphäre in Open Space Büros",
+          "Strukturierte Einarbeitung durch individuelles Patenkonzept",
+          "Sicherer und fair bezahlter Arbeitsplatz",
+          "Vielfältige Weiterbildungs- und Gesundheitsangebote"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "tag": "b",
+        "text": "Dein Profil:",
+        "type": "other"
+      },
+      {
+        "items": [
+          "Fundierte Kenntnisse in .NET (C#), MS SQL und REST",
+          "Erfahrung mit Microservices-Architekturen und Domain Driven Design",
+          "Idealerweise erste Erfahrung mit DevOps-Themen",
+          "Eigenständige und strukturierte Arbeitsweise",
+          "Sehr gute Deutsch- und gute Englischkenntnisse"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "tag": "b",
+        "text": "Deine Ansprechpartnerin",
+        "type": "other"
+      },
+      {
+        "text": "Elina Buchholz",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "VEGA Grieshaber KG\n\nVEGA. HOME OF VALUES.\n\nVoir la page entreprise\n69 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/08b5e663-877f-46fc-963a-b5303744a636-vega-grieshaber-kg-it-softwareentwickler-m-w-d": {
+    "title": "IT-Softwareentwickler (m/w/d)",
+    "company": "VEGA Grieshaber KG",
+    "url": "https://www.jobteaser.com/fr/job-offers/08b5e663-877f-46fc-963a-b5303744a636-vega-grieshaber-kg-it-softwareentwickler-m-w-d",
+    "timestamp": "2026-04-19T13:34:26Z",
+    "description_structure": [
+      {
+        "text": "Innovation-Hubs in Karlsruhe",
+        "type": "paragraph"
+      },
+      {
+        "tag": "b",
+        "text": "Deine Aufgaben:",
+        "type": "other"
+      },
+      {
+        "items": [
+          "Konzeption und Entwicklung von Backend-Komponenten auf Basis von .NET und MS SQL",
+          "Umsetzung von REST-APIs und Microservices in einer Domain Driven Architecture",
+          "Integration in bestehende CI/CD-Pipelines",
+          "Enge Zusammenarbeit mit dem Frontend-Team und angrenzenden Fachbereichen",
+          "Mitarbeit in einem agilen Scrum-Team"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "tag": "b",
+        "text": "Unser Angebot:",
+        "type": "other"
+      },
+      {
+        "items": [
+          "Abwechslungsreiche und verantwortungsvolle Tätigkeiten",
+          "Viele Freiräume, kurze Entscheidungswege und eine langfristige Perspektive",
+          "Flexibles Arbeitszeitmodell",
+          "Offene und moderne Arbeitsatmosphäre in Open Space Büros",
+          "Strukturierte Einarbeitung durch individuelles Patenkonzept",
+          "Sicherer und fair bezahlter Arbeitsplatz",
+          "Vielfältige Weiterbildungs- und Gesundheitsangebote"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "tag": "b",
+        "text": "Dein Profil:",
+        "type": "other"
+      },
+      {
+        "items": [
+          "Fundierte Kenntnisse in .NET (C#), MS SQL und REST",
+          "Erfahrung mit Microservices-Architekturen und Domain Driven Design",
+          "Idealerweise erste Erfahrung mit DevOps-Themen",
+          "Eigenständige und strukturierte Arbeitsweise",
+          "Sehr gute Deutsch- und gute Englischkenntnisse"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "tag": "b",
+        "text": "Deine Ansprechpartnerin",
+        "type": "other"
+      },
+      {
+        "text": "Elina Buchholz",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "VEGA Grieshaber KG\n\nVEGA. HOME OF VALUES.\n\nVoir la page entreprise\n69 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/2b4584b0-dc4c-46ff-884b-fa4833109cc5-astek-ingenieur-cloud-gcp-spatial-bordeaux-france-h-f": {
+    "title": "Ingénieur Cloud GCP - Spatial - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/2b4584b0-dc4c-46ff-884b-fa4833109cc5-astek-ingenieur-cloud-gcp-spatial-bordeaux-france-h-f",
+    "timestamp": "2026-04-19T13:34:45Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "projet stratégique de transformation digitale",
+        "type": "paragraph"
+      },
+      {
+        "text": "plateforme Cloud native sur Google Cloud Platform (GCP)",
+        "type": "paragraph"
+      },
+      {
+        "text": "de sécurité, de scalabilité, de fiabilité et de conformité",
+        "type": "paragraph"
+      },
+      {
+        "text": "Bordeaux",
+        "type": "paragraph"
+      },
+      {
+        "text": "de la conception, de l'industrialisation et du déploiement de cette infrastructure Cloud",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ingénieur Cloud GCP",
+        "type": "paragraph"
+      },
+      {
+        "text": "définition de l'architecture cible",
+        "type": "paragraph"
+      },
+      {
+        "text": "la mise en œuvre opérationnelle",
+        "type": "paragraph"
+      },
+      {
+        "text": "choix techniques structurants",
+        "type": "paragraph"
+      },
+      {
+        "text": "standards Cloud & DevOps",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "La conception de l'architecture Cloud (réseau, sécurité, services managés, supervision).",
+          "Le choix et l'implémentation des services GCP adaptés aux contraintes du spatial.",
+          "La mise en place de l'Infrastructure as Code et l'automatisation des déploiements.",
+          "L'intégration des pratiques CI/CD dans un environnement industrialisé.",
+          "La gestion des identités et des accès (IAM) et des politiques de sécurité.",
+          "La collaboration étroite avec les équipes développement, sécurité et exploitation.",
+          "La garantie du respect des bonnes pratiques Cloud et sécurité sur l'ensemble des environnements."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "équipe",
+        "type": "paragraph"
+      },
+      {
+        "text": "ingénieurs Cloud",
+        "type": "paragraph"
+      },
+      {
+        "text": "DevOps",
+        "type": "paragraph"
+      },
+      {
+        "text": "d'architectes et d'experts sécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "collégiales",
+        "type": "paragraph"
+      },
+      {
+        "text": "qualité, amélioration continue et montée en compétence",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Cloud & DevOps",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Google Cloud Platform (GCP) : Compute Engine, VPC, IAM, services managés",
+          "Infrastructure as Code : Ansible (et notions Terraform appréciées)",
+          "CI/CD : Git, pipelines d'intégration et de déploiement",
+          "Sécurité & réseau : IAM, segmentation réseau, bonnes pratiques Cloud Security",
+          "Monitoring & supervision : outils GCP ou solutions tierces",
+          "Environnements Linux"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Les petits plus du projet :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Enjeux",
+        "type": "paragraph"
+      },
+      {
+        "text": "technologies GCP les plus récentes",
+        "type": "paragraph"
+      },
+      {
+        "text": "certifications Cloud",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Vous justifiez au minimum de 3 ans d'expérience en tant qu'ingénieur Cloud / DevOps, idéalement sur GCP.",
+          "Vous maîtrisez les services Cloud, l'automatisation et les concepts DevOps.",
+          "Vous êtes à l'aise avec les sujets de réseau, de sécurité et de gouvernance Cloud.",
+          "Vous avez déjà travaillé sur des environnements complexes ou critiques.",
+          "Vous appréciez les contextes où il faut concevoir, structurer et faire évoluer une plateforme dans le temps.",
+          "Vous aimez travailler en équipe, challenger les choix techniques et partager vos connaissances."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/b23f6a0e-273b-452f-87e0-79ee7358424a-astek-ingenieur-automatisation-de-tests-senior-bordeaux-france-h-f": {
+    "title": "Ingénieur Automatisation de Tests Senior - Bordeaux, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/b23f6a0e-273b-452f-87e0-79ee7358424a-astek-ingenieur-automatisation-de-tests-senior-bordeaux-france-h-f",
+    "timestamp": "2026-04-19T13:35:04Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "secteur naval de défense",
+        "type": "paragraph"
+      },
+      {
+        "text": "validation de solutions logicielles critiques",
+        "type": "paragraph"
+      },
+      {
+        "text": "sûreté de fonctionnement, de cybersécurité et de réglementation défense",
+        "type": "paragraph"
+      },
+      {
+        "text": "qualité et la robustesse des interfaces utilisateurs",
+        "type": "paragraph"
+      },
+      {
+        "text": "ingénieur senior",
+        "type": "paragraph"
+      },
+      {
+        "text": "référent technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "contributeur majeur",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Concevoir, développer et maintenir des tests automatisés d'interfaces graphiques (IHM) sur des systèmes complexes, multi-écrans et temps réel",
+          "Participer à la définition de la stratégie de test automatisé (choix des frameworks, architecture des scripts, critères de couverture, standards de codage)",
+          "Intégrer vos scripts dans des chaînes CI/CD pour des exécutions régulières et industrialisées, en tenant compte des contraintes d'environnements sécurisés (lab, bancs d'essais, plateformes d'intégration)",
+          "Collaborer étroitement avec les équipes de développement logiciel, systèmes, DevOps et QA, ainsi qu'avec les équipes client côté industriel / naval, pour garantir la robustesse des applications",
+          "Rédiger et maintenir la documentation technique (scénarios, rapports de tests, procédures d'exécution, bonnes pratiques d'automatisation)",
+          "Identifier les anomalies, suivre leur résolution et assurer la traçabilité complète des campagnes de tests, en lien avec les exigences fonctionnelles et systèmes",
+          "Contribuer à l'amélioration continue des outils et méthodes de test au sein des projets navals (standardisation, factorisation, mutualisation des briques)"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "naval défense",
+        "type": "paragraph"
+      },
+      {
+        "text": "développeurs",
+        "type": "paragraph"
+      },
+      {
+        "text": "architectes",
+        "type": "paragraph"
+      },
+      {
+        "text": "ingénieurs systèmes",
+        "type": "paragraph"
+      },
+      {
+        "text": "DevOps",
+        "type": "paragraph"
+      },
+      {
+        "text": "experts qualité",
+        "type": "paragraph"
+      },
+      {
+        "text": "cybersécurité",
+        "type": "paragraph"
+      },
+      {
+        "text": "senior",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Langages / Scripting :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Frameworks UI :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Outils de tests :",
+        "type": "paragraph"
+      },
+      {
+        "text": "CI/CD :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Gestion de tests :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Méthodes :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Les petits plus du projet :",
+        "type": "paragraph"
+      },
+      {
+        "text": "IHM critiques et complexes",
+        "type": "paragraph"
+      },
+      {
+        "text": "autonomie technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "montée en compétence rapide",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "automatisation de tests IHM sur systèmes complexes",
+        "type": "paragraph"
+      },
+      {
+        "text": "expertise technique",
+        "type": "paragraph"
+      },
+      {
+        "text": "sécurité, conformité et traçabilité",
+        "type": "paragraph"
+      },
+      {
+        "text": "référent, lead QA ou mentor",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/32c94258-01df-44f0-b588-9da41788a1d4-astek-ingenieur-systeme-stockage-nantes-france-h-f": {
+    "title": "Ingénieur Système Stockage - Nantes, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/32c94258-01df-44f0-b588-9da41788a1d4-astek-ingenieur-systeme-stockage-nantes-france-h-f",
+    "timestamp": "2026-04-19T13:35:23Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "contexte DevOps",
+        "type": "paragraph"
+      },
+      {
+        "text": "MCO des infrastructures",
+        "type": "paragraph"
+      },
+      {
+        "text": "bancaire",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Etudier, déployer, maintenir le stockage primaire et secondaire en datacenter ;",
+          "Administrer le SAN ;",
+          "Fournir les services de block / file et objet ;",
+          "Participer à la définition, la rédaction et l'actualisation des standards, procédures et architectures techniques ;",
+          "Contribuer à la réponse aux exigences de sécurité de la plateforme technique."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre Stack de Jeu :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Développement d'outils d'administration avec python et/ou powershell",
+          "Hitachi, Dell EMC, HP, Pure Storage, etc"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Vous avez obtenu votre diplôme d'ingénieur ou équivalent de niveau Bac+5.",
+          "Vous justifiez idéalement d'une expérience d'au moins 3 ans sur un poste similaire.",
+          "Vous êtes à l'aise dans le développement d'outils d'administration (python et/ou powershell).",
+          "Vous avez un bon relationnel et vous disposez d'un sens aigu de l'organisation.",
+          "Vous maîtrisez l'anglais."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/31da4606-cf7b-43d3-a25b-3b3167526f21-astek-devsecops-rennes-france-h-f": {
+    "title": "DevSecOps - Rennes, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/31da4606-cf7b-43d3-a25b-3b3167526f21-astek-devsecops-rennes-france-h-f",
+    "timestamp": "2026-04-19T13:35:42Z",
+    "description_structure": [
+      {
+        "text": "Ce que nous allons accomplir ensemble :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (...si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "d'automatiser les déploiements des plateformes SOAR et des contenus métiers ;",
+          "de développer des playbooks, intégrations et connecteurs ;",
+          "de rédiger les procédures et la documentation associée."
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Les petits plus du projet :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  },
+  "https://www.jobteaser.com/fr/job-offers/05caa1bc-d6e5-4499-a7ff-173f2ab2b7ee-astek-qa-automatisation-playwright-paris-france-h-f": {
+    "title": "QA Automatisation Playwright - Paris, France (H/F)",
+    "company": "Astek",
+    "url": "https://www.jobteaser.com/fr/job-offers/05caa1bc-d6e5-4499-a7ff-173f2ab2b7ee-astek-qa-automatisation-playwright-paris-france-h-f",
+    "timestamp": "2026-04-19T13:36:01Z",
+    "description_structure": [
+      {
+        "text": "Et si vous rejoigniez la communauté Astek ?",
+        "type": "paragraph"
+      },
+      {
+        "text": "Ingénieur QA Automatisation",
+        "type": "paragraph"
+      },
+      {
+        "text": "télécommunications",
+        "type": "paragraph"
+      },
+      {
+        "text": "Votre mission (... si vous l'acceptez !) :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Concevoir, développer et maintenir des tests automatisés avec Playwright",
+          "Participer à la stratégie de test (fonctionnel, non-régression, API, end-to-end)",
+          "Tester et valider des API (REST et/ou SOAP)",
+          "Analyser les résultats, identifier les anomalies et assurer leur suivi",
+          "Collaborer étroitement avec les équipes de développement, produit et DevOps",
+          "Contribuer à l'amélioration continue des processus QA"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre quotidien sera rythmé par :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Vous assurerez la conception et l'exécution des campagnes de tests automatisés et manuels",
+          "Vous serez l'interface avec les équipes développement, produit et exploitation pour garantir la qualité des livrablesVous mettrez en œuvre des tests API (REST ou SOAP) ainsi que des tests end-to-end via Playwright",
+          "Vous accompagnerez le déploiement des applications en validant leur conformité fonctionnelle et technique",
+          "Vous contribuerez à la mise en place et à l'amélioration des pipelines CI/CD liés aux testsVous produirez les rapports de tests, documenterez les anomalies et suivrez leur résolution",
+          "Vous pourrez proposer des axes d'amélioration sur les outils, les méthodologies et la stratégie QA"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Votre future équipe :",
+        "type": "paragraph"
+      },
+      {
+        "text": "consultants",
+        "type": "paragraph"
+      },
+      {
+        "text": "Astek",
+        "type": "paragraph"
+      },
+      {
+        "text": "coding game",
+        "type": "paragraph"
+      },
+      {
+        "text": "Environnement technique :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Playwright"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Vous :",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "Diplôme d'ingénieur ou équivalent Bac+5",
+          "Minimum 3 ans d'expérience post-diplôme en assurance qualité",
+          "Maîtrise de Playwright pour l'automatisation des tests",
+          "Expérience confirmée dans le test d'API REST ou SOAP",
+          "Bonne compréhension des environnements techniques (CI/CD, outils de test, etc.)",
+          "Rigueur, esprit d'analyse et capacité à travailler en équipe"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Nos Plus",
+        "type": "paragraph"
+      },
+      {
+        "items": [
+          "un accélérateur d'expérience, où chaque mission est une opportunité de progresser",
+          "un accès à une multitude de projets techniquement passionnants pour nos clients comme en interne",
+          "un accompagnement de proximité individualisé pour un parcours professionnel sur mesure",
+          "un apprentissage continu, grâce à notre Académie de formation interne",
+          "un environnement de travail convivial et inclusif, soutenu par des pratiques RH certifiées #TopEmployer2025"
+        ],
+        "tag": "ul",
+        "type": "list"
+      },
+      {
+        "text": "Let's move forward.",
+        "type": "paragraph"
+      },
+      {
+        "text": "Rencontrons-nous !",
+        "type": "paragraph"
+      },
+      {
+        "text": "Mots-clés :",
+        "type": "paragraph"
+      }
+    ],
+    "about_company_structure": [
+      {
+        "level": "h2",
+        "text": "Plus d’infos sur l’entreprise",
+        "type": "header"
+      },
+      {
+        "text": "Astek\n\nLet's move forward\n\nVoir la page entreprise\n154 offres",
+        "type": "paragraph"
+      }
+    ]
+  }
+}

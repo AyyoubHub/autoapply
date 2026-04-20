@@ -1,0 +1,112 @@
+[
+  {
+    "id": "",
+    "label": "Genre",
+    "name": "currentLocation",
+    "options": null,
+    "required": false,
+    "tag": "INPUT",
+    "type": "hidden",
+    "value": ""
+  },
+  {
+    "id": "gender-input",
+    "label": "Genre",
+    "name": "gender",
+    "options": null,
+    "required": false,
+    "tag": "INPUT",
+    "type": "text",
+    "value": ""
+  },
+  {
+    "id": "gender",
+    "label": "Genre",
+    "name": "gender",
+    "options": [
+      {
+        "info": "Requires interaction to see options",
+        "type": "custom-dropdown"
+      }
+    ],
+    "required": false,
+    "tag": "DIV",
+    "type": "combobox",
+    "value": ""
+  },
+  {
+    "id": "",
+    "label": "Genre",
+    "name": "phoneNumber",
+    "options": null,
+    "required": false,
+    "tag": "INPUT",
+    "type": "hidden",
+    "value": ""
+  },
+  {
+    "id": "",
+    "label": "Ajouter un CV",
+    "name": "resumeType",
+    "options": null,
+    "required": false,
+    "tag": "INPUT",
+    "type": "hidden",
+    "value": "current"
+  },
+  {
+    "id": "resume_0",
+    "label": "Ajouter un CV",
+    "name": "resume",
+    "options": null,
+    "required": false,
+    "tag": "INPUT",
+    "type": "file",
+    "value": ""
+  },
+  {
+    "id": "",
+    "label": "Message",
+    "name": "coverLetterType",
+    "options": null,
+    "required": false,
+    "tag": "INPUT",
+    "type": "hidden",
+    "value": "text"
+  },
+  {
+    "id": "",
+    "label": "Message",
+    "name": "coverLetterContent",
+    "options": null,
+    "required": true,
+    "tag": "TEXTAREA",
+    "type": "textarea",
+    "value": ""
+  },
+  {
+    "id": "sc-03e12337-0ebb-4890-a26f-9ef835479075-input",
+    "label": "03e12337-0ebb-4890-a26f-9ef835479075",
+    "name": "03e12337-0ebb-4890-a26f-9ef835479075",
+    "options": null,
+    "required": true,
+    "tag": "INPUT",
+    "type": "text",
+    "value": ""
+  },
+  {
+    "id": "sc-03e12337-0ebb-4890-a26f-9ef835479075",
+    "label": "unlabeled",
+    "name": "sc-03e12337-0ebb-4890-a26f-9ef835479075",
+    "options": [
+      {
+        "info": "Requires interaction to see options",
+        "type": "custom-dropdown"
+      }
+    ],
+    "required": false,
+    "tag": "DIV",
+    "type": "combobox",
+    "value": ""
+  }
+]

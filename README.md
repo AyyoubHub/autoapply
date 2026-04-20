@@ -1,119 +1,295 @@
-# AutoApply
+# AutoApply — APEC Edition
 
-**AutoApply** is a Python tool that automates browsing and applying on French job platforms. It drives a real Chrome session with [Selenium](https://www.selenium.dev/) and [undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver) to reduce friction when you already have accounts and want to apply to many listings in one session.
+**AutoApply** is a Python command-line tool that automates job hunting on [APEC](https://www.apec.fr).
+It drives a real browser session with [Selenium](https://www.selenium.dev/) and
+[undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
+to search, score, and apply to job listings in a single run — no browser extensions,
+no API keys, and no captcha hacks needed.
 
-## What it does
+> [!WARNING]
+> **JobTeaser support is experimental and not yet fully functional.**
+> The APEC module is the stable, production-ready component of this project.
+> The JobTeaser module is under active development and may not work reliably — it is
+> listed in the menu for preview purposes only.
 
-- **Main entry point** (`main.py`) — pick a platform and answer prompts for keywords, filters, and session length.
-- **Supported platforms** (see `main.py`): **APEC** and **JobTeaser**. HelloWork is present in the codebase but disabled in the menu until you wire it back in.
-- **JobTeaser** — search behavior is driven by `configs/jobteaser.search.json` (easy apply / “candidature simplifiée” only). See `docs/jobteaser_url_analysis.md` and `docs/jobteaser_filters.md` for URL and filter details.
-- **Logging** — each run writes a timestamped file under `logs/` (for example `logs/run_YYYY-MM-DD_HH-MM-SS.log`). The `logs/` directory is gitignored.
+---
+
+## How it works
+
+AutoApply runs in two phases:
+
+```
+Phase 1 — Discovery
+  For each keyword you enter:
+    Browse APEC search results page-by-page
+    Collect unique job URLs
+    Score each job by how many of your keywords match it
+    Stop early when a full page yields 0 new results
+
+Phase 2 — Application (best matches first)
+  For jobs scored highest:
+    Skip if already applied
+    Skip if keyword doesn't appear in the job description
+    Skip if the job routes to an external site
+    Click through the native APEC 3-step modal
+    Detect and log the confirmation banner
+```
+
+This guarantees you always apply to the most relevant listings first, and never
+re-apply to a job you already submitted.
+
+---
+
+## Features
+
+- **Multi-keyword search** — enter several keywords at once; jobs that match more keywords rank higher.
+- **Date-range filter** — restrict discovery to last 24 h, 7 days, 30 days, or all time.
+- **Contract filter** — CDI, CDD, Alternance, or Intérim.
+- **Sort order** — by date or by APEC relevance score.
+- **Configurable page cap** — for broad "all time" searches, limit how many pages to scan per keyword (`apec_max_pages_per_keyword` in config).
+- **Already-applied detection** — two independent DOM strategies skip jobs you've already submitted.
+- **External job skip** — jobs that redirect to a third-party site are never submitted.
+- **Session crash recovery** — `InvalidSessionIdException` / `WebDriverException` are caught; the run ends cleanly rather than hanging.
+- **Ctrl-C safe** — press Ctrl-C at any time for a clean exit with a final count.
+- **Timestamped logs** — every run writes a structured log to `logs/` (gitignored).
+
+---
 
 ## Requirements
 
-- **Python** 3.9 or newer (3.12+ is fine; `requirements.txt` includes `setuptools` for undetected-chromedriver compatibility).
-- **Google Chrome** installed.
-- **Accounts** on the platforms you use, with **email and password** login. Social logins (Google, LinkedIn, etc.) are not handled by the scripts.
+| Dependency | Version |
+|------------|---------|
+| Python | 3.9 or newer |
+| Ungoogled Chromium *or* Google Chrome | Latest stable |
+| See `requirements.txt` | `selenium ≥ 4.0`, `undetected-chromedriver`, `questionary` |
 
-On **Windows**, Chrome’s major version is read from the registry so the driver matches your browser. On other systems, undetected-chromedriver can auto-detect; if you see version mismatches, align Chrome and chromedriver or adjust the driver setup in `scripts/utils.py` (`create_driver`).
+> **Why Ungoogled Chromium?**  
+> It pairs well with `undetected-chromedriver` and avoids telemetry.  
+> Google Chrome works too — just point `browser_executable_path` at it.
+
+---
 
 ## Setup
 
-1. **Clone** this repository and open a terminal at the project root.
+### 1. Clone and create a virtual environment
 
-2. **Create a virtual environment** (recommended):
+```bash
+git clone https://github.com/AyyoubHub/autoapply.git
+cd autoapply
 
-   ```bash
-   python -m venv .venv
-   ```
+python -m venv .venv
+```
 
-   Activate it — on Windows (PowerShell):
+Activate it:
 
-   ```powershell
-   .\.venv\Scripts\Activate.ps1
-   ```
+```bash
+# macOS / Linux
+source .venv/bin/activate
 
-   On macOS/Linux:
+# Windows (PowerShell)
+.\.venv\Scripts\Activate.ps1
+```
 
-   ```bash
-   source .venv/bin/activate
-   ```
-
-3. **Install dependencies**:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Credentials** — copy the example config and fill in your details:
-
-   ```bash
-   copy configs\config.example.json configs\config.json
-   ```
-
-   On Linux/macOS use `cp` instead of `copy`. Edit `configs/config.json` with your email and passwords for each platform you use.
-
-5. **JobTeaser search profile** (required for JobTeaser):
-
-   ```bash
-   copy configs\jobteaser.search.example.json configs\jobteaser.search.json
-   ```
-
-   Adjust filters, default keyword, timeout, etc. `configs/jobteaser.search.json` is gitignored so your preferences are not committed.
-
-### Customizing `jobteaser.search.json`
-
-Use **[`docs/jobteaser_filters.md`](docs/jobteaser_filters.md)** as the reference for allowed values. It describes each JobTeaser filter (contract type, languages, study level, remote work, sectors, job functions, etc.) and the strings or IDs the site expects. Copy those values into your `configs/jobteaser.search.json` so the JSON matches what the URL would use.
-
-| Config key | What to read in `jobteaser_filters.md` |
-|------------|----------------------------------------|
-| `contracts` | **Contract Type** — list of `contract=` values (e.g. `cdi`, `cdd`). |
-| `work_experience_code` | **Experience Level** — one of `young_graduate`, `three_to_five_years`, etc. *(Optional; omit or leave empty to skip.)* |
-| `languages` | **Language** — list of codes (`fr`, `en`, …). |
-| `study_levels` | **Study Levels** — single code as a string (`1`–`6`). |
-| `remote_types` | **Remote Work** — `remote_partial` or `remote_full`, or `null` to omit. |
-| `duration` | **Duration** — `3`, `6`, `9`, … as a string, or `null` to omit. |
-| `company_business_type` | **Company Category** — `large`, `startup`, `sme`, … or `null` to omit. |
-| `start_date` | **Start Date** — `0` or `YYYY_MM` (e.g. `2026_04`). |
-| `job_function_ids` | **Job Function** — list of numeric IDs from the table (e.g. `30` for IT development). |
-| `domain_ids` | **Company Sector** — list of numeric IDs from the table. |
-| `job_category_ids` | Optional list of IDs — not listed in `jobteaser_filters.md`; see **`docs/jobteaser_url_analysis.md`** (job category) and copy IDs from the site when needed. |
-
-Other keys in the example file:
-
-- **`keyword`** — default text for the keyword prompt (you can still type another keyword when you run the app).
-- **`sort`** — `recency` or `relevance` (see URL analysis notes in `docs/` if needed).
-- **`timeout_minutes`** — default for the “max runtime” prompt in minutes.
-
-Easy apply is always enforced in code (`candidacy_type=INTERNAL`); you do not set that in the JSON. After editing, keep the file valid JSON (quotes, commas, `null` vs empty arrays as in the example).
-
-## Usage
-
-From the **project root**:
+### 2. Run — everything else is automatic
 
 ```bash
 python main.py
 ```
 
-Choose **APEC** or **JobTeaser**, then follow the prompts (keyword, contract or other options, max runtime in minutes).
+`main.py` includes a **first-run bootstrap** that runs silently on repeat launches:
+
+| Step | What happens |
+|------|--------------|
+| **1** | Checks `requirements.txt` and installs any missing Python packages via `pip` |
+| **2** | Creates `configs/config.json` (from the example) if it doesn't exist — prompts only for your email and APEC password |
+| **3** | Downloads an isolated Ungoogled Chromium binary for your OS/architecture into `browser/chromium/` and saves the path to `config.json` automatically |
+
+After the first run, all three steps complete in under a second and the platform menu appears immediately.
+
+> **Manual browser install** — if you prefer to manage the browser yourself, or if you are on Linux, run the install script directly:
+> ```bash
+> python scripts/install_browser.py
+> ```
+> Then set `browser_executable_path` in `configs/config.json` to the printed path.
+
+<details>
+<summary>Manual browser install instructions</summary>
+
+#### macOS
+
+```bash
+# Homebrew (system-wide — not isolated)
+brew install --cask eloston-chromium
+
+# Or download a .dmg directly from:
+# https://github.com/ungoogled-software/ungoogled-chromium-macos/releases
+```
+
+#### Windows
+
+Download the latest portable `.zip` from:
+https://github.com/ungoogled-software/ungoogled-chromium-windows/releases
+
+Extract anywhere (e.g. `C:\chromium\`) — no installer needed.
+
+Executable path example: `C:\chromium\chrome.exe`
+
+#### Linux
+
+```bash
+# Arch Linux (AUR)
+yay -S ungoogled-chromium
+
+# Debian / Ubuntu — follow the repo at:
+# https://github.com/ungoogled-software/ungoogled-chromium-debian
+
+# Flatpak (distro-independent)
+flatpak install flathub com.github.Eloston.UngoogledChromium
+
+# AppImage (portable — works on most distros)
+# Download from https://github.com/ungoogled-software/ungoogled-chromium-binaries/releases
+chmod +x ungoogled-chromium-*.AppImage
+```
+
+</details>
+
+### 3. (Optional) Install Tectonic for PDF compilation
+
+[Tectonic](https://tectonic-typesetting.github.io) is only needed if you use
+the AI agent feature to compile adapted LaTeX CVs.  It is **not required** to
+run the APEC automation.
+
+<details>
+<summary>Tectonic install instructions</summary>
+
+#### macOS
+
+```bash
+# Homebrew
+brew install tectonic
+
+# Or via Cargo (requires Rust)
+cargo install tectonic
+```
+
+#### Windows
+
+```powershell
+# winget
+winget install tectonic-typesetting.tectonic
+
+# Or via Cargo
+cargo install tectonic
+
+# Or download a pre-built binary from:
+# https://github.com/tectonic-typesetting/tectonic/releases
+```
+
+#### Linux
+
+```bash
+# Cargo (recommended — works on any distro)
+cargo install tectonic
+
+# Ubuntu / Debian (may be older version)
+sudo apt install tectonic
+
+# Arch Linux (AUR)
+yay -S tectonic-bin
+```
+
+</details>
+
+---
+
+## Usage
+
+From the project root:
+
+```bash
+python main.py
+```
+
+A menu lets you select the platform (APEC), then you answer a short series of prompts:
+
+| Prompt | Description |
+|--------|-------------|
+| **Keywords** | Space or comma-separated terms. Enter multiple for relevance scoring (e.g. `devops kubernetes`). Each keyword is searched separately; jobs appearing in more keyword results rank higher. |
+| **Date range** | `Last 24 h` / `Last 7 days` / `Last 30 days` / `All time`. Date-filtered modes scan every page; "All time" uses the `apec_max_pages_per_keyword` cap from config. |
+| **Contract type** | CDI, CDD, Alternance, or Intérim. |
+| **Sort by** | `Date` (newest first) or `Score` (APEC relevance). |
+| **Max runtime (minutes)** | The application phase stops after this many minutes. Discovery time is excluded — the timer starts when Phase 2 begins. |
+
+---
+
+## Configuration reference
+
+`configs/config.json` — created from `configs/config.example.json`, **gitignored**.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `email` | string | ✅ | APEC account email |
+| `apec_password` | string | ✅ | APEC account password |
+| `jobteaser_password` | string | — | JobTeaser password (for that module only) |
+| `browser_executable_path` | string | auto | Absolute path to Chrome or Chromium. **Set automatically** by the bootstrap on first run. Override manually to use a different browser. |
+| `apec_max_pages_per_keyword` | integer | — | Max pages to scan per keyword when the **All time** date filter is chosen. Default: `3`. Ignored for date-filtered modes (those always scan all pages). |
+| `cv_path` | string | — | Relative path to your base `.tex` CV (used by the AI agent). Default: `tex/default.tex`. |
+| `form_data` | object | — | Personal details pre-filled in forms (JobTeaser module). Keys: `fullname`, `email`, `phone`, `github`, `linkedin`, `gender`. |
+
+---
 
 ## Project layout
 
-| Path | Purpose |
-|------|---------|
-| `main.py` | Application entry point; platform menu |
-| `scripts/apec.py`, `scripts/jobteaser.py` | Platform-specific automation |
-| `scripts/utils.py` | Config loading, logging, Chrome driver, JobTeaser URL helpers |
-| `configs/config.example.json` | Template for credentials (copy to `config.json`) |
-| `configs/jobteaser.search.example.json` | Template for JobTeaser filters (copy to `jobteaser.search.json`) |
-| `docs/` | Notes on URLs and filters for some platforms |
+```
+autoapply/
+├── main.py                          # Entry point — platform menu
+├── requirements.txt                 # Python dependencies
+├── scripts/
+│   ├── apec.py                      # APEC automation engine (two-phase)
+│   ├── utils.py                     # Config loader, logging, ChromeDriver factory
+│   └── install_browser.py           # One-shot browser downloader (stdlib only)
+├── configs/
+│   ├── config.example.json          # Template — copy to config.json
+│   └── jobteaser.search.example.json
+├── browser/                         # ← created by install_browser.py (gitignored)
+│   └── chromium/
+├── logs/                            # ← created at runtime (gitignored)
+│   └── run_YYYY-MM-DD_HH-MM-SS.log
+├── scratch/                         # Example output data (scraped job listings)
+└── docs/                            # Research & URL analysis notes
+```
+
+---
+
+## Security
+
+| What | Status |
+|------|--------|
+| `configs/config.json` (real credentials) | ✅ gitignored |
+| `.env` (API keys) | ✅ gitignored |
+| `browser/` (binary, not source) | ✅ gitignored |
+| `tex/` (personal CV files) | ✅ gitignored |
+| `logs/` (runtime logs) | ✅ gitignored |
+| `scratch/` (example output data) | ✅ committed — PII stripped |
+| `docs/` (research notes) | ✅ committed — PII stripped |
+
+Never run `git add .` — always stage files explicitly to avoid accidentally
+committing credentials or personal data.
+
+---
 
 ## Contributing
 
 1. Fork the repository and create a branch for your change.
-2. Keep commits focused and describe what changed.
-3. Open a pull request with a short summary of behavior and any new configuration.
+2. Keep commits focused — one logical change per commit.
+3. Stage files explicitly (`git add <file>`) rather than `git add .`.
+4. Open a pull request with a short description of the behavior change.
+
+---
 
 ## Disclaimer
 
-This software is provided for **educational and personal use**. Automating actions on third-party websites may violate their terms of service. You are responsible for how you use it; use only on accounts you own and in line with each platform’s rules.
+This software is provided for **educational and personal use only**.  
+Automating actions on third-party websites may violate their terms of service.  
+You are solely responsible for how you use it — use only on accounts you own
+and in line with each platform's terms and applicable law.
