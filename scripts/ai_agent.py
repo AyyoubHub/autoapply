@@ -17,7 +17,7 @@ def is_high_quality_match(job_title: str, job_description: str, keywords: list) 
     if not client:
         return True  # Fail open: if AI is unavailable, trust the keyword match
 
-    model_id = "gemini-2.0-flash"
+    model_id = "gemini-3.1-flash-lite"
     prompt = f"""
     Analyze if this job is a high-quality match for a candidate searching with these keywords.
     
@@ -92,9 +92,10 @@ def adapt_cv_and_generate_message(cv_content: str, job_dossier: dict):
     if not client:
         return None, None
 
-    # Using the suggested model from the Gemini 3 series
-    # Using 'gemini-2.0-flash' as a reliable stable fallback if 'gemini-3-flash-preview' is not yet reachable
-    model_id = "gemini-3-flash-preview"
+    # Using the suggested model from the Gemini 3.1 series
+    # Using 'gemini-3.1-flash-lite' as a reliable stable fallback
+    model_id = "gemini-3.1-flash"
+
     
     prompt = f"""
     You are an expert career coach and LaTeX developer. 
@@ -141,11 +142,11 @@ def adapt_cv_and_generate_message(cv_content: str, job_dossier: dict):
         return data.get("adapted_cv"), data.get("message")
     except Exception as e:
         logging.error("AI Agent failed with model %s: %s", model_id, e)
-        # Attempt fallback to 2.0-flash
-        if model_id != "gemini-2.0-flash":
-            logging.info("Attempting fallback to gemini-2.0-flash...")
+        # Attempt fallback to 3.1-flash-lite
+        if model_id != "gemini-3.1-flash-lite":
+            logging.info("Attempting fallback to gemini-3.1-flash-lite...")
             try:
-                response = client.models.generate_content(model="gemini-2.0-flash", contents=prompt)
+                response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=prompt)
                 data = json.loads(response.text.strip().replace("```json", "").replace("```", "").strip())
                 return data.get("adapted_cv"), data.get("message")
             except Exception as e2:
