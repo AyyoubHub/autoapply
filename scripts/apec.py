@@ -171,6 +171,9 @@ def run() -> None:
 
     applied_count = 0
     processed_count = 0
+    ai_rejected_count = 0
+    already_applied_count = 0
+    failed_count = 0
     try:
         # --- Login ---
         try:
@@ -297,13 +300,13 @@ def run() -> None:
                         break
 
                 score = href_scores[href]
-                applied = False
+                status = "failed"
                 
                 # Retry logic for individual job application
                 for attempt in range(2):
                     try:
-                        applied = _process_job(driver, wait, href, processed_count, score, keywords)
-                        break  # Success
+                        status = _process_job(driver, wait, href, processed_count + 1, score, keywords)
+                        break  # Success or controlled skip
                     except (InvalidSessionIdException, WebDriverException):
                         logging.error("APEC: browser session died during application phase (attempt %d).", attempt + 1)
                         session_alive = False
@@ -313,30 +316,51 @@ def run() -> None:
                         if attempt == 0:
                             time.sleep(2)
                             continue  # One retry for generic errors
+                        status = "failed"
                         break
 
                 processed_count += 1
-                if applied:
+                if status == "applied":
                     applied_count += 1
+                elif status == "ai_rejected":
+                    ai_rejected_count += 1
+                elif status == "already_applied":
+                    already_applied_count += 1
+                elif status == "failed":
+                    failed_count += 1
 
                 print(
-                    f"\rJobs processed: {processed_count}/{total_unique}  "
-                    f"Applied: {applied_count}  "
-                    f"[match {score}/{len(keywords)}]   ",
+                    f"\rJobs: {processed_count}/{total_unique} | "
+                    f"Applied: {applied_count} | "
+                    f"AI Rejected: {ai_rejected_count} | "
+                    f"Already Applied: {already_applied_count}   ",
                     end="",
                     flush=True,
                 )
                 time.sleep(0.5)
 
-
+        # --- Final Summary Report ---
+        print(
+            f"\n\n{'─' * 50}\n"
+            f"APEC RUN COMPLETE\n"
+            f"{'─' * 50}\n"
+            f"Total Unique Jobs : {total_unique}\n"
+            f"Successfully Applied : {applied_count}\n"
+            f"AI Relevance Reject : {ai_rejected_count}\n"
+            f"Already Applied      : {already_applied_count}\n"
+            f"Failed / System Skip : {failed_count}\n"
+            f"{'─' * 50}\n"
+        )
+        logging.info(
+            "APEC Run Summary: Total=%d, Applied=%d, AI_Reject=%d, Already=%d, Failed=%d",
+            total_unique, applied_count, ai_rejected_count, already_applied_count, failed_count
+        )
 
     except Exception:
         logging.exception("APEC: unexpected error in main loop.")
         print("\nAn unexpected error occurred.")
 
     finally:
-        logging.info("APEC Session ended. Total jobs applied to: %d", applied_count)
-        print(f"\nAPEC Session ended. Total jobs applied to: {applied_count}")
         try:
             driver.quit()
         except Exception:
@@ -423,10 +447,10 @@ def _matches_keywords(driver, keywords: list) -> tuple:
     return False, ""
 
 
-def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: list = None) -> bool:
+def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: list = None) -> str:
     """Navigate to a job page and attempt to apply.
 
-    Returns True if the application was submitted successfully, False otherwise.
+    Returns a status string: 'applied', 'already_applied', 'irrelevant', 'external', 'ai_rejected', 'failed'.
     All exceptions are caught and logged so the caller loop always continues.
     """
     try:
@@ -434,10 +458,10 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
         applied_history = load_applied_jobs("apec")
         if href in applied_history:
             logging.info(
-                "APEC: Skipped job index %d (page %d) - Found in local applied history.",
-                job_idx, page,
+                "APEC: Skipped job index %d - Found in local applied history.",
+                job_idx,
             )
-            return False
+            return "already_applied"
 
         driver.get(href)
         time.sleep(1)
@@ -445,21 +469,21 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
         # --- Already applied (on-page check)? ---
         if _is_already_applied(driver):
             logging.info(
-                "APEC: Skipped job index %d (page %d) - Already applied (detected on page).",
-                job_idx, page,
+                "APEC: Skipped job index %d - Already applied (detected on page).",
+                job_idx,
             )
             # Sync back to local history if we found it on page
             save_applied_job(href, "apec")
-            return False
+            return "already_applied"
 
         # --- Keyword filter: at least one keyword must appear in job text ---
         matched, matched_kw = _matches_keywords(driver, keywords or [])
         if not matched:
             logging.info(
-                "APEC: Skipped job index %d (page %d) - No keyword match (keywords: %s).",
-                job_idx, page, keywords,
+                "APEC: Skipped job index %d - No keyword match (keywords: %s).",
+                job_idx, keywords,
             )
-            return False
+            return "irrelevant"
 
         # --- AI semantic check: is this a high-quality match? ---
         try:
@@ -467,16 +491,16 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
             job_desc = driver.find_element(By.TAG_NAME, "body").text.strip()
             if not is_high_quality_match(job_title, job_desc, keywords):
                 logging.info(
-                    "APEC: Skipped job index %d (page %d) - AI rejected relevance (Title: '%s').",
-                    job_idx, page, job_title,
+                    "APEC: Skipped job index %d - AI rejected relevance (Title: '%s').",
+                    job_idx, job_title,
                 )
-                return False
+                return "ai_rejected"
         except Exception as e:
             logging.warning("AI check failed for job %d, proceeding with basic keyword match: %s", job_idx, e)
 
         logging.info(
-            "APEC: Job index %d (page %d) matched keyword '%s' and AI validation.",
-            job_idx, page, matched_kw,
+            "APEC: Job index %d matched keyword '%s' and AI validation.",
+            job_idx, matched_kw,
         )
 
         # --- Find the first-level "Postuler" anchor ---
@@ -489,18 +513,18 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
             )
         except TimeoutException:
             logging.info(
-                "APEC: Skipped job index %d (page %d) - No native apply button found (might be external or closed).",
-                job_idx, page,
+                "APEC: Skipped job index %d - No native apply button found (might be external or closed).",
+                job_idx,
             )
-            return False
+            return "external"
 
         btn_text = apply_button.text.strip()
         if btn_text != "Postuler":
             logging.info(
-                "APEC: Skipped job index %d (page %d) - External application site (button text: '%s').",
-                job_idx, page, btn_text,
+                "APEC: Skipped job index %d - External application site (button text: '%s').",
+                job_idx, btn_text,
             )
-            return False
+            return "external"
 
         # --- Step 1: click "Postuler" to open the modal ---
         apply_button.click()
@@ -515,10 +539,10 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
             )
         except TimeoutException:
             logging.info(
-                "APEC: Skipped job index %d (page %d) - Modal 'Postuler' button not found.",
-                job_idx, page,
+                "APEC: Skipped job index %d - Modal 'Postuler' button not found.",
+                job_idx,
             )
-            return False
+            return "failed"
 
         apply_button2.click()
         time.sleep(1)
@@ -532,10 +556,10 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
             )
         except TimeoutException:
             logging.info(
-                "APEC: Skipped job index %d (page %d) - Required extra steps (custom form/attachments).",
-                job_idx, page,
+                "APEC: Skipped job index %d - Required extra steps (custom form/attachments).",
+                job_idx,
             )
-            return False
+            return "failed"
 
         apply_button3.click()
 
@@ -546,20 +570,20 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
         confirmed = _wait_for_application_confirmation(driver, timeout=8)
         if confirmed:
             logging.info(
-                "APEC: Applied to job index %d (page %d) — confirmation received.",
-                job_idx, page,
+                "APEC: Applied to job index %d — confirmation received.",
+                job_idx,
             )
             save_applied_job(href, "apec")
-            return True
+            return "applied"
         else:
             # The click went through but no confirmation banner appeared.
             # Count it anyway to avoid under-counting if APEC was just slow.
             logging.warning(
-                "APEC: Applied to job index %d (page %d) — no confirmation banner detected (may still have worked).",
-                job_idx, page,
+                "APEC: Applied to job index %d — no confirmation banner detected (may still have worked).",
+                job_idx,
             )
             save_applied_job(href, "apec")
-            return True
+            return "applied"
 
     except (InvalidSessionIdException, WebDriverException):
         # Re-raise session-fatal exceptions so the caller can stop the loop.
@@ -567,9 +591,9 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
 
     except Exception:
         logging.exception(
-            "APEC: unexpected error processing job index %d (page %d).", job_idx, page
+            "APEC: unexpected error processing job index %d.", job_idx
         )
-        return False
+        return "failed"
 
 
 def _wait_for_application_confirmation(driver, timeout: int = 8) -> bool:
