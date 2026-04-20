@@ -14,9 +14,9 @@
     - [x] Implement the `is_high_quality_match` function in `scripts/ai_agent.py`.
     - [x] Call the AI check in `scripts/apec.py` after the initial keyword match.
     - [x] Implement a fallback mechanism for when Gemini is unavailable.
-- [ ] Task: Implement robust text-based button matching for APEC.
-    - [ ] Update XPaths for "Postuler" and "Envoyer ma candidature" to use text normalization.
-    - [ ] Enhance `_wait_for_application_confirmation` to handle varying confirmation banners.
+- [x] Task: Implement robust text-based button matching for APEC. 9d8e41a
+    - [x] Update XPaths for "Postuler" and "Envoyer ma candidature" to use text normalization.
+    - [x] Enhance `_wait_for_application_confirmation` to handle varying confirmation banners.
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Core Semantic Filtering Implementation' (Protocol in workflow.md)
 
 ## Phase 3: Local History and Persistence
