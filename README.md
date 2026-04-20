@@ -218,7 +218,6 @@ A menu lets you select the platform (APEC), then you answer a short series of pr
 | **Date range** | `Last 24 h` / `Last 7 days` / `Last 30 days` / `All time`. Date-filtered modes scan every page; "All time" uses the `apec_max_pages_per_keyword` cap from config. |
 | **Contract type** | CDI, CDD, Alternance, or Intérim. |
 | **Sort by** | `Date` (newest first) or `Score` (APEC relevance). |
-| **Max runtime (minutes)** | The application phase stops after this many minutes. Discovery time is excluded — the timer starts when Phase 2 begins. |
 
 ---
 

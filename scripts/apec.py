@@ -13,7 +13,7 @@ import urllib.parse
 import logging
 import questionary
 
-from utils import load_config, create_driver, ask_timeout
+from utils import load_config, create_driver
 
 
 def run() -> None:
@@ -89,7 +89,6 @@ def run() -> None:
         ],
     ).ask()
 
-    TIME_OUT = ask_timeout()
 
     # --- URLs ---
     LOGIN_URL = "https://www.apec.fr/"
@@ -100,8 +99,7 @@ def run() -> None:
 
     applied_count = 0
     processed_count = 0
-    start_time = time.time()
-
+    processed_count = 0
     try:
         # --- Login ---
         try:
@@ -292,12 +290,8 @@ def run() -> None:
 
             # ================================================================
             # Phase 2 — Application: apply to jobs in best-match order
-            # ================================================================
-            # Reset the clock here — TIME_OUT applies only to application time,
-            # not to the discovery scan above.
-            start_time = time.time()
             for href in sorted_hrefs:
-                if time.time() - start_time > TIME_OUT or not session_alive:
+                if not session_alive:
                     break
 
                 score = href_scores[href]
