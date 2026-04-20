@@ -165,6 +165,10 @@ _ensure_browser()
 # Normal startup — only reached after bootstrap succeeds
 # ---------------------------------------------------------------------------
 
+import warnings
+warnings.filterwarnings("ignore", message=".*urllib3 v2 only supports OpenSSL.*")
+warnings.filterwarnings("ignore", message=".*You are using a Python version.*")
+
 import questionary  # noqa: E402  (installed by _ensure_dependencies if needed)
 
 from utils import setup_logging  # noqa: E402
