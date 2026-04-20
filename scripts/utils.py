@@ -248,3 +248,28 @@ def ask_timeout(default_minutes: float = None) -> int:
     except (ValueError, TypeError):
         print("Invalid input. Defaulting to 5 hours.")
         return 5 * 60 * 60
+
+
+def load_applied_jobs(platform: str = "apec") -> set:
+    """Load the set of URLs we have already successfully applied to."""
+    path = os.path.join(os.path.dirname(__file__), f"../scratch/{platform}_applied.json")
+    if not os.path.exists(path):
+        return set()
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return set(json.load(f))
+    except Exception:
+        return set()
+
+
+def save_applied_job(url: str, platform: str = "apec") -> None:
+    """Add a URL to the local applied history file."""
+    path = os.path.join(os.path.dirname(__file__), f"../scratch/{platform}_applied.json")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    applied = load_applied_jobs(platform)
+    applied.add(url)
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(list(applied), f, indent=2)
+    except Exception as e:
+        logging.error("Failed to save applied job to history: %s", e)

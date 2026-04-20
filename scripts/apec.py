@@ -13,7 +13,8 @@ import urllib.parse
 import logging
 import questionary
 
-from utils import load_config, create_driver
+from utils import load_config, create_driver, load_applied_jobs, save_applied_job
+from ai_agent import is_high_quality_match
 
 
 def run() -> None:
@@ -417,15 +418,26 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
     All exceptions are caught and logged so the caller loop always continues.
     """
     try:
+        # --- Check local history first (avoids browser navigation) ---
+        applied_history = load_applied_jobs("apec")
+        if href in applied_history:
+            logging.info(
+                "APEC: Skipped job index %d (page %d) - Found in local applied history.",
+                job_idx, page,
+            )
+            return False
+
         driver.get(href)
         time.sleep(1)
 
-        # --- Already applied? ---
+        # --- Already applied (on-page check)? ---
         if _is_already_applied(driver):
             logging.info(
-                "APEC: Skipped job index %d (page %d) - Already applied ('Vous avez déjà postulé').",
+                "APEC: Skipped job index %d (page %d) - Already applied (detected on page).",
                 job_idx, page,
             )
+            # Sync back to local history if we found it on page
+            save_applied_job(href, "apec")
             return False
 
         # --- Keyword filter: at least one keyword must appear in job text ---
@@ -436,16 +448,31 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
                 job_idx, page, keywords,
             )
             return False
+
+        # --- AI semantic check: is this a high-quality match? ---
+        try:
+            job_title = driver.find_element(By.TAG_NAME, "h1").text.strip()
+            job_desc = driver.find_element(By.TAG_NAME, "body").text.strip()
+            if not is_high_quality_match(job_title, job_desc, keywords):
+                logging.info(
+                    "APEC: Skipped job index %d (page %d) - AI rejected relevance (Title: '%s').",
+                    job_idx, page, job_title,
+                )
+                return False
+        except Exception as e:
+            logging.warning("AI check failed for job %d, proceeding with basic keyword match: %s", job_idx, e)
+
         logging.info(
-            "APEC: Job index %d (page %d) matched keyword '%s'.",
+            "APEC: Job index %d (page %d) matched keyword '%s' and AI validation.",
             job_idx, page, matched_kw,
         )
 
         # --- Find the first-level "Postuler" anchor ---
+        # APEC sometimes changes classes; use text-based matching for better resilience.
         try:
             apply_button = wait.until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, "//a[@class='btn btn-primary mr-12 mb-20']")
+                    (By.XPATH, "//a[contains(normalize-space(.), 'Postuler') and contains(@class, 'btn')]")
                 )
             )
         except TimeoutException:
@@ -471,7 +498,7 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
         try:
             apply_button2 = wait.until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, "//button[@title='Postuler']")
+                    (By.XPATH, "//button[contains(normalize-space(.), 'Postuler')]")
                 )
             )
         except TimeoutException:
@@ -488,7 +515,7 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
         try:
             apply_button3 = wait.until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, "//button[@title='Envoyer ma candidature']")
+                    (By.XPATH, "//button[contains(normalize-space(.), 'Envoyer ma candidature')]")
                 )
             )
         except TimeoutException:
@@ -510,6 +537,7 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
                 "APEC: Applied to job index %d (page %d) — confirmation received.",
                 job_idx, page,
             )
+            save_applied_job(href, "apec")
             return True
         else:
             # The click went through but no confirmation banner appeared.
@@ -518,6 +546,7 @@ def _process_job(driver, wait, href: str, job_idx: int, page: int, keywords: lis
                 "APEC: Applied to job index %d (page %d) — no confirmation banner detected (may still have worked).",
                 job_idx, page,
             )
+            save_applied_job(href, "apec")
             return True
 
     except (InvalidSessionIdException, WebDriverException):

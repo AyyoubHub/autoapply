@@ -9,6 +9,8 @@ from selenium.common.exceptions import (
 import time
 import logging
 import questionary
+import json
+import os
 
 from utils import (
     load_config,
@@ -17,6 +19,8 @@ from utils import (
     load_jobteaser_search_config,
     build_jobteaser_search_url_from_profile,
 )
+from job_dossier_manager import save_job_dossier
+from ai_agent import process_job_for_apply
 
 
 def run() -> None:
@@ -83,12 +87,9 @@ def run() -> None:
             password_input.clear()
             password_input.send_keys(PASSWORD)
 
-            login_button = wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//button[contains(text(), 'Connexion')]")
-                )
-            )
-            login_button.click()
+            # Submit the form directly instead of finding the button
+            password_input.submit()
+            time.sleep(2)
 
             time.sleep(3)
             driver.get("https://www.jobteaser.com/fr/dashboard")
@@ -150,6 +151,108 @@ def run() -> None:
                     href = job_link.get_attribute("href").split("?")[0]
                     driver.get(href)
                     time.sleep(2)
+                    
+                    # Capture job metadata
+                    job_title = "Unknown"
+                    company_name = "Unknown"
+                    try:
+                        job_title = driver.find_element(By.CSS_SELECTOR, "[data-testid='jobad-DetailView__Heading__title']").text
+                        company_name = driver.find_element(By.CSS_SELECTOR, "[data-testid='jobad-DetailView__Heading__company_name']").text
+                    except Exception:
+                        try:
+                            # Fallback if data-testid is missing
+                            job_title = driver.find_element(By.TAG_NAME, "h1").text
+                            company_name = driver.find_element(By.XPATH, "//div[contains(@class, 'CompanyProfile_name')]").text
+                        except Exception:
+                            try:
+                                company_name = driver.find_element(By.XPATH, "//a[contains(@href, '/companies/')]").text
+                            except Exception:
+                                pass
+
+                    # Extract Job Description and About Company
+                    try:
+                        extraction_js = """
+                        function parseStructure(container) {
+                            if (!container) return null;
+                            let structure = [];
+                            // If it's a 'Read More' wrapper, use the content child
+                            let target = container.querySelector('.Description_content__Ais4T') || container;
+                            target.childNodes.forEach(node => {
+                                if (node.nodeType === Node.ELEMENT_NODE) {
+                                    let tag = node.tagName.toLowerCase();
+                                    if (['h1', 'h2', 'h3', 'h4'].includes(tag)) {
+                                        structure.push({ type: 'header', level: tag, text: node.innerText.trim() });
+                                    } else if (tag === 'p' || tag === 'div' || tag === 'strong') {
+                                        let text = node.innerText.trim();
+                                        if (text) structure.push({ type: 'paragraph', text: text });
+                                    } else if (tag === 'ul' || tag === 'ol') {
+                                        let items = Array.from(node.querySelectorAll('li')).map(li => li.innerText.trim());
+                                        if (items.length) structure.push({ type: 'list', tag: tag, items: items });
+                                    } else {
+                                        let text = node.innerText.trim();
+                                        if (text) structure.push({ type: 'other', tag: tag, text: text });
+                                    }
+                                }
+                            });
+                            return structure;
+                        }
+
+                        // Try to click 'Voir plus' if present to expand description
+                        let readMoreBtn = document.querySelector('[data-testid="jobad-DetailView__Description"] button');
+                        if (readMoreBtn && readMoreBtn.innerText.toLowerCase().includes('voir')) {
+                            readMoreBtn.click();
+                        }
+
+                        let descContainer = document.querySelector('[data-testid="jobad-DetailView__Description"]') || 
+                                           document.querySelector('.job-description') || 
+                                           document.querySelector('[data-testid="job-description-content"]');
+                        let aboutContainer = document.querySelector('[data-testid="jobad-DetailView-CompanySection"]') || 
+                                            document.querySelector('[data-testid="company-description"]') || 
+                                            document.querySelector('.CompanyDescription_content') ||
+                                            document.querySelector('.CompanyProfile_description');
+
+                        return {
+                            description: parseStructure(descContainer),
+                            about_company: parseStructure(aboutContainer)
+                        };
+                        """
+                        job_data = driver.execute_script(extraction_js)
+                        
+                        desc_storage_path = os.path.join(os.path.dirname(__file__), "../scratch/job_descriptions.json")
+                        all_descriptions = {}
+                        if os.path.exists(desc_storage_path):
+                            try:
+                                with open(desc_storage_path, "r", encoding="utf-8") as f:
+                                    all_descriptions = json.load(f)
+                            except Exception:
+                                pass
+                        
+                        all_descriptions[href] = {
+                            "title": job_title,
+                            "company": company_name,
+                            "url": href,
+                            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                            "description_structure": job_data.get("description"),
+                            "about_company_structure": job_data.get("about_company")
+                        }
+                        
+                        with open(desc_storage_path, "w", encoding="utf-8") as f:
+                            json.dump(all_descriptions, f, indent=2, ensure_ascii=False)
+                        
+                        logging.info("Extracted description and company info for: %s", job_title)
+                        
+                        # Save Job Dossier for AI/Automation
+                        dossier_data = {
+                            "url": href,
+                            "title": job_title,
+                            "company": company_name,
+                            "description_structure": job_data.get("description"),
+                            "about_company_structure": job_data.get("about_company")
+                        }
+                        save_job_dossier(dossier_data)
+                        
+                    except Exception as e:
+                        logging.error("Failed to extract job description: %s", e)
 
                     time.sleep(1)
                     already_applied = driver.find_elements(
@@ -174,7 +277,56 @@ def run() -> None:
                             )
                         )
                         apply_button.click()
-                        time.sleep(1)
+                        time.sleep(2)  # Wait for modal to render
+                        
+                        # AUTOMATION: Call AI to prepare tailored CV and Message
+                        ai_results = process_job_for_apply(href)
+                        form_data = config.get("form_data", {})
+                        
+                        try:
+                            # 1. Fill Textarea (Message/Cover Letter)
+                            if ai_results and ai_results.get("message"):
+                                try:
+                                    message_area = wait.until(EC.presence_of_element_located((By.NAME, "coverLetterContent")))
+                                    message_area.clear()
+                                    message_area.send_keys(ai_results["message"])
+                                    logging.info("AI-generated message injected.")
+                                except Exception:
+                                    logging.warning("Could not find coverLetterContent textarea.")
+
+                            # 2. Fill Other Form Fields (Gender, Phone, etc.)
+                            for field_name, value in form_data.items():
+                                try:
+                                    # Try by name first
+                                    inputs = driver.find_elements(By.NAME, field_name)
+                                    for inp in inputs:
+                                        if inp.get_attribute("type") in ["text", "tel", "email"] and not inp.get_attribute("value"):
+                                            inp.clear()
+                                            inp.send_keys(value)
+                                        elif inp.get_attribute("type") == "hidden" and not inp.get_attribute("value"):
+                                            driver.execute_script("arguments[0].value = arguments[1]", inp, value)
+                                except Exception:
+                                    pass
+
+                            # 3. Handle File Upload (Adapted CV)
+                            if ai_results:
+                                try:
+                                    # Prioritize PDF if compilation was successful, otherwise fallback to .tex
+                                    file_to_upload = ai_results.get("pdf_path") or ai_results.get("cv_path")
+                                    if file_to_upload and os.path.exists(file_to_upload):
+                                        file_input = driver.find_element(By.NAME, "resume")
+                                        # Force it to be visible if it is hidden
+                                        driver.execute_script("arguments[0].style.display = 'block'; arguments[0].style.visibility = 'visible';", file_input)
+                                        file_input.send_keys(os.path.abspath(file_to_upload))
+                                        logging.info("Tailored resume uploaded: %s", os.path.basename(file_to_upload))
+                                    else:
+                                        logging.warning("No resume file found for upload.")
+                                except Exception as e:
+                                    logging.warning("Resume upload failed: %s", e)
+
+                        except Exception as e:
+                            logging.error("Error during automated form filling: %s", e)
+                        
 
                         apply_button2 = wait.until(
                             EC.element_to_be_clickable(
