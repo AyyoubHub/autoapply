@@ -4,5 +4,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Dynamic Configuration Prompting (APEC)**
+- [x] **Track: Dynamic Configuration Prompting (APEC)**
 *Link: [./tracks/dynamic_config_prompt_20260420/](./tracks/dynamic_config_prompt_20260420/)*
