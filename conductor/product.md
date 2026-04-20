@@ -26,7 +26,7 @@ To become the ultimate personal career assistant that handles the repetitive "dr
 - **AI-Powered Relevance Filtering:** Uses Gemini to perform a "deep check" of job titles and descriptions to ensure a professional fit.
 - **Resilient Automation:** Text-based button matching and a 3-step application modal chain built for stability.
 - **Local Application History:** Remembers every job successfully applied to, ensuring you never double-apply or waste time on seen URLs.
-- **Zero-Config Onboarding:** Automated bootstrap for dependencies, browser setup, and configuration.
+- **Intelligent Onboarding:** Automated bootstrap with dynamic runtime configuration prompting and smart login retry mechanisms.
 
 ## Roadmap & Future Enhancements
 - **Custom AI CV Adaptation:** Full integration of the LaTeX CV tailoring system (currently used for JobTeaser research) into the APEC workflow.
