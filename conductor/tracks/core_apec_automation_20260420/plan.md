@@ -32,7 +32,7 @@
 - [x] Task: Enhance session crash recovery in APEC's main loop. 89a296a
     - [x] Improve handling of `InvalidSessionIdException` to ensure the driver is restarted if needed.
     - [x] Implement a retry mechanism for failed individual job applications.
-- [ ] Task: Refine logging and reporting.
-    - [ ] Add clear summary reports at the end of each APEC run (e.g., "Jobs Applied: X, AI Rejected: Y, Already Applied: Z").
-    - [ ] Improve timestamped logs with more diagnostic information for application failures.
+- [x] Task: Refine logging and reporting. 51b61c9
+    - [x] Add clear summary reports at the end of each APEC run (e.g., "Jobs Applied: X, AI Rejected: Y, Already Applied: Z").
+    - [x] Improve timestamped logs with more diagnostic information for application failures.
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Reliability and Error Recovery' (Protocol in workflow.md)
