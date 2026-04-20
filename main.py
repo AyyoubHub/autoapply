@@ -42,27 +42,21 @@ def _ensure_dependencies() -> None:
     if not os.path.exists(req_path):
         return
 
-    # Map install-name → importable module name
-    _IMPORT_MAP = {
-        "selenium": "selenium",
-        "undetected-chromedriver": "undetected_chromedriver",
-        "questionary": "questionary",
-        "setuptools": "setuptools",
-        "google-generativeai": "google.generativeai",
-        "python-dotenv": "dotenv",
-    }
-
     with open(req_path, encoding="utf-8") as f:
         lines = [l.strip() for l in f if l.strip() and not l.startswith("#")]
 
     import re as _re
+    import importlib.metadata as _metadata
+    
     missing = []
     for line in lines:
+        line = line.split("#")[0].strip()
+        if not line:
+            continue
         pkg_name = _re.split(r"[>=<!;\[]", line)[0].strip()
-        mod_name = _IMPORT_MAP.get(pkg_name, pkg_name.replace("-", "_"))
         try:
-            importlib.import_module(mod_name)
-        except ImportError:
+            _metadata.version(pkg_name)
+        except _metadata.PackageNotFoundError:
             missing.append(pkg_name)
 
     if missing:
