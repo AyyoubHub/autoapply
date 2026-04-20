@@ -17,6 +17,80 @@ from utils import load_config, create_driver, load_applied_jobs, save_applied_jo
 from ai_agent import is_high_quality_match
 
 
+def _login(driver, wait, email, password) -> None:
+    """Perform login on APEC with given credentials."""
+    LOGIN_URL = "https://www.apec.fr/"
+    driver.get(LOGIN_URL)
+
+    # APEC uses the Didomi consent management platform.
+    try:
+        cookies_button = wait.until(
+            EC.element_to_be_clickable((By.ID, "didomi-notice-agree-button"))
+        )
+        cookies_button.click()
+        time.sleep(1)
+    except TimeoutException:
+        pass  # Already accepted or not shown
+
+    # Open the login popup
+    login_popup_button = wait.until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//a[@onclick='showloginPopin()']")
+        )
+    )
+    login_popup_button.click()
+
+    email_input = wait.until(EC.presence_of_element_located((By.NAME, "emailid")))
+    email_input.clear()
+    email_input.send_keys(email)
+
+    password_input = wait.until(EC.presence_of_element_located((By.NAME, "password")))
+    password_input.clear()
+    password_input.send_keys(password)
+
+    login_button = wait.until(
+        EC.element_to_be_clickable(
+            (By.XPATH, "//button[contains(text(), 'Se connecter')]")
+        )
+    )
+    login_button.click()
+
+    # --- 1. Check for inline credential error messages ---
+    time.sleep(2)
+    error_els = driver.find_elements(
+        By.XPATH,
+        "//*[self::span or self::p or self::div or self::li]"
+        "["
+        "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'incorrect') or "
+        "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'invalide') or "
+        "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'failed') or "
+        "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'erreur')"
+        "]",
+    )
+    visible_errors = [
+        el for el in error_els if el.is_displayed() and el.text.strip()
+    ]
+    if visible_errors:
+        error_text = visible_errors[0].text.strip()
+        raise Exception(
+            f"APEC login form error: '{error_text}'. "
+            "Check email/password in configs/config.json."
+        )
+
+    # --- 2. Verify login via protected-page redirect ---
+    time.sleep(1)
+    driver.get("https://www.apec.fr/candidat/mon-espace.html")
+    time.sleep(2)
+
+    if "connexion" in driver.current_url.lower() or "login" in driver.current_url.lower():
+        raise Exception(
+            f"Login rejected by APEC (redirected to: {driver.current_url}). "
+            "Check email/password in configs/config.json."
+        )
+
+    logging.info("APEC Session started — login verified.")
+
+
 def run() -> None:
     # --- Configuration & user input ---
     config = load_config()
@@ -91,104 +165,17 @@ def run() -> None:
     ).ask()
 
 
-    # --- URLs ---
-    LOGIN_URL = "https://www.apec.fr/"
-
     # --- Driver ---
     driver = create_driver()
     wait = WebDriverWait(driver, 10)
 
     applied_count = 0
     processed_count = 0
-    processed_count = 0
     try:
         # --- Login ---
         try:
-            driver.get(LOGIN_URL)
-
-            # APEC uses the Didomi consent management platform.
-            # The accept button has a stable ID: "didomi-notice-agree-button".
-            cookies_button = wait.until(
-                EC.element_to_be_clickable((By.ID, "didomi-notice-agree-button"))
-            )
-            cookies_button.click()
-            time.sleep(1)  # Let the dialog close before interacting with the page
-
-            # Open the login popup
-            login_popup_button = wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//a[@onclick='showloginPopin()']")
-                )
-            )
-            login_popup_button.click()
-
-            email_input = wait.until(EC.presence_of_element_located((By.NAME, "emailid")))
-            email_input.clear()
-            email_input.send_keys(EMAIL)
-
-            password_input = wait.until(EC.presence_of_element_located((By.NAME, "password")))
-            password_input.clear()
-            password_input.send_keys(PASSWORD)
-
-            login_button = wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//button[contains(text(), 'Se connecter')]")
-                )
-            )
-            login_button.click()
-
-            # --- 1. Check for inline credential error messages ---
-            # Wait briefly for the form to validate and show any error text.
-            time.sleep(2)
-            error_els = driver.find_elements(
-                By.XPATH,
-                "//*[self::span or self::p or self::div or self::li]"
-                "["
-                "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'incorrect') or "
-                "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'invalide') or "
-                "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'failed') or "
-                "contains(translate(text(),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'erreur')"
-                "]",
-            )
-            visible_errors = [
-                el for el in error_els if el.is_displayed() and el.text.strip()
-            ]
-            if visible_errors:
-                error_text = visible_errors[0].text.strip()
-                raise Exception(
-                    f"APEC login form error: '{error_text}'. "
-                    "Check email/password in configs/config.json."
-                )
-
-            # --- 2. Log browser console errors ---
-            try:
-                for entry in driver.get_log("browser"):
-                    level = entry.get("level", "")
-                    msg = entry.get("message", "")
-                    if level == "SEVERE":
-                        logging.error("Browser console SEVERE: %s", msg)
-                    elif level == "WARNING":
-                        logging.warning("Browser console WARNING: %s", msg)
-            except Exception:
-                pass  # Console log collection unavailable in this driver setup
-
-            # --- 3. Verify login via protected-page redirect ---
-            # Navigate to a protected user page. APEC redirects unauthenticated
-            # users back to a URL containing "connexion". If we land on mon-espace,
-            # the login was accepted; if we're redirected, credentials were rejected.
-            time.sleep(1)
-            driver.get("https://www.apec.fr/candidat/mon-espace.html")
-            time.sleep(2)
-
-            if "connexion" in driver.current_url.lower() or "login" in driver.current_url.lower():
-                raise Exception(
-                    f"Login rejected by APEC (redirected to: {driver.current_url}). "
-                    "Check email/password in configs/config.json."
-                )
-
-            logging.info("APEC Session started — login verified.")
+            _login(driver, wait, EMAIL, PASSWORD)
             print("APEC login successful.")
-
         except Exception:
             logging.exception("APEC login failed.")
             print("APEC login failed.")
@@ -293,15 +280,40 @@ def run() -> None:
             # Phase 2 — Application: apply to jobs in best-match order
             for href in sorted_hrefs:
                 if not session_alive:
-                    break
+                    # Attempt to recover session
+                    logging.info("APEC: Attempting to restart browser session...")
+                    try:
+                        driver.quit()
+                    except Exception:
+                        pass
+                    try:
+                        driver = create_driver()
+                        wait = WebDriverWait(driver, 10)
+                        _login(driver, wait, EMAIL, PASSWORD)
+                        session_alive = True
+                        logging.info("APEC: Session recovered.")
+                    except Exception:
+                        logging.error("APEC: Failed to recover session. Aborting application phase.")
+                        break
 
                 score = href_scores[href]
-                try:
-                    applied = _process_job(driver, wait, href, processed_count, score, keywords)
-                except (InvalidSessionIdException, WebDriverException):
-                    logging.error("APEC: browser session died during application phase.")
-                    session_alive = False
-                    break
+                applied = False
+                
+                # Retry logic for individual job application
+                for attempt in range(2):
+                    try:
+                        applied = _process_job(driver, wait, href, processed_count, score, keywords)
+                        break  # Success
+                    except (InvalidSessionIdException, WebDriverException):
+                        logging.error("APEC: browser session died during application phase (attempt %d).", attempt + 1)
+                        session_alive = False
+                        break  # Break retry loop to trigger session recovery in next outer loop iteration
+                    except Exception as e:
+                        logging.warning("APEC: Failed to process job %s (attempt %d): %s", href, attempt + 1, e)
+                        if attempt == 0:
+                            time.sleep(2)
+                            continue  # One retry for generic errors
+                        break
 
                 processed_count += 1
                 if applied:
