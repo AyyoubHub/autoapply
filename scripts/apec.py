@@ -229,6 +229,7 @@ def run() -> None:
     wait = WebDriverWait(driver, 10)
 
     applied_count = 0
+    external_count = 0
     processed_count = 0
     ai_rejected_count = 0
     already_applied_count = 0
@@ -395,6 +396,8 @@ def run() -> None:
                 processed_count += 1
                 if status == "applied":
                     applied_count += 1
+                elif status == "external":
+                    external_count += 1
                 elif status == "ai_rejected":
                     ai_rejected_count += 1
                 elif status == "already_applied":
@@ -405,6 +408,7 @@ def run() -> None:
                 print(
                     f"\rJobs: {processed_count}/{total_unique} | "
                     f"Applied: {applied_count} | "
+                    f"External: {external_count} | "
                     f"AI Rejected: {ai_rejected_count} | "
                     f"Already Applied: {already_applied_count}   ",
                     end="",
@@ -419,14 +423,15 @@ def run() -> None:
             f"{'─' * 50}\n"
             f"Total Unique Jobs : {total_unique}\n"
             f"Successfully Applied : {applied_count}\n"
+            f"External Collected   : {external_count}\n"
             f"AI Relevance Reject : {ai_rejected_count}\n"
             f"Already Applied      : {already_applied_count}\n"
             f"Failed / System Skip : {failed_count}\n"
             f"{'─' * 50}\n"
         )
         logging.info(
-            "APEC Run Summary: Total=%d, Applied=%d, AI_Reject=%d, Already=%d, Failed=%d",
-            total_unique, applied_count, ai_rejected_count, already_applied_count, failed_count
+            "APEC Run Summary: Total=%d, Applied=%d, External=%d, AI_Reject=%d, Already=%d, Failed=%d",
+            total_unique, applied_count, external_count, ai_rejected_count, already_applied_count, failed_count
         )
 
     except Exception:
