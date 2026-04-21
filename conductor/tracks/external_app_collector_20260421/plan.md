@@ -1,12 +1,12 @@
 # Implementation Plan: External Application Link Collector
 
-## Phase 1: Infrastructure & Data Models
+## Phase 1: Infrastructure & Data Models [checkpoint: fc52d59]
 - [x] Task: Define the data model for external applications and initialize the storage file. e6d32da
     - [x] Create a new module or update `scripts/utils.py` to handle `scratch/external_applications.json`.
     - [x] Implement a function to initialize the JSON file if it doesn't exist.
     - [x] Write unit tests for file initialization and data validation.
     - [x] Integrate initialization into `main.py` bootstrap.
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Infrastructure & Data Models' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Infrastructure & Data Models' (Protocol in workflow.md)
 
 ## Phase 2: Detection and Extraction Logic
 - [ ] Task: Implement detection of "postuler sur le site de l'entreprise".
