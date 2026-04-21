@@ -7,7 +7,7 @@ from urllib.parse import quote_plus, urlencode
 
 
 EXTERNAL_APPS_PATH = os.path.join(
-    os.path.dirname(__file__), "../scratch/external_applications.json"
+    os.path.dirname(__file__), "../scratch/external_applications_applied.json"
 )
 
 

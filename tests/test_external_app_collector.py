@@ -7,7 +7,7 @@ from scripts.utils import init_external_apps_file, load_external_apps
 @pytest.fixture
 def temp_external_apps_file(tmp_path):
     """Fixture to provide a temporary path for the external applications file."""
-    f = tmp_path / "external_applications.json"
+    f = tmp_path / "external_applications_applied.json"
     return str(f)
 
 @pytest.fixture

@@ -28,3 +28,22 @@ logs/
 
 # Dev scratchpad
 test_run.py
+
+# Coverage and Testing
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+pytest.xml
+
+# OS and Editors
+.DS_Store
+.vscode/
+.idea/
+
+# Applied jobs history (any file that contains the string applied in it)
+**/*applied.json
+
+# Ignore root .txt files but keep requirements.txt
+/*.txt
+!/requirements.txt
