@@ -38,9 +38,20 @@ def _extract_external_link_info(driver, apec_href: str) -> dict:
 
     # Company name
     try:
-        # APEC detail pages often have company in a specific list or header
-        company_el = driver.find_element(By.XPATH, "//div[contains(@class, 'card-offer-summary')]//li[1]")
-        company = company_el.text.strip()
+        # Try several common APEC selectors for company name
+        company_selectors = [
+            "//div[contains(@class, 'card-offer-summary')]//li[1]",
+            "//div[contains(@class, 'company-name')]",
+            "//h2[contains(@class, 'company')]",
+            "//div[@class='details-offre-header']//p[1]"
+        ]
+        company = "Unknown Company"
+        for xpath in company_selectors:
+            try:
+                company = driver.find_element(By.XPATH, xpath).text.strip()
+                if company: break
+            except Exception:
+                continue
     except Exception:
         company = "Unknown Company"
 
@@ -233,6 +244,7 @@ def run() -> None:
     processed_count = 0
     ai_rejected_count = 0
     already_applied_count = 0
+    irrelevant_count = 0
     failed_count = 0
     try:
         # --- Login ---
@@ -402,6 +414,8 @@ def run() -> None:
                     ai_rejected_count += 1
                 elif status == "already_applied":
                     already_applied_count += 1
+                elif status == "irrelevant":
+                    irrelevant_count += 1
                 elif status == "failed":
                     failed_count += 1
 
@@ -426,12 +440,13 @@ def run() -> None:
             f"External Collected   : {external_count}\n"
             f"AI Relevance Reject : {ai_rejected_count}\n"
             f"Already Applied      : {already_applied_count}\n"
+            f"Irrelevant (Keywords): {irrelevant_count}\n"
             f"Failed / System Skip : {failed_count}\n"
             f"{'─' * 50}\n"
         )
         logging.info(
-            "APEC Run Summary: Total=%d, Applied=%d, External=%d, AI_Reject=%d, Already=%d, Failed=%d",
-            total_unique, applied_count, external_count, ai_rejected_count, already_applied_count, failed_count
+            "APEC Run Summary: Total=%d, Applied=%d, External=%d, AI_Reject=%d, Already=%d, Irrelevant=%d, Failed=%d",
+            total_unique, applied_count, external_count, ai_rejected_count, already_applied_count, irrelevant_count, failed_count
         )
 
     except Exception:
