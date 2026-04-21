@@ -161,6 +161,9 @@ _ensure_dependencies()
 _ensure_config()
 _ensure_browser()
 
+from utils import init_external_apps_file
+init_external_apps_file()
+
 # ---------------------------------------------------------------------------
 # Normal startup — only reached after bootstrap succeeds
 # ---------------------------------------------------------------------------

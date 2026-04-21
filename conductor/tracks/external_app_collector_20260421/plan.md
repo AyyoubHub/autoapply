@@ -1,10 +1,11 @@
 # Implementation Plan: External Application Link Collector
 
 ## Phase 1: Infrastructure & Data Models
-- [x] Task: Define the data model for external applications and initialize the storage file. ea46e10
-    - [ ] Create a new module or update `scripts/utils.py` to handle `scratch/external_applications.json`.
-    - [ ] Implement a function to initialize the JSON file if it doesn't exist.
-    - [ ] Write unit tests for file initialization and data validation.
+- [~] Task: Define the data model for external applications and initialize the storage file. ea46e10
+    - [x] Create a new module or update `scripts/utils.py` to handle `scratch/external_applications.json`.
+    - [x] Implement a function to initialize the JSON file if it doesn't exist.
+    - [x] Write unit tests for file initialization and data validation.
+    - [ ] Integrate initialization into `main.py` bootstrap.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Infrastructure & Data Models' (Protocol in workflow.md)
 
 ## Phase 2: Detection and Extraction Logic
