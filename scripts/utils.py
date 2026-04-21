@@ -39,6 +39,19 @@ def load_external_apps() -> dict:
         return {}
 
 
+def save_external_app(job_id: str, job_info: dict) -> None:
+    """Save an external application entry to the JSON file if it doesn't exist."""
+    apps = load_external_apps()
+    if job_id not in apps:
+        apps[job_id] = job_info
+        try:
+            with open(EXTERNAL_APPS_PATH, "w", encoding="utf-8") as f:
+                json.dump(apps, f, indent=2, ensure_ascii=False)
+            logging.info("Saved external application: %s", job_id)
+        except Exception as e:
+            logging.error("Failed to save external application %s: %s", job_id, e)
+
+
 def setup_logging() -> None:
     """Configure the root logger to write to a timestamped file in logs/.
 

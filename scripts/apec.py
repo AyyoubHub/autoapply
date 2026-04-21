@@ -13,8 +13,53 @@ import urllib.parse
 import logging
 import questionary
 
-from utils import load_config, create_driver, load_applied_jobs, save_applied_job, save_config, check_and_prompt_apec_config
-from ai_agent import is_high_quality_match
+from scripts.utils import (
+    load_config,
+    create_driver,
+    load_applied_jobs,
+    save_applied_job,
+    save_config,
+    check_and_prompt_apec_config,
+    save_external_app,
+)
+from scripts.ai_agent import is_high_quality_match
+
+
+def _extract_external_link_info(driver, apec_href: str) -> dict:
+    """Extract job metadata and the external link from the current detail page."""
+    import datetime
+    
+    # Title is usually in H1
+    try:
+        el = driver.find_element(By.TAG_NAME, "h1")
+        title = el.text.strip()
+    except Exception:
+        title = "Unknown Title"
+
+    # Company name
+    try:
+        # APEC detail pages often have company in a specific list or header
+        company_el = driver.find_element(By.XPATH, "//div[contains(@class, 'card-offer-summary')]//li[1]")
+        company = company_el.text.strip()
+    except Exception:
+        company = "Unknown Company"
+
+    # External URL
+    try:
+        ext_button = driver.find_element(
+            By.XPATH, "//a[contains(normalize-space(.), 'Postuler sur le site')]"
+        )
+        url = ext_button.get_attribute("href")
+    except Exception:
+        url = "Unknown URL"
+
+    return {
+        "title": title,
+        "company": company,
+        "url": url,
+        "apec_url": apec_href,
+        "discovery_date": datetime.datetime.now().isoformat(),
+    }
 
 
 def _login(driver, wait, email, password) -> None:
@@ -548,6 +593,17 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
 
         btn_text = apply_button.text.strip()
         if btn_text != "Postuler":
+            if "site de l'entreprise" in btn_text.lower():
+                logging.info(
+                    "APEC: Job index %d - External application site detected. Collecting info...",
+                    job_idx,
+                )
+                info = _extract_external_link_info(driver, href)
+                # Use a unique ID based on APEC detail ID (last part of URL)
+                job_id = href.split("/")[-1]
+                save_external_app(job_id, info)
+                return "external"
+            
             logging.info(
                 "APEC: Skipped job index %d - External application site (button text: '%s').",
                 job_idx, btn_text,
