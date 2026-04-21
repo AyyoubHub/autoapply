@@ -6,6 +6,39 @@ import undetected_chromedriver as uc
 from urllib.parse import quote_plus, urlencode
 
 
+EXTERNAL_APPS_PATH = os.path.join(
+    os.path.dirname(__file__), "../scratch/external_applications.json"
+)
+
+
+def init_external_apps_file() -> None:
+    """Initialize the external applications JSON file with an empty dict if it doesn't exist or is invalid."""
+    if os.path.exists(EXTERNAL_APPS_PATH):
+        try:
+            with open(EXTERNAL_APPS_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, dict):
+                    return  # Valid file exists
+        except (json.JSONDecodeError, Exception):
+            pass
+            
+    # If file doesn't exist or is invalid, create/reset it
+    os.makedirs(os.path.dirname(EXTERNAL_APPS_PATH), exist_ok=True)
+    with open(EXTERNAL_APPS_PATH, "w", encoding="utf-8") as f:
+        json.dump({}, f, indent=2)
+
+
+def load_external_apps() -> dict:
+    """Load and return the external applications dictionary."""
+    init_external_apps_file()
+    try:
+        with open(EXTERNAL_APPS_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        logging.error("Failed to load external apps: %s", e)
+        return {}
+
+
 def setup_logging() -> None:
     """Configure the root logger to write to a timestamped file in logs/.
 
