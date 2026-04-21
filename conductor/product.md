@@ -25,6 +25,7 @@ To become the ultimate personal career assistant that handles the repetitive "dr
 - **Multi-Keyword Search & Ranking:** Discovers and prioritizes job offers on APEC based on their relevance to a set of user-defined keywords.
 - **AI-Powered Relevance Filtering:** Uses Gemini to perform a "deep check" of job titles and descriptions to ensure a professional fit.
 - **Resilient Automation:** Text-based button matching and a 3-step application modal chain built for stability.
+- **External Link Collection:** Automatically identifies and saves job offers requiring application on company websites, enabling manual follow-up for non-"Easy Apply" roles.
 - **Local Application History:** Remembers every job successfully applied to, ensuring you never double-apply or waste time on seen URLs.
 - **Intelligent Onboarding:** Automated bootstrap with dynamic runtime configuration prompting and smart login retry mechanisms.
 

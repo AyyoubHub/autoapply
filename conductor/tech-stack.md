@@ -23,4 +23,4 @@
 ## Environment & Configuration
 - **.env:** Stores sensitive API keys (e.g., `GEMINI_API`).
 - **configs/config.json:** Stores user credentials and platform-specific settings.
-- **JSON (Local Scratch):** Used for local history and persistence (e.g., `apec_applied.json`).
+- **JSON (Local Scratch):** Used for local history and persistence (e.g., `apec_applied.json`, `external_applications.json`).
