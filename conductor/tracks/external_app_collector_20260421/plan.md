@@ -8,7 +8,7 @@
     - [x] Integrate initialization into `main.py` bootstrap.
 - [x] Task: Conductor - User Manual Verification 'Phase 1: Infrastructure & Data Models' (Protocol in workflow.md)
 
-## Phase 2: Detection and Extraction Logic
+## Phase 2: Detection and Extraction Logic [checkpoint: 9e23b06]
 - [x] Task: Implement detection of "postuler sur le site de l'entreprise". d9e3674
     - [x] Update `scripts/apec.py` to identify the external application button/link.
     - [x] Extract the target URL and offer metadata (Title, Company).
@@ -17,7 +17,7 @@
     - [x] Implement a function to add a new offer to `scratch/external_applications.json`.
     - [x] Ensure it checks for existing IDs before saving.
     - [x] Write unit tests for saving logic and duplicate handling.
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Detection and Extraction Logic' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Detection and Extraction Logic' (Protocol in workflow.md)
 
 ## Phase 3: Integration and End-to-End Verification
 - [ ] Task: Integrate the collection logic into the main APEC loop.
