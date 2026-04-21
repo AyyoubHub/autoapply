@@ -13,66 +13,8 @@ import urllib.parse
 import logging
 import questionary
 
-from scripts.utils import (
-    load_config,
-    create_driver,
-    load_applied_jobs,
-    save_applied_job,
-    save_config,
-    check_and_prompt_apec_config,
-    save_external_app,
-)
-from scripts.ai_agent import is_high_quality_match
-
-
-def _extract_external_link_info(driver, apec_href: str) -> dict:
-    """Extract job metadata and the external link from the current detail page."""
-    import datetime
-    
-    # Title is usually in H1
-    try:
-        el = driver.find_element(By.TAG_NAME, "h1")
-        title = el.text.strip()
-    except Exception:
-        title = "Unknown Title"
-
-    # Company name
-    try:
-        # Try several common APEC selectors for company name
-        company_selectors = [
-            "//div[contains(@class, 'card-offer-summary')]//li[1]",
-            "//div[contains(@class, 'company-name')]",
-            "//h2[contains(@class, 'company')]",
-            "//div[@class='details-offre-header']//p[1]",
-            "//div[contains(@class, 'card-offer-summary')]//a",
-        ]
-        company = "Unknown Company"
-        for xpath in company_selectors:
-            try:
-                el = driver.find_element(By.XPATH, xpath)
-                company = el.text.strip()
-                if company: break
-            except Exception:
-                continue
-    except Exception:
-        company = "Unknown Company"
-
-    # External URL
-    try:
-        ext_button = driver.find_element(
-            By.XPATH, "//a[contains(normalize-space(.), 'Postuler sur le site')]"
-        )
-        url = ext_button.get_attribute("href")
-    except Exception:
-        url = "Unknown URL"
-
-    return {
-        "title": title,
-        "company": company,
-        "url": url,
-        "apec_url": apec_href,
-        "discovery_date": datetime.datetime.now().isoformat(),
-    }
+from utils import load_config, create_driver, load_applied_jobs, save_applied_job, save_config, check_and_prompt_apec_config
+from ai_agent import is_high_quality_match
 
 
 def _login(driver, wait, email, password) -> None:
@@ -242,10 +184,10 @@ def run() -> None:
     wait = WebDriverWait(driver, 10)
 
     applied_count = 0
-    external_count = 0
     processed_count = 0
     ai_rejected_count = 0
     already_applied_count = 0
+    external_count = 0
     irrelevant_count = 0
     failed_count = 0
     try:
@@ -410,12 +352,12 @@ def run() -> None:
                 processed_count += 1
                 if status == "applied":
                     applied_count += 1
-                elif status == "external":
-                    external_count += 1
                 elif status == "ai_rejected":
                     ai_rejected_count += 1
                 elif status == "already_applied":
                     already_applied_count += 1
+                elif status == "external":
+                    external_count += 1
                 elif status == "irrelevant":
                     irrelevant_count += 1
                 elif status == "failed":
@@ -426,7 +368,9 @@ def run() -> None:
                     f"Applied: {applied_count} | "
                     f"External: {external_count} | "
                     f"AI Rejected: {ai_rejected_count} | "
-                    f"Already Applied: {already_applied_count}   ",
+                    f"Already Applied: {already_applied_count} | "
+                    f"Irrelevant: {irrelevant_count} | "
+                    f"Failed: {failed_count}   ",
                     end="",
                     flush=True,
                 )
@@ -437,13 +381,15 @@ def run() -> None:
             f"\n\n{'─' * 50}\n"
             f"APEC RUN COMPLETE\n"
             f"{'─' * 50}\n"
-            f"Total Unique Jobs : {total_unique}\n"
+            f"Total Unique Jobs    : {total_unique}\n"
             f"Successfully Applied : {applied_count}\n"
-            f"External Collected   : {external_count}\n"
-            f"AI Relevance Reject : {ai_rejected_count}\n"
+            f"External (skipped)   : {external_count}\n"
+            f"AI Relevance Reject  : {ai_rejected_count}\n"
             f"Already Applied      : {already_applied_count}\n"
-            f"Irrelevant (Keywords): {irrelevant_count}\n"
+            f"Irrelevant (skipped) : {irrelevant_count}\n"
             f"Failed / System Skip : {failed_count}\n"
+            f"{'─' * 50}\n"
+            f"Accounted for        : {applied_count + external_count + ai_rejected_count + already_applied_count + irrelevant_count + failed_count}/{total_unique}\n"
             f"{'─' * 50}\n"
         )
         logging.info(
@@ -599,36 +545,40 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
         )
 
         # --- Find the first-level "Postuler" anchor ---
-        # APEC sometimes changes classes; use text-based matching for better resilience.
+        # Some jobs show BOTH a native "Postuler" button (?to=int) AND an
+        # "Postuler sur le site de l'entreprise" link (?to=ext).  We must
+        # pick the native one.  Use exact-text equality (= not contains) so
+        # the external link — whose text includes extra words — never matches.
+        # Prefer the ?to=int href explicitly as a tiebreaker.
+        _native_xpath = (
+            "//a["
+            "normalize-space(.) = 'Postuler' and "
+            "contains(@class, 'btn') and "
+            "contains(@href, '?to=int')"
+            "]"
+        )
+        _fallback_xpath = (
+            "//a["
+            "normalize-space(.) = 'Postuler' and "
+            "contains(@class, 'btn')"
+            "]"
+        )
+        apply_button = None
         try:
             apply_button = wait.until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, "//a[contains(normalize-space(.), 'Postuler') and contains(@class, 'btn')]")
-                )
+                EC.element_to_be_clickable((By.XPATH, _native_xpath))
             )
         except TimeoutException:
+            # No ?to=int anchor — try any btn-class anchor with exact text
+            try:
+                apply_button = driver.find_element(By.XPATH, _fallback_xpath)
+            except Exception:
+                pass
+
+        if apply_button is None:
             logging.info(
                 "APEC: Skipped job index %d - No native apply button found (might be external or closed).",
                 job_idx,
-            )
-            return "external"
-
-        btn_text = apply_button.text.strip()
-        if btn_text != "Postuler":
-            if "site de l'entreprise" in btn_text.lower():
-                logging.info(
-                    "APEC: Job index %d - External application site detected. Collecting info...",
-                    job_idx,
-                )
-                info = _extract_external_link_info(driver, href)
-                # Use a unique ID based on APEC detail ID (last part of URL)
-                job_id = href.split("/")[-1]
-                save_external_app(job_id, info)
-                return "external"
-            
-            logging.info(
-                "APEC: Skipped job index %d - External application site (button text: '%s').",
-                job_idx, btn_text,
             )
             return "external"
 

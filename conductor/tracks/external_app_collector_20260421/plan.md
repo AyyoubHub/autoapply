@@ -19,7 +19,7 @@
     - [x] Write unit tests for saving logic and duplicate handling.
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Detection and Extraction Logic' (Protocol in workflow.md)
 
-## Phase 3: Integration and End-to-End Verification
+## Phase 3: Integration and End-to-End Verification [checkpoint: bc5074b]
 - [x] Task: Integrate the collection logic into the main APEC loop. e19a3a4
     - [x] Update the APEC application flow to call the collection function when an external link is found.
     - [x] Verify that the flow continues to the next job after collecting the link.
