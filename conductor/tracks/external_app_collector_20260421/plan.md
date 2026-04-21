@@ -20,10 +20,10 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2: Detection and Extraction Logic' (Protocol in workflow.md)
 
 ## Phase 3: Integration and End-to-End Verification
-- [ ] Task: Integrate the collection logic into the main APEC loop.
-    - [ ] Update the APEC application flow to call the collection function when an external link is found.
-    - [ ] Verify that the flow continues to the next job after collecting the link.
-- [ ] Task: Manual end-to-end verification.
-    - [ ] Run the bot on a keyword known to have external application links.
-    - [ ] Verify `scratch/external_applications.json` is updated correctly.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Integration and End-to-End Verification' (Protocol in workflow.md)
+- [x] Task: Integrate the collection logic into the main APEC loop. e19a3a4
+    - [x] Update the APEC application flow to call the collection function when an external link is found.
+    - [x] Verify that the flow continues to the next job after collecting the link.
+- [x] Task: Manual end-to-end verification. e19a3a4
+    - [x] Run the bot on a keyword known to have external application links.
+    - [x] Verify `scratch/external_applications.json` is updated correctly.
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Integration and End-to-End Verification' (Protocol in workflow.md)
