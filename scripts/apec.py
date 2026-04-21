@@ -43,12 +43,14 @@ def _extract_external_link_info(driver, apec_href: str) -> dict:
             "//div[contains(@class, 'card-offer-summary')]//li[1]",
             "//div[contains(@class, 'company-name')]",
             "//h2[contains(@class, 'company')]",
-            "//div[@class='details-offre-header']//p[1]"
+            "//div[@class='details-offre-header']//p[1]",
+            "//div[contains(@class, 'card-offer-summary')]//a",
         ]
         company = "Unknown Company"
         for xpath in company_selectors:
             try:
-                company = driver.find_element(By.XPATH, xpath).text.strip()
+                el = driver.find_element(By.XPATH, xpath)
+                company = el.text.strip()
                 if company: break
             except Exception:
                 continue
