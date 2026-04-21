@@ -5,3 +5,5 @@ setuptools  # provides distutils backport — required by undetected-chromedrive
 lxml
 pytest
 pytest-cov
+google-genai
+python-dotenv
