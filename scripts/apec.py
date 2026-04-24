@@ -530,10 +530,11 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
         try:
             job_title = driver.find_element(By.TAG_NAME, "h1").text.strip()
             job_desc = driver.find_element(By.TAG_NAME, "body").text.strip()
-            if not is_high_quality_match(job_title, job_desc, keywords):
+            is_match, reason = is_high_quality_match(job_title, job_desc, keywords)
+            if not is_match:
                 logging.info(
-                    "APEC: Skipped job index %d - AI rejected relevance (Title: '%s').",
-                    job_idx, job_title,
+                    "APEC: Skipped job index %d - AI rejected relevance (Title: '%s'). Reason: %s",
+                    job_idx, job_title, reason
                 )
                 return "ai_rejected"
         except Exception as e:

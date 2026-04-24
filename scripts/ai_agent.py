@@ -8,14 +8,15 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-def is_high_quality_match(job_title: str, job_description: str, keywords: list) -> bool:
+def is_high_quality_match(job_title: str, job_description: str, keywords: list) -> tuple[bool, str]:
     """
     Uses Gemini to determine if a job is a high-quality match based on keywords.
     Provides a semantic layer over simple keyword matching.
+    Returns (is_relevant, reason).
     """
     client = get_gemini_client()
     if not client:
-        return True  # Fail open: if AI is unavailable, trust the keyword match
+        return True, "AI service unavailable"  # Fail open
 
     model_id = "gemini-3.1-flash-lite"
     prompt = f"""
@@ -41,12 +42,14 @@ def is_high_quality_match(job_title: str, job_description: str, keywords: list) 
         )
         data = json.loads(response.text.strip())
         is_relevant = data.get("relevant", True)
+        reason = data.get("reason", "No reason provided")
+        
         if not is_relevant:
-            logging.info("AI rejected job: %s. Reason: %s", job_title, data.get("reason"))
-        return is_relevant
+            logging.info("AI rejected job: %s. Reason: %s", job_title, reason)
+        return is_relevant, reason
     except Exception as e:
         logging.error("AI relevance check failed: %s", e)
-        return True
+        return True, f"Error: {str(e)}"
 
 def compile_tex_to_pdf(tex_path: str):
     """
