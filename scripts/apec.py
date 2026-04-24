@@ -520,10 +520,9 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
         # --- Keyword filter: at least one keyword must appear in job text ---
         matched, matched_kw = _matches_keywords(driver, keywords or [])
         if not matched:
-            logging.info(
-                "APEC: Skipped job index %d - No keyword match (keywords: %s).",
-                job_idx, keywords,
-            )
+            msg = f"No keyword match (None of {keywords} found)"
+            logging.info("APEC: Skipped job index %d - %s", job_idx, msg)
+            print(f"\n  [Skip] {msg}")
             return "irrelevant"
 
         # --- AI semantic check: is this a high-quality match? ---
@@ -536,6 +535,7 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                     "APEC: Skipped job index %d - AI rejected relevance (Title: '%s'). Reason: %s",
                     job_idx, job_title, reason
                 )
+                print(f"\n  [AI Skip] {reason}")
                 return "ai_rejected"
         except Exception as e:
             logging.warning("AI check failed for job %d, proceeding with basic keyword match: %s", job_idx, e)
