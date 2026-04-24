@@ -69,6 +69,12 @@ PLATFORM_CONFIG = {
         "archive_type": "zip",
         "exe_relative": "chrome.exe",
     },
+    ("linux", "x86_64"): {
+        "repo": "ungoogled-software/ungoogled-chromium-portablelinux",
+        "asset_patterns": [r"linux.*x86_64.*\.tar\.xz$", r"x86_64.*linux.*\.tar\.xz$"],
+        "archive_type": "tar.xz",
+        "exe_relative": "chrome",
+    },
 }
 
 # ---------------------------------------------------------------------------
@@ -144,6 +150,13 @@ def _extract_zip(zip_path: Path, dest_dir: Path) -> None:
         zf.extractall(dest_dir)
 
 
+def _extract_tar_xz(tar_path: Path, dest_dir: Path) -> None:
+    import tarfile
+    print(f"  Extracting {tar_path.name} …")
+    with tarfile.open(tar_path, "r:xz") as tf:
+        tf.extractall(dest_dir)
+
+
 def _linux_instructions() -> None:
     print("""
 ┌─────────────────────────────────────────────────────────────────┐
@@ -181,92 +194,96 @@ Then set "browser_executable_path" in configs/config.json to that path.
 def install_and_get_path() -> Optional[Path]:
     """Download and install Ungoogled Chromium for the current platform.
 
-    Returns the Path to the Chromium executable on success.
-    Returns None on unsupported platform or failure.
-
-    Safe to call multiple times — exits early if the binary is already
-    present in browser/chromium/ so no re-download occurs.
+    Always checks GitHub for the latest release. If the local version
+    is missing or outdated, it downloads and replaces it.
     """
     project_root = Path(__file__).resolve().parent.parent
     browser_dir = project_root / "browser" / "chromium"
+    version_file = browser_dir / "version.tag"
 
     key = (_SYSTEM, _ARCH)
 
-    if _SYSTEM == "linux":
-        _linux_instructions()
-        return None
-
     if key not in PLATFORM_CONFIG:
-        print(f"[Browser] Unsupported platform: {_SYSTEM}/{_ARCH}")
-        print("  Supported: macOS arm64, macOS x86_64, Windows x64")
+        if _SYSTEM == "linux":
+            _linux_instructions()
+        else:
+            print(f"[Browser] Unsupported platform: {_SYSTEM}/{_ARCH}")
         return None
 
     cfg = PLATFORM_CONFIG[key]
 
-    # --- Idempotency: return early if already installed ---
-    exe = browser_dir / cfg["exe_relative"]
-    if not exe.exists():
-        candidates = list(browser_dir.rglob(Path(cfg["exe_relative"]).name))
-        if candidates:
-            exe = candidates[0]
-    if exe.exists():
-        print(f"[Browser] Already installed at:\n  {exe}")
-        return exe
-
     # --- Fetch latest release metadata from GitHub ---
     api_url = GITHUB_API.format(repo=cfg["repo"])
-    print(f"  Fetching latest release from github.com/{cfg['repo']} …")
+    print(f"  Fetching latest release info from github.com/{cfg['repo']} …")
     try:
         release = _fetch_json(api_url)
     except Exception as exc:
         print(f"[Browser] Could not reach GitHub API: {exc}")
-        return None
+        # If offline, try to fallback to existing installation
+        exe = browser_dir / cfg["exe_relative"]
+        if not exe.exists():
+            candidates = list(browser_dir.rglob(Path(cfg["exe_relative"]).name))
+            if candidates: exe = candidates[0]
+        return exe if exe and exe.exists() else None
 
-    tag = release.get("tag_name", "unknown")
+    latest_tag = release.get("tag_name", "unknown")
+    
+    # --- Check if update is needed ---
+    current_tag = ""
+    if version_file.exists():
+        current_tag = version_file.read_text().strip()
+
+    exe = browser_dir / cfg["exe_relative"]
+    if not exe.exists():
+        candidates = list(browser_dir.rglob(Path(cfg["exe_relative"]).name))
+        if candidates: exe = candidates[0]
+
+    if exe.exists() and current_tag == latest_tag:
+        print(f"[Browser] Latest version already installed ({latest_tag}).")
+        return exe
+
+    if exe.exists():
+        print(f"[Browser] Update available: {current_tag} -> {latest_tag}")
+    else:
+        print(f"[Browser] Installing version: {latest_tag}")
+
     assets = release.get("assets", [])
-    print(f"  Latest  : {tag}  ({len(assets)} assets)")
-
     asset = _pick_asset(assets, cfg["asset_patterns"])
     if asset is None:
-        print("[Browser] Could not match a download asset. Available:")
-        for a in assets:
-            print(f"    {a['name']}")
+        print("[Browser] Could not match a download asset.")
         return None
 
     print(f"  Asset   : {asset['name']} ({asset['size'] // 1_048_576} MB)")
-    print()
 
-    # --- Create destination directory ---
+    # --- Fresh install: clean up old files ---
+    if browser_dir.exists():
+        # Keep the directory but clear contents to avoid "busy" errors if we're inside it
+        for item in browser_dir.iterdir():
+            if item.is_dir(): shutil.rmtree(item)
+            else: item.unlink()
+    
     browser_dir.mkdir(parents=True, exist_ok=True)
 
-    # --- Download to a temp directory, then extract ---
+    # --- Download and extract ---
     with tempfile.TemporaryDirectory(prefix="chromium_dl_") as tmp:
         archive_path = Path(tmp) / asset["name"]
         try:
             _download(asset["browser_download_url"], archive_path)
+            if cfg["archive_type"] == "dmg": _extract_dmg(archive_path, browser_dir)
+            elif cfg["archive_type"] == "zip": _extract_zip(archive_path, browser_dir)
+            elif cfg["archive_type"] == "tar.xz": _extract_tar_xz(archive_path, browser_dir)
         except Exception as exc:
-            print(f"[Browser] Download failed: {exc}")
+            print(f"[Browser] Install failed: {exc}")
             return None
 
-        print()
-        try:
-            if cfg["archive_type"] == "dmg":
-                _extract_dmg(archive_path, browser_dir)
-            elif cfg["archive_type"] == "zip":
-                _extract_zip(archive_path, browser_dir)
-            else:
-                print(f"[Browser] Unknown archive type: {cfg['archive_type']}")
-                return None
-        except Exception as exc:
-            print(f"[Browser] Extraction failed: {exc}")
-            return None
+    # --- Save version tag ---
+    version_file.write_text(latest_tag)
 
-    # --- Resolve and fix executable permissions ---
+    # --- Resolve executable ---
     exe = browser_dir / cfg["exe_relative"]
     if not exe.exists():
         candidates = list(browser_dir.rglob(Path(cfg["exe_relative"]).name))
-        if candidates:
-            exe = candidates[0]
+        if candidates: exe = candidates[0]
 
     if exe.exists() and _SYSTEM in ("darwin", "linux"):
         exe.chmod(exe.stat().st_mode | 0o111)

@@ -112,29 +112,17 @@ def _ensure_config() -> None:
 # ---------------------------------------------------------------------------
 
 def _ensure_browser() -> None:
-    """Auto-install Ungoogled Chromium and update config if not configured.
+    """Auto-install/update Ungoogled Chromium and update config.
 
-    Skips silently if browser_executable_path already points to an existing file.
-    After a successful install the path is written back to config.json so no
-    manual copy-paste is needed.
+    Always checks for the latest version from GitHub. After a successful 
+    install or update, the path is written back to config.json.
     """
     config_path = os.path.join(_ROOT, "configs", "config.json")
 
     with open(config_path, "r", encoding="utf-8") as f:
         config = json.load(f)
 
-    browser_path = config.get("browser_executable_path", "")
-
-    # Already configured and binary exists — nothing to do
-    if browser_path not in _PLACEHOLDER_BROWSER_PATHS and os.path.exists(browser_path):
-        return
-
-    if browser_path and browser_path not in _PLACEHOLDER_BROWSER_PATHS:
-        print(f"\n[Setup] Browser not found at: {browser_path}")
-    else:
-        print("\n[Setup] No browser configured — running auto-install …")
-
-    print("[Setup] Downloading Ungoogled Chromium for your platform …\n")
+    print("\n[Setup] Checking for browser updates …")
 
     from install_browser import install_and_get_path
     exe = install_and_get_path()
@@ -143,14 +131,18 @@ def _ensure_browser() -> None:
         config["browser_executable_path"] = str(exe)
         with open(config_path, "w", encoding="utf-8") as f:
             json.dump(config, f, indent=2, ensure_ascii=False)
-        print(f"\n[Setup] ✓ Browser path saved to config.json")
-        print(f"  {exe}\n")
+        print(f"[Setup] ✓ Browser ready: {exe}\n")
     else:
-        print(
-            "\n[Setup] ⚠ Could not auto-install browser.\n"
-            "  Install Ungoogled Chromium manually, then set\n"
-            '  "browser_executable_path" in configs/config.json.\n'
-        )
+        # Fallback to whatever was there if install failed
+        current = config.get("browser_executable_path")
+        if current and os.path.exists(current):
+            print(f"[Setup] ⚠ Auto-install failed; using existing: {current}\n")
+        else:
+            print(
+                "\n[Setup] ⚠ Could not auto-install browser.\n"
+                "  Install Ungoogled Chromium manually, then set\n"
+                '  "browser_executable_path" in configs/config.json.\n'
+            )
 
 
 # ---------------------------------------------------------------------------

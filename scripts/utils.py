@@ -1,6 +1,8 @@
 import os
 import json
 import logging
+import subprocess
+import re
 import questionary
 import undetected_chromedriver as uc
 from urllib.parse import quote_plus, urlencode
@@ -167,33 +169,48 @@ def load_jobteaser_search_config() -> dict:
 from typing import Optional
 
 def _get_chrome_major_version() -> Optional[int]:
-    """Read the installed Chrome major version from the Windows registry.
+    """Read the installed Chrome major version.
 
-    Checks both HKEY_CURRENT_USER and HKEY_LOCAL_MACHINE so it works
-    regardless of whether Chrome was installed per-user or system-wide.
-    Returns None on non-Windows platforms or if the key is not found.
+    On Windows, checks the registry.
+    On Linux/macOS (or if registry fails), tries to run the browser with --version
+    if the path is known in config.json.
     """
+    # 1. Try Windows registry
     try:
-        import winreg  # Windows-only stdlib module
+        import winreg
+        registry_paths = [
+            (winreg.HKEY_CURRENT_USER, r"Software\Google\Chrome\BLBeacon"),
+            (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Google\Chrome\BLBeacon"),
+            (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\WOW6432Node\Google\Chrome\BLBeacon"),
+        ]
+        for hive, path in registry_paths:
+            try:
+                with winreg.OpenKey(hive, path) as key:
+                    version_str, _ = winreg.QueryValueEx(key, "version")
+                    major = int(version_str.split(".")[0])
+                    logging.info("Detected Chrome version from registry: %s", version_str)
+                    return major
+            except (FileNotFoundError, OSError, ValueError):
+                continue
     except ImportError:
-        return None  # Non-Windows platform — let uc auto-detect
+        pass
 
-    registry_paths = [
-        (winreg.HKEY_CURRENT_USER, r"Software\Google\Chrome\BLBeacon"),
-        (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\Google\Chrome\BLBeacon"),
-        (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\WOW6432Node\Google\Chrome\BLBeacon"),
-    ]
-    for hive, path in registry_paths:
+    # 2. Try running the executable with --version
+    config = load_config()
+    browser_path = config.get("browser_executable_path")
+    if browser_path and os.path.exists(browser_path):
         try:
-            with winreg.OpenKey(hive, path) as key:
-                version_str, _ = winreg.QueryValueEx(key, "version")
-                major = int(version_str.split(".")[0])
-                logging.info("Detected Chrome version: %s (major: %d)", version_str, major)
+            output = subprocess.check_output([browser_path, "--version"], stderr=subprocess.STDOUT).decode()
+            # Expecting something like "Chromium 123.0.6312.58" or "Google Chrome 123.0.6312.58"
+            match = re.search(r"(\d+)\.\d+\.\d+", output)
+            if match:
+                major = int(match.group(1))
+                logging.info("Detected browser version from executable: %d", major)
                 return major
-        except (FileNotFoundError, OSError, ValueError):
-            continue
+        except (subprocess.SubprocessError, OSError, ValueError) as e:
+            logging.warning("Could not detect browser version from executable: %s", e)
 
-    logging.warning("Could not detect Chrome version from registry — letting uc auto-detect.")
+    logging.warning("Could not detect Chrome version — letting uc auto-detect.")
     return None
 
 
@@ -208,17 +225,19 @@ def create_driver() -> uc.Chrome:
     # Enable browser-level log collection (used to surface console errors)
     options.set_capability("goog:loggingPrefs", {"browser": "ALL"})
     version = _get_chrome_major_version()
-    
+
     config = load_config()
     browser_path = config.get("browser_executable_path")
-    
-    kwargs = {"version_main": version, "options": options}
+    headless = config.get("headless", False)
+
+    kwargs = {"version_main": version, "options": options, "headless": headless}
     if browser_path and os.path.exists(browser_path):
         kwargs["browser_executable_path"] = browser_path
         logging.info("Using custom browser executable: %s", browser_path)
-        
+
     driver = uc.Chrome(**kwargs)
-    driver.maximize_window()
+    if not headless:
+        driver.maximize_window()
     return driver
 
 
