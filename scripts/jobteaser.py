@@ -11,6 +11,7 @@ import logging
 import questionary
 import json
 import os
+from db_manager import DBManager
 
 from utils import (
     load_config,
@@ -51,8 +52,16 @@ def run() -> None:
     timeout_default = float(td) if td is not None else None
     TIME_OUT = ask_timeout(timeout_default)
 
+    FORCE_REPROCESS = questionary.confirm(
+        "Force reprocess previously seen/rejected jobs?", default=False
+    ).ask()
+
     LOGIN_URL = "https://www.jobteaser.com/fr/users/sign_in"
     CONNECT_URL = "https://www.jobteaser.com/users/auth/connect"
+
+    # --- Database Initialization ---
+    db = DBManager()
+    run_id = db.start_run(platform="JobTeaser", keywords=keyword)
 
     driver = create_driver()
     wait = WebDriverWait(driver, 10)
@@ -149,6 +158,11 @@ def run() -> None:
                         By.XPATH, ".//a[contains(@href, '/job-offers/')]"
                     )
                     href = job_link.get_attribute("href").split("?")[0]
+                    
+                    if not FORCE_REPROCESS and db.should_skip(href):
+                        logging.info("JobTeaser: Skipping job %s - already processed.", href)
+                        continue
+
                     driver.get(href)
                     time.sleep(2)
                     
@@ -168,6 +182,9 @@ def run() -> None:
                                 company_name = driver.find_element(By.XPATH, "//a[contains(@href, '/companies/')]").text
                             except Exception:
                                 pass
+
+                    job_id = href.split("/")[-1].split("-")[0]
+                    app_id = db.add_job_application(run_id, job_id, href, job_title, company_name)
 
                     # Extract Job Description and About Company
                     try:
@@ -265,6 +282,7 @@ def run() -> None:
                             "JobTeaser: Skipped job index %d - Already applied ('Candidature envoyée').",
                             i,
                         )
+                        db.update_job_state(app_id, "Already Applied")
                         continue
 
                     try:
@@ -345,16 +363,19 @@ def run() -> None:
                                 "//div[@data-testid='jobad-DetailView__ApplicationFlow__Success']",
                             )
                             applied_count += 1
+                            db.update_job_state(app_id, "Applied Successfully")
                         except Exception:
                             logging.info(
                                 "JobTeaser: Skipped job index %d - Application not confirmed (may require extra steps or failed).",
                                 i,
                             )
+                            db.update_job_state(app_id, "Application Failed", ai_reason="Success confirmation not found")
                     except TimeoutException:
                         logging.info(
                             "JobTeaser: Skipped job index %d - No native apply button found (likely an external site).",
                             i,
                         )
+                        db.update_job_state(app_id, "External")
 
                 except (InvalidSessionIdException, WebDriverException):
                     logging.error(
@@ -362,13 +383,17 @@ def run() -> None:
                         i,
                         page,
                     )
+                    if 'app_id' in locals():
+                        db.update_job_state(app_id, "Application Failed", ai_reason="Session died")
                     session_alive = False
                     break
 
-                except Exception:
+                except Exception as e:
                     logging.exception(
                         "JobTeaser: error on job index %d, page %d.", i, page
                     )
+                    if 'app_id' in locals():
+                        db.update_job_state(app_id, "Application Failed", ai_reason=str(e))
 
                 finally:
                     if session_alive:
@@ -399,6 +424,8 @@ def run() -> None:
         logging.info(
             "JobTeaser Session ended. Total jobs applied to: %d", applied_count
         )
+        if 'run_id' in locals():
+            db.finish_run(run_id, total_found=processed_count, total_applied=applied_count)
         print(f"\nJobTeaser Session ended. Total jobs applied to: {applied_count}")
         try:
             driver.quit()

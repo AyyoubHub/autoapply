@@ -1,0 +1,8 @@
+{
+  "track_id": "improve_job_storage_20260428",
+  "type": "feature",
+  "status": "completed",
+  "created_at": "2026-04-28T00:00:00Z",
+  "updated_at": "2026-04-28T23:59:00Z",
+  "description": "Improve the storing method of applied jobs and the state of it, and management of state of each one, with providing more details, regroup by run and keywords to knwo which one, and the time of application and running of th scrupt"
+}

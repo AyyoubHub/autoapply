@@ -43,6 +43,9 @@ pytest.xml
 
 # Applied jobs history (any file that contains the string applied in it)
 **/*applied.json
+history.db
+test_*.db
+manual_test.db
 
 # Ignore root .txt files but keep requirements.txt
 /*.txt

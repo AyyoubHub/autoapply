@@ -10,8 +10,9 @@ from selenium.common.exceptions import (
 import time
 import re
 import urllib.parse
-import logging
 import questionary
+import logging
+from db_manager import DBManager
 
 from utils import load_config, create_driver, load_applied_jobs, save_applied_job, save_config, check_and_prompt_apec_config
 from ai_agent import is_high_quality_match
@@ -178,6 +179,14 @@ def run() -> None:
         ],
     ).ask()
 
+    FORCE_REPROCESS = questionary.confirm(
+        "Force reprocess previously seen/rejected jobs?", default=False
+    ).ask()
+
+    # --- Database Initialization ---
+    db = DBManager()
+
+    run_id = db.start_run(platform="APEC", keywords=", ".join(keywords))
 
     # --- Driver ---
     driver = create_driver()
@@ -335,7 +344,7 @@ def run() -> None:
                 # Retry logic for individual job application
                 for attempt in range(2):
                     try:
-                        status = _process_job(driver, wait, href, processed_count + 1, score, keywords)
+                        status = _process_job(driver, wait, href, processed_count + 1, score, keywords, db, run_id, FORCE_REPROCESS)
                         break  # Success or controlled skip
                     except (InvalidSessionIdException, WebDriverException):
                         logging.error("APEC: browser session died during application phase (attempt %d).", attempt + 1)
@@ -396,6 +405,7 @@ def run() -> None:
             "APEC Run Summary: Total=%d, Applied=%d, External=%d, AI_Reject=%d, Already=%d, Irrelevant=%d, Failed=%d",
             total_unique, applied_count, external_count, ai_rejected_count, already_applied_count, irrelevant_count, failed_count
         )
+        db.finish_run(run_id, total_found=total_unique, total_applied=applied_count)
 
     except Exception:
         logging.exception("APEC: unexpected error in main loop.")
@@ -488,18 +498,18 @@ def _matches_keywords(driver, keywords: list) -> tuple:
     return False, ""
 
 
-def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: list = None) -> str:
+def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: list = None, db: DBManager = None, run_id: int = None, force: bool = False) -> str:
     """Navigate to a job page and attempt to apply.
 
     Returns a status string: 'applied', 'already_applied', 'irrelevant', 'external', 'ai_rejected', 'failed'.
     All exceptions are caught and logged so the caller loop always continues.
     """
+    app_id = None
     try:
-        # --- Check local history first (avoids browser navigation) ---
-        applied_history = load_applied_jobs("apec")
-        if href in applied_history:
+        # --- Check DB history first (avoids browser navigation) ---
+        if db and not force and db.should_skip(href):
             logging.info(
-                "APEC: Skipped job index %d - Found in local applied history.",
+                "APEC: Skipped job index %d - Found in terminal history (Success/AI-Reject).",
                 job_idx,
             )
             return "already_applied"
@@ -507,14 +517,27 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
         driver.get(href)
         time.sleep(1)
 
+        job_title = "Unknown"
+        job_company = "Unknown"
+        job_id = href.split("/")[-1].split("?")[0]
+        try:
+            job_title = driver.find_element(By.TAG_NAME, "h1").text.strip()
+            # Try to find company name — APEC structure varies, but usually it's in a specific div
+            job_company = driver.find_element(By.XPATH, "//div[contains(@class, 'company-name')]").text.strip()
+        except Exception:
+            pass
+
+        if db and run_id:
+            app_id = db.add_job_application(run_id, job_id, href, job_title, job_company)
+
         # --- Already applied (on-page check)? ---
         if _is_already_applied(driver):
             logging.info(
                 "APEC: Skipped job index %d - Already applied (detected on page).",
                 job_idx,
             )
-            # Sync back to local history if we found it on page
-            save_applied_job(href, "apec")
+            if db and app_id:
+                db.update_job_state(app_id, "Already Applied")
             return "already_applied"
 
         # --- Keyword filter: at least one keyword must appear in job text ---
@@ -523,6 +546,8 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
             msg = f"No keyword match (None of {keywords} found)"
             logging.info("APEC: Skipped job index %d - %s", job_idx, msg)
             print(f"\n  [Skip] {msg}")
+            if db and app_id:
+                db.update_job_state(app_id, "Irrelevant", ai_reason=msg)
             return "irrelevant"
 
         # --- AI semantic check: is this a high-quality match? ---
@@ -536,6 +561,8 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                     job_idx, job_title, reason
                 )
                 print(f"\n  [AI Skip] {reason}")
+                if db and app_id:
+                    db.update_job_state(app_id, "AI Filtered / Rejected", ai_reason=reason)
                 return "ai_rejected"
         except Exception as e:
             logging.warning("AI check failed for job %d, proceeding with basic keyword match: %s", job_idx, e)
@@ -581,6 +608,8 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                 "APEC: Skipped job index %d - No native apply button found (might be external or closed).",
                 job_idx,
             )
+            if db and app_id:
+                db.update_job_state(app_id, "External")
             return "external"
 
         # --- Step 1: click "Postuler" to open the modal ---
@@ -599,6 +628,8 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                 "APEC: Skipped job index %d - Modal 'Postuler' button not found.",
                 job_idx,
             )
+            if db and app_id:
+                db.update_job_state(app_id, "Application Failed", ai_reason="Modal 'Postuler' button not found")
             return "failed"
 
         apply_button2.click()
@@ -616,6 +647,8 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                 "APEC: Skipped job index %d - Required extra steps (custom form/attachments).",
                 job_idx,
             )
+            if db and app_id:
+                db.update_job_state(app_id, "Application Failed", ai_reason="Required extra steps (custom form/attachments)")
             return "failed"
 
         apply_button3.click()
@@ -630,7 +663,8 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                 "APEC: Applied to job index %d — confirmation received.",
                 job_idx,
             )
-            save_applied_job(href, "apec")
+            if db and app_id:
+                db.update_job_state(app_id, "Applied Successfully")
             return "applied"
         else:
             # The click went through but no confirmation banner appeared.
@@ -639,17 +673,22 @@ def _process_job(driver, wait, href: str, job_idx: int, score: int, keywords: li
                 "APEC: Applied to job index %d — no confirmation banner detected (may still have worked).",
                 job_idx,
             )
-            save_applied_job(href, "apec")
+            if db and app_id:
+                db.update_job_state(app_id, "Applied Successfully", ai_reason="No confirmation banner detected")
             return "applied"
 
     except (InvalidSessionIdException, WebDriverException):
         # Re-raise session-fatal exceptions so the caller can stop the loop.
+        if db and app_id:
+            db.update_job_state(app_id, "Application Failed", ai_reason="Session died")
         raise
 
-    except Exception:
+    except Exception as e:
         logging.exception(
             "APEC: unexpected error processing job index %d.", job_idx
         )
+        if db and app_id:
+            db.update_job_state(app_id, "Application Failed", ai_reason=str(e))
         return "failed"
 
 

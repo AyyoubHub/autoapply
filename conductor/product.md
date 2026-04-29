@@ -9,7 +9,7 @@ To become the ultimate personal career assistant that handles the repetitive "dr
 ## Current State & Capabilities
 - **APEC (Production Ready):** This is the core, stable component. It currently automates job discovery, relevance scoring, and the "Easy Apply" process using your **already-uploaded APEC resume and profile**.
 - **JobTeaser (Experimental/Under Development):** This module is currently **not fully functional** and is in the active development phase. It is included for preview and research purposes.
-- **AI Integration (Gemini):** Used for advanced job description analysis and relevance checking before initiating applications.
+- **AI Integration (Gemini):** Used for advanced job description analysis and relevance checking before initiating applications. Optimized to skip already processed jobs.
 
 ## Target Audience
 - **Efficiency-Focused Job Seekers:** Candidates who need to apply to a large number of positions on APEC quickly and reliably.
@@ -18,7 +18,7 @@ To become the ultimate personal career assistant that handles the repetitive "dr
 
 ## Core Value Propositions
 - **Extreme Time Savings:** Automates the end-to-end flow from job discovery to final submission on APEC, eliminating hours of manual work.
-- **Robustness & Reliability:** Built with `undetected-chromedriver` and smart DOM detection to navigate complex professional platforms while remaining undetected and recovering gracefully from session errors.
+- **Robustness & Reliability:** Built with `undetected-chromedriver` and smart DOM detection to navigate complex professional platforms. Uses SQLite to ensure data integrity and avoid duplicate applications.
 - **Semantic Job Matching:** Uses Google Gemini to dynamically analyze job descriptions against user-defined keywords to ensure high-quality applications.
 
 ## Key Features (Current)
@@ -26,7 +26,7 @@ To become the ultimate personal career assistant that handles the repetitive "dr
 - **AI-Powered Relevance Filtering:** Uses Gemini to perform a "deep check" of job titles and descriptions to ensure a professional fit.
 - **Resilient Automation:** Text-based button matching and a 3-step application modal chain built for stability.
 - **External Link Collection:** Automatically identifies and saves job offers requiring application on company websites, enabling manual follow-up for non-"Easy Apply" roles.
-- **Local Application History:** Remembers every job successfully applied to, ensuring you never double-apply or waste time on seen URLs.
+- **Local Application History (SQLite):** Tracks detailed state (Discovered, AI Filtered, Applied, Failed) for every job across runs. Automatically skips successfully processed or rejected jobs to save compute, with an optional "Force" override.
 - **Intelligent Onboarding:** Automated bootstrap with dynamic runtime configuration prompting and smart login retry mechanisms.
 
 ## Roadmap & Future Enhancements
