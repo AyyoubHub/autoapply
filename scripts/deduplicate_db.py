@@ -2,7 +2,7 @@ import sqlite3
 import os
 import logging
 
-def deduplicate(db_path="history.db"):
+def deduplicate(db_path="autoapply.db"):
     """Remove duplicate job applications based on URL, keeping the first one."""
     if not os.path.exists(db_path):
         print(f"Database {db_path} not found.")

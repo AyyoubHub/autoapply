@@ -12,8 +12,8 @@ class DBManager:
     def __init__(self, db_path=None):
         self.tz = ZoneInfo("Europe/Paris")
         if db_path is None:
-            # Place history.db in the project root relative to this script
-            db_path = os.path.join(os.path.dirname(__file__), "..", "history.db")
+            # Place autoapply.db in the project root relative to this script
+            db_path = os.path.join(os.path.dirname(__file__), "..", "autoapply.db")
         self.db_path = os.path.abspath(db_path)
         self._init_db()
 
@@ -149,6 +149,10 @@ class DBManager:
                 (url,)
             )
             return cursor.fetchone() is not None
+
+    def close(self) -> None:
+        """No-op: connections are opened per-operation, so nothing to close."""
+        pass
 
 if __name__ == "__main__":
     # Simple manual verification

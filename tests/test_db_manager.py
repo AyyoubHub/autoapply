@@ -2,6 +2,7 @@ import unittest
 import sqlite3
 import os
 import sys
+import gc
 from datetime import datetime
 
 # Add scripts directory to path
@@ -20,7 +21,7 @@ except ImportError:
 
 class TestDBManager(unittest.TestCase):
     def setUp(self):
-        self.db_path = "test_history.db"
+        self.db_path = "test_autoapply.db"
         if os.path.exists(self.db_path):
             os.remove(self.db_path)
         
@@ -30,6 +31,9 @@ class TestDBManager(unittest.TestCase):
         self.manager = DBManager(self.db_path)
 
     def tearDown(self):
+        # Force GC to release SQLite file handles before deletion (Windows).
+        self.manager = None
+        gc.collect()
         if os.path.exists(self.db_path):
             os.remove(self.db_path)
 

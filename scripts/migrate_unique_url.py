@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-def migrate_unique_url(db_path="history.db"):
+def migrate_unique_url(db_path="autoapply.db"):
     """Migration to add UNIQUE constraint to url column in job_applications."""
     if not os.path.exists(db_path):
         return

@@ -59,4 +59,4 @@ if __name__ == "__main__":
     
     db = DBManager()
     migrate(db, APEC_PATH, EXT_PATH)
-    print("Migration finished. Check history.db")
+    print("Migration finished. Check autoapply.db")

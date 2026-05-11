@@ -8,7 +8,6 @@ __pycache__/
 # Real credentials — never commit these.
 # Copy configs/config.example.json → configs/config.json and fill in.
 configs/config.json
-configs/jobteaser.search.json
 
 # API keys (.env.example is committed; .env is not)
 .env
@@ -29,6 +28,14 @@ logs/
 # Dev scratchpad
 test_run.py
 
+# Root-level debug / analysis text dumps
+/*.txt
+!/requirements.txt
+
+# Runtime scratch data (personal application data, debug dumps)
+scratch/*.json
+scratch/*.log
+
 # Coverage and Testing
 .coverage
 .coverage.*
@@ -41,12 +48,14 @@ pytest.xml
 .vscode/
 .idea/
 
-# Applied jobs history (any file that contains the string applied in it)
-**/*applied.json
+# SQLite databases — contain personal application history, never commit
+autoapply.db
 history.db
 test_*.db
 manual_test.db
 
+# Applied jobs history (legacy JSON, superseded by SQLite)
+**/*applied.json
+
 # Ignore root .txt files but keep requirements.txt
-/*.txt
-!/requirements.txt
+# (rule already applied above — kept here as comment for clarity)

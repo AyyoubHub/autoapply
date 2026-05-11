@@ -3,6 +3,7 @@ import json
 import os
 import sys
 import sqlite3
+import gc
 
 # Add project root and scripts to path
 _ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -27,6 +28,8 @@ class TestMigration(unittest.TestCase):
         self.db = DBManager(self.db_path)
 
     def tearDown(self):
+        self.db = None
+        gc.collect()
         if os.path.exists(self.db_path): os.remove(self.db_path)
         if os.path.exists(self.apec_json): os.remove(self.apec_json)
         if os.path.exists(self.ext_json): os.remove(self.ext_json)

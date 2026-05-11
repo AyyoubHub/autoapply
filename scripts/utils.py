@@ -148,22 +148,6 @@ def check_and_prompt_apec_config() -> dict:
     return config
 
 
-def load_jobteaser_search_config() -> dict:
-    """Load JobTeaser search profile from configs/jobteaser.search.json.
-
-    Copy jobteaser.search.example.json to jobteaser.search.json and edit.
-    See docs/jobteaser_search_config.md.
-    """
-    path = os.path.join(
-        os.path.dirname(__file__), "../configs/jobteaser.search.json"
-    )
-    if not os.path.isfile(path):
-        raise FileNotFoundError(
-            f"Missing {path}. Copy configs/jobteaser.search.example.json "
-            "to configs/jobteaser.search.json and adjust filters."
-        )
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
 
 
 from typing import Optional
@@ -247,7 +231,7 @@ def build_jobteaser_search_url_prefix(
     keyword: str,
     sort: str = "recency",
     contracts: list[str] = None,
-    work_experience_code: str = None,
+    work_experience_codes: list[str] = None,
     languages: list[str] = None,
     study_levels: str = None,
     remote_types: str = None,
@@ -260,19 +244,37 @@ def build_jobteaser_search_url_prefix(
 ) -> str:
     """Build JobTeaser list URL through page= (1-based page appended by caller).
 
-    Always includes candidacy_type=INTERNAL (easy apply only). See docs/jobteaser_url_analysis.md.
+    Uses default location and category filters provided by user.
     """
     parts: list[tuple[str, str]] = [
         ("candidacy_type", "INTERNAL"),
         ("q", keyword),
         ("sort", sort),
     ]
+
+    position_category_uuids = [
+        "a33fd4ee-ec99-4251-be78-69f0a7401961",
+        "88210e98-4cc1-42bf-b4cb-bd39599abab5",
+        "ddc0460c-ce0b-4d98-bc5d-d8829ff9cf11",
+        "f3f9d2a0-1b7b-4cca-89b7-5b68af828c40",
+        "141a2494-80c5-4bae-8865-1ee0f702f441",
+        "fbab2736-0eea-4d61-899c-161eea6a2b45"
+    ]
+    for puuid in position_category_uuids:
+        parts.append(("position_category_uuid", puuid))
+
+    parts.append(("abroad_only", "false"))
+    parts.append(("lat", "46.711046"))
+    parts.append(("lng", "2.181179"))
+    parts.append(("localized_location", "France"))
+    parts.append(("location", "France::_Y291bnRyeTo6OnVGaW9mQWV3VEVWbzlSc056bVZmZU5jOEFyTT0="))
+
     for c in contracts or []:
         parts.append(("contract", c))
-    if work_experience_code:
-        parts.append(("work_experience_code", work_experience_code))
+    for wec in work_experience_codes or []:
+        parts.append(("work_experience_code", wec))
     for lang in languages or []:
-        parts.append(("languages[]", lang))
+        parts.append(("locale", lang))
     if study_levels:
         parts.append(("study_levels", study_levels))
     if remote_types:
@@ -296,61 +298,6 @@ def build_jobteaser_search_url_prefix(
     )
 
 
-def build_jobteaser_search_url_from_profile(profile: dict, keyword: str) -> str:
-    """Apply a loaded jobteaser.search.json object plus keyword to the URL builder."""
-
-    def _str_or_none(key: str) -> str:
-        v = profile.get(key)
-        if v is None or v == "":
-            return None
-        return str(v)
-
-    def _int_list(key: str) -> list[int]:
-        raw = profile.get(key)
-        if not raw:
-            return None
-        if isinstance(raw, list):
-            return [int(x) for x in raw]
-        return None
-
-    wc = _str_or_none("work_experience_code")
-    sl = _str_or_none("study_levels")
-    rt = _str_or_none("remote_types")
-    sd = _str_or_none("start_date")
-    dur = _str_or_none("duration")
-    cbt = _str_or_none("company_business_type")
-
-    contracts = profile.get("contracts")
-    if isinstance(contracts, list):
-        clist = [str(c) for c in contracts]
-    else:
-        clist = []
-
-    langs = profile.get("languages")
-    if isinstance(langs, list):
-        lang_list = [str(x) for x in langs]
-    else:
-        lang_list = []
-
-    sort = str(profile.get("sort") or "recency")
-    if sort not in ("recency", "relevance"):
-        sort = "recency"
-
-    return build_jobteaser_search_url_prefix(
-        keyword=keyword,
-        sort=sort,
-        contracts=clist or None,
-        work_experience_code=wc,
-        languages=lang_list or None,
-        study_levels=sl,
-        remote_types=rt,
-        job_category_ids=_int_list("job_category_ids"),
-        job_function_ids=_int_list("job_function_ids"),
-        domain_ids=_int_list("domain_ids"),
-        duration=dur,
-        company_business_type=cbt,
-        start_date=sd,
-    )
 
 
 def ask_timeout(default_minutes: float = None) -> int:
@@ -372,26 +319,39 @@ def ask_timeout(default_minutes: float = None) -> int:
         return 5 * 60 * 60
 
 
-def load_applied_jobs(platform: str = "apec") -> set:
-    """Load the set of URLs we have already successfully applied to."""
-    path = os.path.join(os.path.dirname(__file__), f"../scratch/{platform}_applied.json")
-    if not os.path.exists(path):
-        return set()
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            return set(json.load(f))
-    except Exception:
-        return set()
 
 
-def save_applied_job(url: str, platform: str = "apec") -> None:
-    """Add a URL to the local applied history file."""
-    path = os.path.join(os.path.dirname(__file__), f"../scratch/{platform}_applied.json")
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    applied = load_applied_jobs(platform)
-    applied.add(url)
-    try:
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(list(applied), f, indent=2)
-    except Exception as e:
-        logging.error("Failed to save applied job to history: %s", e)
+def check_and_prompt_jobteaser_config() -> dict:
+    """Check if JobTeaser credentials are valid (not missing/placeholder) and prompt if needed.
+
+    Returns the updated config dictionary.
+    """
+    config = load_config()
+    placeholders = {
+        "your_jobteaser_email@example.com",
+        "your_jobteaser_password",
+        "your_email@example.com",
+    }
+
+    changed = False
+
+    # Check jobteaser_email
+    val = config.get("jobteaser_email", "").strip()
+    if not val or val in placeholders:
+        print("\n[Config] Missing JobTeaser email.")
+        config["jobteaser_email"] = questionary.text("Enter JobTeaser email:").ask().strip()
+        changed = True
+
+    # Check jobteaser_password
+    val = config.get("jobteaser_password", "").strip()
+    if not val or val in placeholders:
+        import getpass
+        print("\n[Config] Missing JobTeaser password.")
+        config["jobteaser_password"] = getpass.getpass("  JobTeaser password: ").strip()
+        changed = True
+
+    if changed:
+        save_config(config)
+        print("[Config] ✓ Credentials saved to configs/config.json\n")
+
+    return config

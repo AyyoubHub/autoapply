@@ -23,5 +23,5 @@
 ## Environment & Configuration
 - **.env:** Stores sensitive API keys (e.g., `GEMINI_API`).
 - **configs/config.json:** Stores user credentials and platform-specific settings.
-- **SQLite (history.db):** Persistent storage for script runs and job application states. Enforces URL uniqueness.
+- **SQLite (autoapply.db):** Persistent storage for script runs and job application states. Enforces URL uniqueness.
 - **JSON (Local Scratch):** Used for temporary data and legacy history backups.

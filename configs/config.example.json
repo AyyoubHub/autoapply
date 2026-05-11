@@ -10,14 +10,14 @@
   "apec_max_pages_per_keyword": 3,
   "_cv_path_note": "Relative path (from project root) to your base LaTeX CV. Used by the AI agent (optional feature).",
   "cv_path": "tex/default.tex",
-  "_form_data_note": "Personal details pre-filled in application forms (used by JobTeaser automation).",
+  "_form_data_note": "Personal details pre-filled in application forms (used by JobTeaser automation). Keys MUST match exactly.",
   "form_data": {
     "fullname": "Your Full Name",
-    "email": "your_apec_email@example.com",
-    "phone": "+33XXXXXXXXX",
-    "github": "https://github.com/yourusername",
+    "phoneNumber": "+33XXXXXXXXX",
+    "gender": "Homme",
+    "coverLetterContent": "",
     "linkedin": "https://linkedin.com/in/yourusername",
-    "gender": "Homme"
+    "github": "https://github.com/yourusername"
   },
   "headless": false
 }
